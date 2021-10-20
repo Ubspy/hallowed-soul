@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "WaveManager.h"
 
 int main()
 {
