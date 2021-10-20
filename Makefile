@@ -30,6 +30,11 @@ LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 $(EXE_NAME) : $(GAME_OBJS) 
 	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) $(LINKER_FLAGS) -o $@
 
+# Target for release, with no additional debug information
+# TODO: Maybe package the game in a folder with all the assets needed?
+release : $(GAME_OBJS)
+	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $(EXE_NAME)
+
 # Here we're gonna override the default make rule for turning cpp files into object files
 # Because we need to make sure the obj files are compiled using the correct version
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
