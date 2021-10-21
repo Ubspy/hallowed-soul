@@ -29,7 +29,8 @@ void Enemy::takeDamage(int damage)
     health = health - damage;
     if(health<=0)
     {
-        this.kill();
+        // the operator "this" does not exist in c++, just call kill()
+        kill();
     }
     else
     {
@@ -65,8 +66,12 @@ bool Enemy::getIsAlive()
 void Enemy::kill()
 {
     isAlive = false;
+
+    // you cannot call the deconstructor as a function, the enemy has to be deleted elsewhere
+    // don't worry, wave manager will handle that
+
     //remove from map
-    ~Enemy();
+    //~Enemy();
 }
 
 Enemy::~Enemy()

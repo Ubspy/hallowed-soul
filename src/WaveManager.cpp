@@ -1,5 +1,6 @@
 #include "WaveManager.h"
-//#include "Enemy.h"
+#include "Enemy.h"
+#include <stdexcept>
 
 WaveManager::WaveManager()
 {
@@ -9,22 +10,37 @@ WaveManager::WaveManager()
 
 bool WaveManager::waveOver()
 {
-    // This is not how I plan to check in final, but enemies don't exist yet
-    if(enemyCount == 0)
+    for(int i=0; i<enemyCount; i++)
     {
-        return(true);
+        if(enemies.at(i)->getIsAlive())
+        {
+            return(false);
+        }
     }
-    return(false);
+    return(true);
 }
 
 void WaveManager::beginWave()
 {
+    // For now, waves will progress linearly for simple demonstration sake
+    enemyCount = currentWave;
     // Spawn enemies
+    Enemy* temp = nullptr;
+    for(int i=0; i<enemyCount; i++)
+    {
+        temp = new Enemy();
+        enemies.push_back(temp);
+    }
 }
 
 void WaveManager::endWave()
 {
     // Clear gamestate
+    while(enemies.size() > 0)
+    {
+        delete enemies.at(enemies.size()-1);
+        enemies.pop_back();
+    }
 }
 
 int WaveManager::getWave()
@@ -34,17 +50,25 @@ int WaveManager::getWave()
 
 int WaveManager::getEnemiesRemaining()
 {
-    // This is not how I plan to return in final, but enemies don't exist yet
-    return(enemyCount);
+    int alive = 0;
+    for(int i=0; i<enemyCount; i++)
+    {
+        if(enemies.at(i)->getIsAlive())
+        {
+            alive++;
+        }
+    }
+    return(alive);
 }
 
-int WaveManager::getEnemy(int n)
+Enemy* WaveManager::getEnemy(int n)
 {
     // Blah blah not how blah blah no enemies blah blah
-    if(n<enemies.size())
+    if(n<(int)enemies.size())
     {
-        return enemies.at(n);
+        return(enemies.at(n));
     }
     // no clue how this is gonna work with enemies, god I wish we used rust
-    return(-1);
+    //return(-1);
+    throw std::runtime_error("literally how");
 }

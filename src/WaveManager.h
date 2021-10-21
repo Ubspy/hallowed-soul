@@ -1,13 +1,14 @@
 #ifndef WAVEMANAGER_H
 #define WAVEMANAGER_H
 #include <vector>
+#include "Enemy.h"
 
 class WaveManager
 {
     private:
         int currentWave;
         int enemyCount;
-        std::vector<int> enemies;
+        std::vector<Enemy*> enemies;
     public:
         WaveManager();
 
@@ -16,7 +17,7 @@ class WaveManager
         void endWave();
         int getWave();
         int getEnemiesRemaining();
-        int getEnemy(int n);
+        Enemy* getEnemy(int n);
 };
 
 #endif
