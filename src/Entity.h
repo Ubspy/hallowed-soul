@@ -16,7 +16,6 @@ class Entity
 
         // Pure virtual functions needs to be overriden
         virtual void onCollision(Entity* hitEntity) = 0; 
-        virtual void onUpdate() = 0;
 
         // Virtual functions for basic entity actions that can be overridden
         virtual void spawn(sf::Vector2<int> spawnLocation);
@@ -31,4 +30,7 @@ class Entity
         // Size of this entity
         int _width, _height;
         int _health;
+
+        // onUpdate function to be overridden by each implementation of Entity
+        virtual void onUpdate() = 0;
 };
