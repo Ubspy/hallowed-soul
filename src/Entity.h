@@ -1,4 +1,5 @@
 #include "SFML/System/Vector2.hpp"
+#include "SFML/Graphics.hpp"
 
 class Entity
 {
@@ -55,6 +56,9 @@ class Entity
         // Size of this entity
         int _width, _height;
         int _health;
+
+        sf::Texture texture;
+        sf::Sprite sprite;
 
         // onUpdate function to be overridden by each implementation of Entity
         virtual void onUpdate() = 0;
