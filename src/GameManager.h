@@ -14,7 +14,9 @@ class GameManager
         GameManager();
         ~GameManager();
 
+        /** Run the main game loop */
         void runGame();
+
 
     private:
         sf::RenderWindow* _gameWindow;
