@@ -1,14 +1,13 @@
 #include "GameManager.h"
 
 GameManager::GameManager()
-{
     // First thing we want to do is create a window
     // TODO: Name and size subject to change
-    _gameWindow = new sf::RenderWindow(sf::VideoMode(1280, 720), "Hallowed Soul");
-
+    : _gameWindow {sf::VideoMode(1280, 720), "Hallowed Soul"}
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
-    _currentState = GameState::playing;
+    , _currentState {GameState::playing}
+{
 
     // Initialize player
     // Initialize camera
@@ -60,9 +59,4 @@ void GameManager::checkCollisions()
 void GameManager::drawFrame()
 {
 
-}
-
-GameManager::~GameManager()
-{
-    delete _gameWindow;
 }

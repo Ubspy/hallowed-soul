@@ -12,18 +12,17 @@ class GameManager
 {
     public:
         GameManager();
-        ~GameManager();
 
         /** Run the main game loop */
         void runGame();
 
+        static forward_list<Entity*> entities;
 
     private:
-        sf::RenderWindow* _gameWindow;
-        // Camera _gameCamera;
-
-        // Player _player;
+        sf::RenderWindow _gameWindow;
         GameState _currentState;
+        // Camera _gameCamera;
+        // Player _player;
 
         void runFrame();
         void handleInput();
