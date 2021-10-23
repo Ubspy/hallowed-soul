@@ -31,7 +31,7 @@ class GameManager
     private:
         sf::RenderWindow _gameWindow;
         GameState _currentState;
-        // Camera _gameCamera;
+        sf::View _view;
         // Player _player;
 
         void runFrame();

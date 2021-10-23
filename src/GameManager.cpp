@@ -9,7 +9,10 @@ GameManager::GameManager()
     , _currentState {GameState::playing}
     // Initialize player
     // Initialize camera
-{}
+    , _view {sf::FloatRect(0.0, 0.0, 1280, 720)}
+{
+    _gameWindow.setView(_view);
+}
 
 void GameManager::runGame()
 {
