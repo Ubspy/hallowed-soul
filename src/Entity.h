@@ -1,5 +1,4 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics.hpp"
@@ -77,5 +76,3 @@ class Entity
         // onUpdate function to be overridden by each implementation of Entity
         virtual void onUpdate() = 0;
 };
-
-#endif
