@@ -1,3 +1,6 @@
+#ifndef GAMEMANAGER_H
+#define GAMEMANAGER_H
+
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics.hpp"
 
@@ -74,3 +77,5 @@ class Entity
         // onUpdate function to be overridden by each implementation of Entity
         virtual void onUpdate() = 0;
 };
+
+#endif
