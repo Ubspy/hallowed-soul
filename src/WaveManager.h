@@ -1,5 +1,5 @@
-#ifndef WAVEMANAGER_H
-#define WAVEMANAGER_H
+#pragma once
+
 #include <vector>
 #include "Enemy.h"
 
@@ -19,5 +19,3 @@ class WaveManager
         int getEnemiesRemaining();
         Enemy* getEnemy(int n);
 };
-
-#endif

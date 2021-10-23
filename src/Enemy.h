@@ -1,5 +1,4 @@
-#ifndef ENEMY_H
-#define ENEMY_H
+#pragma once
 
 class Enemy
 {
@@ -25,5 +24,3 @@ class Enemy
 
         ~Enemy();
 };
-
-#endif
