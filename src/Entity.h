@@ -57,8 +57,19 @@ class Entity
         int _width, _height;
         int _health;
 
-        sf::Texture texture;
-        sf::Sprite sprite;
+        /** The texture that this entity uses.
+         *
+         * Could potentially be a spritesheet with multiple frames of an animation.
+         * Or could be just one drawing.
+         */
+        sf::Texture _texture;
+
+        /** The sprite that this entity uses.
+         *
+         * A sprite is a texture, plus information about which part of the
+         * texture to use and where its origin is.
+         */
+        sf::Sprite _sprite;
 
         // onUpdate function to be overridden by each implementation of Entity
         virtual void onUpdate() = 0;
