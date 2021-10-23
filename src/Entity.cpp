@@ -1,13 +1,12 @@
 #include "Entity.h"
 
 Entity::Entity()
-{
-    _position = sf::Vector2<int>(0, 0);
-    _velocity = sf::Vector2<int>(0, 0);
-    _width = 0;
-    _height = 0;
-    _health = 100;
-}
+    : _position {0, 0}
+    , _velocity {0, 0}
+    , _width {0}
+    , _height {0}
+    , _health {100}
+{}
 
 sf::Vector2<int> Entity::getPosition()
 {
