@@ -1,5 +1,5 @@
-#ifndef GAMEMANAGER_H
-#define GAMEMANAGER_H
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics.hpp"
