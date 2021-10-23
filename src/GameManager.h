@@ -1,3 +1,6 @@
+#ifndef GAMEMANAGER_H
+#define GAMEMANAGER_H
+
 #include <SFML/Graphics.hpp>
 
 enum GameState
@@ -25,3 +28,5 @@ class GameManager
         void checkCollisions();
         void drawFrame();
 };
+
+#endif
