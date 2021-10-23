@@ -8,12 +8,12 @@ Entity::Entity()
     , _health {100}
 {}
 
-sf::Vector2<int> Entity::getPosition()
+sf::Vector2i Entity::getPosition()
 {
     return _position;
 }
 
-sf::Vector2<int> Entity::getVelocity()
+sf::Vector2i Entity::getVelocity()
 {
     return _velocity;
 }
@@ -50,7 +50,7 @@ void Entity::kill()
 
 }
 
-void Entity::spawn(sf::Vector2<int> spawnLocation)
+void Entity::spawn(sf::Vector2i spawnLocation)
 {
 
 }

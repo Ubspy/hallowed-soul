@@ -6,8 +6,8 @@ class Entity
     public:
         Entity();
 
-        sf::Vector2<int> getPosition();
-        sf::Vector2<int> getVelocity();
+        sf::Vector2i getPosition();
+        sf::Vector2i getVelocity();
 
         int getWidth();
         int getHeight();
@@ -34,7 +34,7 @@ class Entity
         virtual void onCollision(Entity* hitEntity) = 0; 
 
         // Virtual functions for basic entity actions that can be overridden
-        virtual void spawn(sf::Vector2<int> spawnLocation);
+        virtual void spawn(sf::Vector2i spawnLocation);
         virtual void kill();
 
         /** Called before the Entity is drawn to the screen.
@@ -50,8 +50,8 @@ class Entity
 
     protected:
         // Vectors for position and velocity
-        sf::Vector2<int> _position;
-        sf::Vector2<int> _velocity;
+        sf::Vector2i _position;
+        sf::Vector2i _velocity;
 
         // Size of this entity
         int _width, _height;
