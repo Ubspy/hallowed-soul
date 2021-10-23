@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "GameManager.h"
 
 Entity::Entity()
     : _position {0, 0}
@@ -6,7 +7,16 @@ Entity::Entity()
     , _width {0}
     , _height {0}
     , _health {100}
-{}
+{
+    // register with the GameManager so that it can update and draw me
+    GameManager::entities.push_front(this);
+}
+
+Entity::~Entity()
+{
+    // Un-register with the GameManager so that it doesn't think I exist
+    GameManager::entities.remove(this);
+}
 
 sf::Vector2i Entity::getPosition()
 {
@@ -40,9 +50,8 @@ void Entity::update()
         this->kill();
     }
 
-    // We also want to call the overridable function, and then draw it
+    // We also want to call the overridable function
     this->onUpdate();
-    this->onDraw();
 }
 
 void Entity::kill()
@@ -53,6 +62,11 @@ void Entity::kill()
 void Entity::spawn(sf::Vector2i spawnLocation)
 {
 
+}
+
+sf::Sprite& Entity::getSprite()
+{
+    return _sprite;
 }
 
 void Entity::onDraw()

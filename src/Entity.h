@@ -8,6 +8,7 @@ class Entity
 {
     public:
         Entity();
+        ~Entity();
 
         sf::Vector2i getPosition();
         sf::Vector2i getVelocity();
@@ -50,6 +51,9 @@ class Entity
          *   - Actually draw your sprite to the window using the window.draw() method
          */
         virtual void onDraw();
+
+        /** Gets this Entity's Sprite. */ 
+        virtual sf::Sprite& getSprite();
 
     protected:
         // Vectors for position and velocity
