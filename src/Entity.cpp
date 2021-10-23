@@ -57,5 +57,6 @@ void Entity::spawn(sf::Vector2i spawnLocation)
 
 void Entity::onDraw()
 {
-
+    // Default behavior is to just set the sprite's position I guess
+    _sprite.setPosition(static_cast<sf::Vector2f>(_position));
 }
