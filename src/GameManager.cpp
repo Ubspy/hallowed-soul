@@ -1,18 +1,19 @@
 #include "GameManager.h"
 #include <cmath>
 
-GameManager::GameManager()
+GameManager::GameManager() : 
     // First thing we want to do is create a window
     // TODO: Name and size subject to change
-    : _gameWindow {sf::VideoMode(1280, 720), "Hallowed Soul"}
-    // Initialize camera
-    , _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
+    _gameWindow {sf::VideoMode(1280, 720), "Hallowed Soul"}, 
+    // Initialize the view (camera) 
+    _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
 {
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
     _currentState = GameState::playing;
 
-    // TODO: what does this do?
+    // This defines where our viewport is set to start
+    // TODO: We will probably be spawning the player in the start of the map
     _view.setViewport({0.0f, 0.0f, 1.0f, 1.0f});
 
     // The view will display the top quarter of the map (_gameWindow),
@@ -51,8 +52,12 @@ void GameManager::runGame()
 
 void GameManager::handleInput()
 {
+    // Event object for the current event we're handling
     sf::Event currentEvent;
 
+    // We want to poll all avalible events in the game
+    // TODO: This may be unnecessary and slow, since this while loop could be processing up to 50 events at once
+    // We may not even need this at all
     while(_gameWindow.pollEvent(currentEvent))
     {
         // TODO: Control variables? Maybe some config file?
@@ -69,35 +74,46 @@ void GameManager::handleInput()
         }
     }       
 
+    // The following four if statements will tell the player it needs to be moving
+    // in the direction based off of the directional keys pressed.
+    // We are using all ifs here because we want diagonal movement to be possible
+    // Additionally, we're not using the above loop to check because we don't just want to
+    // move up when the up key is pressed, we want to continue moving up while whenever the
+    // up key is held, this solves that issue
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
+        // Up is negative y direction
         this->_player.moveInDirection(sf::Vector2<float>(0, -1));
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
+        // Down is positive y direction
         this->_player.moveInDirection(sf::Vector2<float>(0, 1));
     }
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
+        // Left is negative x direction
         this->_player.moveInDirection(sf::Vector2<float>(-1, 0));
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
+        // Right is positive x direction
         this->_player.moveInDirection(sf::Vector2<float>(1, 0));
     }
 }
 
 void GameManager::handleMouseEvent(sf::Event &mouseEvent)
 {
-
+    // TODO: Do we need this?
+    // If we implement menus we will, but consider remove otherwise
 }
 
 void GameManager::checkCollisions()
 {
-
+    // TODO: Check for collision between dynamic entities and other entities
 }
 
 void GameManager::updateEntities()
@@ -114,6 +130,8 @@ void GameManager::drawFrame()
     // need to update the camera before drawing anything
     // updateView();
 
+    // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
+    // and calling the game window draw function
     this->_player.onDraw();
     this->_gameWindow.draw(this->_player.getSprite());
     // TODO: Add other entities
@@ -124,7 +142,8 @@ void GameManager::drawFrame()
 
 void GameManager::updateView()
 {
-    // TODO: this is a mess
+    // TODO: this is a mess, clean it up
+
     // I want to define a 100x50 rectangle in the middle of the view.
     // If the player walks outside of this rectangle, then we should
     // move the view to follow it and keep it in the rectangle.

@@ -1,7 +1,10 @@
 #include "Player.h"
 
-Player::Player() : _moveVec(sf::Vector2<int>(0, 0))
+Player::Player() : 
+    // Initialize movement vector to <0, 0>
+    _moveVec(sf::Vector2<int>(0, 0))
 {
+    // Set default move state to None
     _currentMoveState = None;
 }
 
@@ -15,7 +18,10 @@ void Player::onUpdate()
         this->_velocity = sf::Vector2<int>(0, 0);
     }
 
+    // Set the current velocity to the movement vector
     this->_velocity = this->_moveVec;
+
+    // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<int>(0, 0);
 }
 

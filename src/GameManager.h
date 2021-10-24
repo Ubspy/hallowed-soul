@@ -13,7 +13,7 @@ class GameManager
     public:
         GameManager();
 
-        /** Run the main game loop */
+        // Run the main game loop 
         void runGame();
 
     private:
@@ -23,12 +23,28 @@ class GameManager
         GameState _currentState;
         Player _player;
 
-        void runFrame();
+        // Called from main loop, turns all the user inputs into game instructions
         void handleInput();
+
+        // Called from handleInput(), will evaluate a keyboard event
+        // Used if you want an action to happen on a keystroke
         void handleKeyboardEvent(sf::Event &kbdEvent);
+
+        // Called from handleInput(), will evaluate a mose event
+        // Used if you want an action to happen on scroll, click, or mouse move
         void handleMouseEvent(sf::Event &mouseEvent);
-        void checkCollisions();
-        void drawFrame();
+
+        // Called from the main game loop,
+        // will update all of our game objects using the read inputs
         void updateEntities();
+
+        // Called from main loop, will check for collisions between entities and objects
+        void checkCollisions();
+        
+        // Called from main game loop, will render all of our objects and entities to the view
+        void drawFrame();
+
+        // Called from drawFrame(),
+        // will move the current view based off of the player's location
         void updateView();
 };

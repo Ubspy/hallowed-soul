@@ -8,42 +8,21 @@ class Entity
     public:
         Entity();
 
+        /** Getters and Setters **/
         sf::Vector2<int> getPosition();
         sf::Vector2<int> getVelocity();
+
+        sf::Sprite& getSprite();
 
         int getWidth();
         int getHeight();
 
-        // Main function to update an entity
+        /** Main function to update an entity **/
         void update();
 
-        /* Spawns the entity in the map. Can be overridden. */
+        /** Interface methods with a default implementation, can be overridden, called from update() **/
         virtual void spawn(sf::Vector2i spawnLocation);
-
-        /* Kills the entity. Can be overridden. */
         virtual void kill();
-
-        /** Gets this Entity's Sprite. */ 
-        sf::Sprite& getSprite();
-
-        /** Called each game tick. Can be overridden */
-        virtual void onUpdate();
-
-        /** Called when the collision manager has detected a collision between
-         * this entity and another entity.
-         * 
-         * Examples of things to do in here:
-         *   - Update the velocity of the entity
-         *   - Set the sprite to something different
-         *     (or mark a state change of this Entity so that onDraw can set the sprite)
-         * 
-         * Examples of things to NOT do in here:
-         *   - Draw your sprite to the window.draw()
-         * 
-         * @param hitEntity The entity being collided with. ONLY GUARANTEED TO BE VALID
-         *   FOR THE LIFETIME OF THIS FUNCTION.
-         */
-        virtual void onCollision(Entity &hitEntity) = 0; 
 
         /** Called before the Entity is drawn to the screen.
          * 
@@ -56,6 +35,34 @@ class Entity
          */
         virtual void onDraw();
 
+        /** Interface methods that must be overridden **/
+        /** Called once a frame from GameManager when each Entity is updated
+         * 
+         * Examples of thins to do in here:
+         *  - Handle movement or change sprites based on input
+         *  - Handle movement or change sprites based on AI
+         *
+         *  Examples of what NOT to do in here:
+         *   - Check for collision
+         *   - Draw a sprite using window.draw()
+        **/
+        virtual void onUpdate() = 0;
+
+        /** Called when the collision manager has detected a collision between
+         * this entity and another entity.
+         * 
+         * Examples of things to do in here:
+         *   - Update the velocity of the entity
+         *   - Set the sprite to something different
+         *     (or mark a state change of this Entity so that onDraw can set the sprite)
+         * 
+         * Examples of things to NOT do in here:
+         *   - Draw your sprite to the window.draw()
+         * 
+         * @param hitEntity The entity being collided with. 
+         */
+        virtual void onCollision(Entity &hitEntity) = 0;  
+
     protected:
         // Vectors for position and velocity
         sf::Vector2<int> _position;
@@ -63,6 +70,8 @@ class Entity
 
         // Size of this entity
         int _width, _height;
+
+        // Health of this entity
         int _health;
 
         /** The texture that this entity uses.
@@ -76,6 +85,9 @@ class Entity
          *
          * A sprite is a texture, plus information about which part of the
          * texture to use and where its origin is.
+         *
+         * Will be used for animation, the active sprite is the part of the texture we want to display
+         * TODO: Sprite array?
          */
         sf::Sprite _sprite;
 };

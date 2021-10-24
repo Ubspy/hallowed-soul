@@ -3,6 +3,7 @@
 
 Entity::Entity()
 {
+    // Initialize position and velocity to have a position of <0, 0>
     _position = sf::Vector2<int>(0, 0);
     _velocity = sf::Vector2<int>(0, 0);
 
@@ -12,6 +13,7 @@ Entity::Entity()
     _sprite.setTexture(_texture);
     _sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
 
+    // Initialize entity with 0 size, and default health of 100
     _width = 0;
     _height = 0;
     _health = 100;
@@ -52,7 +54,7 @@ void Entity::update()
     // After the update, we want to update the entity's position based off of it's velocity
     this->_position += this->_velocity;
 
-    // The below / was added by Diesel, he's a good boy
+    // The below '/' was added by Diesel, he's a good boy
     // Finally, we draw the entity  /
     this->onDraw();
 }
