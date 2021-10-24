@@ -12,15 +12,17 @@ GameManager::GameManager()
     , _currentState {GameState::playing}
     // Initialize player
     // Initialize camera
-    , _view {sf::FloatRect(0.0, 0.0, 1280, 720)}
+    , _view {sf::FloatRect(0.0, 0.0, 1280/2, 720/2)}
 {
+    _view.setViewport({0.0f, 0.0f, 1.0f, 1.0f});
+    // The view will display the top quarter of the map (_gameWindow),
+    // but will take up the full size of the RenderWindow. Therefore,
+    // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
 }
 
 int GameManager::runGame()
 {
-
-    TestEntity e;
     // Keep going while the window is open
     while(_gameWindow.isOpen())
     {
@@ -77,6 +79,12 @@ void GameManager::drawFrame()
 {
     // Clear current buffer
     _gameWindow.clear();
+
+    // I want to define a 100x50 rectangle in the middle of the view.
+    // If the player walks outside of this rectangle, when we should
+    // move the view to follow it and keep it in the rectangle.
+    sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(testEntity.getPosition()));
+    sf::Vector2i center = static_cast<sf::Vector2i>(_view.getCenter());
 
     // Draw every entity
     for ( auto it = entities.begin(); it != entities.end(); ++it )

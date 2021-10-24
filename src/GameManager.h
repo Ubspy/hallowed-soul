@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <forward_list>
 #include "Entity.h"
+#include "TestEntity.h"
 
 enum GameState
 {
@@ -36,6 +37,7 @@ class GameManager
         GameState _currentState;
         sf::View _view;
         // Player _player;
+        TestEntity testEntity;
 
         void runFrame();
         void handleInput();
