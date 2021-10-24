@@ -9,12 +9,12 @@ Entity::Entity()
     _health = 100;
 }
 
-sf::Vector2i Entity::getPosition()
+sf::Vector2<int> Entity::getPosition()
 {
     return _position;
 }
 
-sf::Vector2i Entity::getVelocity()
+sf::Vector2<int> Entity::getVelocity()
 {
     return _velocity;
 }
