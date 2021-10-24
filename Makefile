@@ -28,7 +28,7 @@ LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 # This is the target that compiles our executable
 # The ^ variable is all the dependencies, and the @ variable is the target
 $(EXE_NAME) : $(GAME_OBJS) 
-	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) $(LINKER_FLAGS) -o $@
+	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $@
 
 # Target for release, with no additional debug information
 # TODO: Maybe package the game in a folder with all the assets needed?
@@ -39,7 +39,7 @@ release : $(GAME_OBJS)
 # Because we need to make sure the obj files are compiled using the correct version
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(dir_guard)
-	$(CC) $^ $(CXX_FLAGS) -c -o $@
+	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
 
 clean:
 	rm $(EXE_NAME) $(GAME_OBJS) $(COAL_OBJS)
