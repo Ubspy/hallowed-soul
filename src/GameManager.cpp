@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "TestEntity.h"
+#include <cmath>
 
 std::forward_list<Entity*> GameManager::entities;
 
@@ -80,11 +81,8 @@ void GameManager::drawFrame()
     // Clear current buffer
     _gameWindow.clear();
 
-    // I want to define a 100x50 rectangle in the middle of the view.
-    // If the player walks outside of this rectangle, when we should
-    // move the view to follow it and keep it in the rectangle.
-    sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(testEntity.getPosition()));
-    sf::Vector2i center = static_cast<sf::Vector2i>(_view.getCenter());
+    // need to update the camera before drawing anything
+    updateView();
 
     // Draw every entity
     for ( auto it = entities.begin(); it != entities.end(); ++it )
@@ -95,4 +93,28 @@ void GameManager::drawFrame()
 
     // Finally, display the window
     _gameWindow.display();    
+}
+
+void GameManager::updateView()
+{
+    // I want to define a 100x50 rectangle in the middle of the view.
+    // If the player walks outside of this rectangle, then we should
+    // move the view to follow it and keep it in the rectangle.
+    const int centerRectWidth = 100;
+    const int centerRectHeight = 50;
+    sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(testEntity.getPosition()));
+    sf::Vector2i viewCenter = static_cast<sf::Vector2i>(_view.getCenter());
+    sf::Vector2i displFromCenter = posInView - viewCenter;
+    sf::Vector2i outsideRect; // Vector that gives us how outside of the rectangle we are
+    if (displFromCenter.x < (centerRectWidth/2))
+        outsideRect.x = displFromCenter.x + (centerRectWidth/2);
+    else if (displFromCenter.x > (centerRectWidth/2))
+        outsideRect.x = displFromCenter.x - (centerRectWidth/2);
+    
+    if (displFromCenter.y < (centerRectHeight/2))
+        outsideRect.y = displFromCenter.y + (centerRectHeight/2);
+    else if (displFromCenter.y > (centerRectHeight/2))
+        outsideRect.y = displFromCenter.y - (centerRectHeight/2);
+
+    _view.move(static_cast<sf::Vector2f>(outsideRect));
 }

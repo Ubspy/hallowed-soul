@@ -44,6 +44,7 @@ class GameManager
         void checkCollisions();
         void drawFrame();
         void updateEntities();
+        void updateView();
 };
 
 #endif
