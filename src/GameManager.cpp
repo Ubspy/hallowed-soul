@@ -82,7 +82,7 @@ void GameManager::drawFrame()
     _gameWindow.clear();
 
     // need to update the camera before drawing anything
-    updateView();
+    // updateView();
 
     // Draw every entity
     for ( auto it = entities.begin(); it != entities.end(); ++it )
@@ -116,7 +116,20 @@ void GameManager::updateView()
     else if (displFromCenter.y > (centerRectHeight/2))
         outsideRect.y = displFromCenter.y - (centerRectHeight/2);
 
-    _view.move(static_cast<sf::Vector2f>(outsideRect));
+    sf::Vector2i topLeft = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords({0, 0}));
+    sf::Vector2i bottomRight = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(_view.getSize())));
+    sf::Vector2i translateView = outsideRect;
+    if (topLeft.x + outsideRect.x < 0)
+        translateView.x = -topLeft.x;
+    else if (bottomRight.x + outsideRect.x > _gameWindow.getSize().x)
+        translateView.x = _gameWindow.getSize().x - bottomRight.x;
+
+    if (topLeft.y + outsideRect.y < 0)
+        translateView.y = -topLeft.y;
+    else if (bottomRight.y + outsideRect.y > _gameWindow.getSize().y)
+        translateView.y = _gameWindow.getSize().y - bottomRight.y;
+
+    _view.move(static_cast<sf::Vector2f>(translateView));
 
     _gameWindow.setView(_view);
 }
