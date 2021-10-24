@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+
 #include <math.h>
 #include <stdlib.h>
 

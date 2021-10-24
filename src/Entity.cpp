@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "GameManager.h"
 
 Entity::Entity()
 {
@@ -66,8 +67,23 @@ void Entity::spawn(sf::Vector2<int> spawnLocation)
 
 }
 
+sf::Sprite& Entity::getSprite()
+{
+    return _sprite;
+}
+
 void Entity::onDraw()
 {
     // Default behavior is to just set the sprite's position I guess
     _sprite.setPosition(static_cast<sf::Vector2<float>>(_position));
+}
+
+void Entity::onCollision(Entity &hitEntity)
+{
+
+}
+
+void Entity::onUpdate()
+{
+
 }

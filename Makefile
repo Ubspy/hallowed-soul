@@ -18,7 +18,7 @@ dir_guard=@mkdir -p $(@D)
 CC = g++
 
 # Specifies the additional compilation options we're using
-CXX_FLAGS = -Wall 
+CXX_FLAGS = -Wall -std=c++11
 
 DEBUG_FLAGS = -g
 

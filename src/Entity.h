@@ -17,7 +17,17 @@ class Entity
         // Main function to update an entity
         void update();
 
-        // Pure virtual functions needs to be overriden
+        /* Spawns the entity in the map. Can be overridden. */
+        virtual void spawn(sf::Vector2i spawnLocation);
+
+        /* Kills the entity. Can be overridden. */
+        virtual void kill();
+
+        /** Gets this Entity's Sprite. */ 
+        sf::Sprite& getSprite();
+
+        /** Called each game tick. Can be overridden */
+        virtual void onUpdate();
 
         /** Called when the collision manager has detected a collision between
          * this entity and another entity.
@@ -34,10 +44,6 @@ class Entity
          *   FOR THE LIFETIME OF THIS FUNCTION.
          */
         virtual void onCollision(Entity &hitEntity) = 0; 
-
-        // Virtual functions for basic entity actions that can be overridden
-        virtual void spawn(sf::Vector2<int> spawnLocation);
-        virtual void kill();
 
         /** Called before the Entity is drawn to the screen.
          * 
@@ -72,7 +78,4 @@ class Entity
          * texture to use and where its origin is.
          */
         sf::Sprite _sprite;
-
-        // onUpdate function to be overridden by each implementation of Entity
-        virtual void onUpdate() = 0;
 };

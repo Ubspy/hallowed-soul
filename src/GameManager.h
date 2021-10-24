@@ -18,9 +18,10 @@ class GameManager
 
     private:
         sf::RenderWindow _gameWindow;
+        sf::View _view;
+
         GameState _currentState;
         Player _player;
-        // Camera _gameCamera;
 
         void runFrame();
         void handleInput();
@@ -28,4 +29,6 @@ class GameManager
         void handleMouseEvent(sf::Event &mouseEvent);
         void checkCollisions();
         void drawFrame();
+        void updateEntities();
+        void updateView();
 };
