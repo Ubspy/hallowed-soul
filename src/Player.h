@@ -20,7 +20,7 @@ class Player : public Entity
         void counter();
 
     private:
-        const float _moveSpeed = 10;
+        const float _moveSpeed = 1;
         MoveState _currentMoveState;
 
         sf::Vector2<int> _moveVec;

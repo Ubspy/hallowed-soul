@@ -4,6 +4,13 @@ Entity::Entity()
 {
     _position = sf::Vector2<int>(0, 0);
     _velocity = sf::Vector2<int>(0, 0);
+
+    // Load texture in from file
+    // TODO: Does this need to by dynamic?
+    _texture.loadFromFile("assets/textures/test.png");
+    _sprite.setTexture(_texture);
+    _sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
+
     _width = 0;
     _height = 0;
     _health = 100;
