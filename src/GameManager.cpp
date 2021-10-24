@@ -103,18 +103,20 @@ void GameManager::updateView()
     const int centerRectWidth = 100;
     const int centerRectHeight = 50;
     sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(testEntity.getPosition()));
-    sf::Vector2i viewCenter = static_cast<sf::Vector2i>(_view.getCenter());
+    sf::Vector2i viewCenter = static_cast<sf::Vector2i>(_view.getSize() * 0.5f);
     sf::Vector2i displFromCenter = posInView - viewCenter;
-    sf::Vector2i outsideRect; // Vector that gives us how outside of the rectangle we are
-    if (displFromCenter.x < (centerRectWidth/2))
+    sf::Vector2i outsideRect {0, 0}; // Vector that gives us how outside of the rectangle we are
+    if (displFromCenter.x < -(centerRectWidth/2))
         outsideRect.x = displFromCenter.x + (centerRectWidth/2);
     else if (displFromCenter.x > (centerRectWidth/2))
         outsideRect.x = displFromCenter.x - (centerRectWidth/2);
     
-    if (displFromCenter.y < (centerRectHeight/2))
+    if (displFromCenter.y < -(centerRectHeight/2))
         outsideRect.y = displFromCenter.y + (centerRectHeight/2);
     else if (displFromCenter.y > (centerRectHeight/2))
         outsideRect.y = displFromCenter.y - (centerRectHeight/2);
 
     _view.move(static_cast<sf::Vector2f>(outsideRect));
+
+    _gameWindow.setView(_view);
 }
