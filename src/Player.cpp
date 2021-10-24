@@ -8,10 +8,8 @@ Player::Player() : _moveVec(sf::Vector2<int>(0, 0))
 // Pure virtuan function from the Entity class
 void Player::onUpdate()
 {
-    // On the update, we want to set the current move state back to None
-    // We want to know if we're moving or not so we can try to slow our velocity if needed
-    //if(this->_currentMoveState == MoveState::None)
-    if(this->_moveVec.x == 0 && this->_moveVec.y == 0)
+    // At this point, we want to slow down if we are not currently moving 
+    if(this->_moveVec.x == 0 && this->_moveVec.y == 0) 
     {
         // TODO: Slow down
         this->_velocity = sf::Vector2<int>(0, 0);
@@ -38,7 +36,7 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
-
+    
 }
 
 void Player::attack()
