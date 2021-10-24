@@ -15,8 +15,11 @@ class GameManager
     public:
         GameManager();
 
-        /** Run the main game loop */
-        void runGame();
+        /** Run the main game loop 
+         * 
+         * @returns The status code.
+         */
+        int runGame();
 
         /** List of all entities to update/draw in the game loop.
          * 
@@ -26,7 +29,7 @@ class GameManager
          * to this yourself, every entity in this list is guaranteed
          * to be valid.
          */
-        static forward_list<Entity*> entities;
+        static std::forward_list<Entity*> entities;
 
     private:
         sf::RenderWindow _gameWindow;
@@ -38,6 +41,7 @@ class GameManager
         void handleInput();
         void checkCollisions();
         void drawFrame();
+        void updateEntities();
 };
 
 #endif

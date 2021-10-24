@@ -19,7 +19,28 @@ class Entity
         // Main function to update an entity
         void update();
 
-        // Pure virtual functions needs to be overriden
+        /* Spawns the entity in the map. Can be overridden. */
+        virtual void spawn(sf::Vector2i spawnLocation);
+
+        /* Kills the entity. Can be overridden. */
+        virtual void kill();
+
+        /** Called before the Entity is drawn to the screen.
+         * 
+         * Things to do in here:
+         *   - Update the animation frame that your sprite is on
+         *   - Change your sprite's position in the world using sprite.setPosition()
+         * 
+         * Things to NOT do in here (for now):
+         *   - Actually draw your sprite to the window using the window.draw() method
+         */
+        virtual void onDraw();
+
+        /** Gets this Entity's Sprite. */ 
+        sf::Sprite& getSprite();
+
+        /** Called each game tick. Can be overridden */
+        virtual void onUpdate();
 
         /** Called when the collision manager has detected a collision between
          * this entity and another entity.
@@ -35,25 +56,7 @@ class Entity
          * @param hitEntity The entity being collided with. ONLY GUARANTEED TO BE VALID
          *   FOR THE LIFETIME OF THIS FUNCTION.
          */
-        virtual void onCollision(Entity* hitEntity) = 0; 
-
-        // Virtual functions for basic entity actions that can be overridden
-        virtual void spawn(sf::Vector2i spawnLocation);
-        virtual void kill();
-
-        /** Called before the Entity is drawn to the screen.
-         * 
-         * Things to do in here:
-         *   - Update the animation frame that your sprite is on
-         *   - Change your sprite's position in the world using sprite.setPosition()
-         * 
-         * Things to NOT do in here (for now):
-         *   - Actually draw your sprite to the window using the window.draw() method
-         */
-        virtual void onDraw();
-
-        /** Gets this Entity's Sprite. */ 
-        virtual sf::Sprite& getSprite();
+        virtual void onCollision(Entity* hitEntity);
 
     protected:
         // Vectors for position and velocity
@@ -77,9 +80,6 @@ class Entity
          * texture to use and where its origin is.
          */
         sf::Sprite _sprite;
-
-        // onUpdate function to be overridden by each implementation of Entity
-        virtual void onUpdate() = 0;
 };
 
 #endif

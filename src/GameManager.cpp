@@ -1,4 +1,7 @@
 #include "GameManager.h"
+#include "TestEntity.h"
+
+std::forward_list<Entity*> GameManager::entities;
 
 GameManager::GameManager()
     // First thing we want to do is create a window
@@ -14,8 +17,10 @@ GameManager::GameManager()
     _gameWindow.setView(_view);
 }
 
-void GameManager::runGame()
+int GameManager::runGame()
 {
+
+    TestEntity e;
     // Keep going while the window is open
     while(_gameWindow.isOpen())
     {
@@ -25,8 +30,7 @@ void GameManager::runGame()
         handleInput();
 
         // Once input is handled, we now want to update all of our objects
-        // this->_player.update();
-        // TODO: Update other entities
+        updateEntities();
 
         // Next step is to check the collisions on all of our entities
         checkCollisions();
@@ -37,9 +41,11 @@ void GameManager::runGame()
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
         {
+            _gameWindow.close();
             break;
         }
     }
+    return 0;
 }
 
 void GameManager::handleInput()
@@ -48,7 +54,9 @@ void GameManager::handleInput()
 
     while(_gameWindow.pollEvent(currentEvent))
     {
-
+        // Close window: exit
+        if (currentEvent.type == sf::Event::Closed)
+            _currentState = exiting;
     }       
 }
 
@@ -57,16 +65,24 @@ void GameManager::checkCollisions()
 
 }
 
+void GameManager::updateEntities()
+{
+    for ( auto it = entities.begin(); it != entities.end(); ++it )
+    {
+        (*it)->update();
+    }
+}
+
 void GameManager::drawFrame()
 {
     // Clear current buffer
     _gameWindow.clear();
 
     // Draw every entity
-    for ( Entity* entity = entities.begin(); entity != entities.end(); entity++ )
+    for ( auto it = entities.begin(); it != entities.end(); ++it )
     {
-        entity->onDraw();
-        _gameWindow.draw(entity->getSprite());
+        (*it)->onDraw();
+        _gameWindow.draw((*it)->getSprite());
     }
 
     // Finally, display the window
