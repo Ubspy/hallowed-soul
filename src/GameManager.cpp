@@ -4,10 +4,10 @@ GameManager::GameManager()
     // First thing we want to do is create a window
     // TODO: Name and size subject to change
     : _gameWindow {sf::VideoMode(1280, 720), "Hallowed Soul"}
+{
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
-    , _currentState {GameState::playing}
-{
+    _currentState = GameState::playing;
 
     // Initialize player
     // Initialize camera
@@ -16,7 +16,7 @@ GameManager::GameManager()
 void GameManager::runGame()
 {
     // Keep going while the window is open
-    while(this->_gameWindow->isOpen())
+    while(this->_gameWindow.isOpen())
     {
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is

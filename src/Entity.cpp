@@ -1,12 +1,13 @@
 #include "Entity.h"
 
 Entity::Entity()
-    : _position {0, 0}
-    , _velocity {0, 0}
-    , _width {0}
-    , _height {0}
-    , _health {100}
-{}
+{
+    _position = sf::Vector2<int>(0, 0);
+    _velocity = sf::Vector2<int>(0, 0);
+    _width = 0;
+    _height = 0;
+    _health = 100;
+}
 
 sf::Vector2i Entity::getPosition()
 {
@@ -50,7 +51,7 @@ void Entity::kill()
 
 }
 
-void Entity::spawn(sf::Vector2i spawnLocation)
+void Entity::spawn(sf::Vector2<int> spawnLocation)
 {
 
 }
@@ -58,5 +59,5 @@ void Entity::spawn(sf::Vector2i spawnLocation)
 void Entity::onDraw()
 {
     // Default behavior is to just set the sprite's position I guess
-    _sprite.setPosition(static_cast<sf::Vector2f>(_position));
+    _sprite.setPosition(static_cast<sf::Vector2<float>>(_position));
 }

@@ -8,8 +8,8 @@ class Entity
     public:
         Entity();
 
-        sf::Vector2i getPosition();
-        sf::Vector2i getVelocity();
+        sf::Vector2<int> getPosition();
+        sf::Vector2<int> getVelocity();
 
         int getWidth();
         int getHeight();
@@ -52,8 +52,8 @@ class Entity
 
     protected:
         // Vectors for position and velocity
-        sf::Vector2i _position;
-        sf::Vector2i _velocity;
+        sf::Vector2<int> _position;
+        sf::Vector2<int> _velocity;
 
         // Size of this entity
         int _width, _height;
