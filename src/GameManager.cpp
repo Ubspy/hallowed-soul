@@ -24,7 +24,7 @@ void GameManager::runGame()
         this->handleInput();
 
         // Once input is handled, we now want to update all of our objects
-        // this->_player.update();
+        this->_player.update();
         // TODO: Update other entities
 
         // Next step is to check the collisions on all of our entities
@@ -45,10 +45,46 @@ void GameManager::handleInput()
 {
     sf::Event currentEvent;
 
-    while(_gameWindow->pollEvent(currentEvent))
+    while(_gameWindow.pollEvent(currentEvent))
     {
-
+        // TODO: Control variables? Maybe some config file?
+        // First we want to check what type of event it is 
+        switch(currentEvent.type)
+        {
+            case sf::Event::Closed:
+            {
+                this->_currentState = GameState::exiting;
+                break;
+            }
+            default: // Otherwise just do nothing
+                break;
+        }
     }       
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        this->_player.moveInDirection(sf::Vector2<float>(0, -1));
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        this->_player.moveInDirection(sf::Vector2<float>(0, 1));
+    }
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        this->_player.moveInDirection(sf::Vector2<float>(-1, 0));
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        this->_player.moveInDirection(sf::Vector2<float>(1, 0));
+    }
+}
+
+void GameManager::handleMouseEvent(sf::Event &mouseEvent)
+{
+
 }
 
 void GameManager::checkCollisions()

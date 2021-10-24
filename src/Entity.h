@@ -33,10 +33,10 @@ class Entity
          * @param hitEntity The entity being collided with. ONLY GUARANTEED TO BE VALID
          *   FOR THE LIFETIME OF THIS FUNCTION.
          */
-        virtual void onCollision(Entity* hitEntity) = 0; 
+        virtual void onCollision(Entity &hitEntity) = 0; 
 
         // Virtual functions for basic entity actions that can be overridden
-        virtual void spawn(sf::Vector2i spawnLocation);
+        virtual void spawn(sf::Vector2<int> spawnLocation);
         virtual void kill();
 
         /** Called before the Entity is drawn to the screen.

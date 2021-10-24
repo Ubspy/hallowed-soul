@@ -2,6 +2,12 @@
 
 #include "Entity.h"
 #include <math.h>
+#include <stdlib.h>
+
+enum MoveState
+{
+    Moving, Dodging, None
+};
 
 class Player : public Entity
 {
@@ -14,5 +20,11 @@ class Player : public Entity
         void counter();
 
     private:
-        float _moveSpeed = 10;
+        const float _moveSpeed = 10;
+        MoveState _currentMoveState;
+
+        sf::Vector2<int> _moveVec;
+
+        void onUpdate();
+        void onCollision(Entity &hitEntity); 
 };

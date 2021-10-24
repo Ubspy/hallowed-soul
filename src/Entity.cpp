@@ -32,17 +32,20 @@ int Entity::getHeight()
 void Entity::update()
 {
     // When we update a frame we want to do a few things
-    // The first of which is we want to update the position using our velocity
-    _position += _velocity;
-
-    // Then we want to check for the health
+    // First we want to check for the health to see if this entity is dead
     if(_health <= 0)
     {
         this->kill();
     }
 
-    // We also want to call the overridable function, and then draw it
+    // Then we want to update the entity
     this->onUpdate();
+
+    // After the update, we want to update the entity's position based off of it's velocity
+    this->_position += this->_velocity;
+
+    // The below / was added by Diesel, he's a good boy
+    // Finally, we draw the entity  /
     this->onDraw();
 }
 
