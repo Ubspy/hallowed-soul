@@ -26,14 +26,14 @@ class Player : public Entity
         void counter();
 
     private:
-        const float _moveSpeed = 1;
+        const float _moveSpeed = 500;
         MoveState _currentMoveState;
 
         // Current direction to move in based off given user input
-        sf::Vector2<int> _moveVec;
+        sf::Vector2<float> _moveVec;
 
         // Function to call once every frame
-        void onUpdate();
+        void onUpdate(float deltaTime);
 
         // Function to handle collision with other entities
         void onCollision(Entity &hitEntity); 

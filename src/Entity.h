@@ -9,8 +9,8 @@ class Entity
         Entity();
 
         /** Getters and Setters **/
-        sf::Vector2<int> getPosition();
-        sf::Vector2<int> getVelocity();
+        sf::Vector2<float> getPosition();
+        sf::Vector2<float> getVelocity();
 
         sf::Sprite& getSprite();
 
@@ -18,10 +18,11 @@ class Entity
         int getHeight();
 
         /** Main function to update an entity **/
-        void update();
+        // deltaTime is the time between the last frame and the current frame
+        void update(float deltaTime);
 
         /** Interface methods with a default implementation, can be overridden, called from update() **/
-        virtual void spawn(sf::Vector2i spawnLocation);
+        virtual void spawn(sf::Vector2<float> spawnLocation);
         virtual void kill();
 
         /** Called before the Entity is drawn to the screen.
@@ -37,6 +38,7 @@ class Entity
 
         /** Interface methods that must be overridden **/
         /** Called once a frame from GameManager when each Entity is updated
+         * @param deltaTime the time between the last frame and the current frame
          * 
          * Examples of thins to do in here:
          *  - Handle movement or change sprites based on input
@@ -46,7 +48,7 @@ class Entity
          *   - Check for collision
          *   - Draw a sprite using window.draw()
         **/
-        virtual void onUpdate() = 0;
+        virtual void onUpdate(float deltaTime) = 0;
 
         /** Called when the collision manager has detected a collision between
          * this entity and another entity.
@@ -65,8 +67,8 @@ class Entity
 
     protected:
         // Vectors for position and velocity
-        sf::Vector2<int> _position;
-        sf::Vector2<int> _velocity;
+        sf::Vector2<float> _position;
+        sf::Vector2<float> _velocity;
 
         // Size of this entity
         int _width, _height;

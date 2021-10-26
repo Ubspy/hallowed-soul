@@ -4,8 +4,8 @@
 Entity::Entity()
 {
     // Initialize position and velocity to have a position of <0, 0>
-    _position = sf::Vector2<int>(0, 0);
-    _velocity = sf::Vector2<int>(0, 0);
+    _position = sf::Vector2<float>(0, 0);
+    _velocity = sf::Vector2<float>(0, 0);
 
     // Load texture in from file
     // TODO: Does this need to by dynamic?
@@ -19,12 +19,12 @@ Entity::Entity()
     _health = 100;
 }
 
-sf::Vector2<int> Entity::getPosition()
+sf::Vector2<float> Entity::getPosition()
 {
     return _position;
 }
 
-sf::Vector2<int> Entity::getVelocity()
+sf::Vector2<float> Entity::getVelocity()
 {
     return _velocity;
 }
@@ -39,7 +39,7 @@ int Entity::getHeight()
     return _height;
 }
 
-void Entity::update()
+void Entity::update(float deltaTime)
 {
     // When we update a frame we want to do a few things
     // First we want to check for the health to see if this entity is dead
@@ -49,7 +49,7 @@ void Entity::update()
     }
 
     // Then we want to update the entity
-    this->onUpdate();
+    this->onUpdate(deltaTime);
 
     // After the update, we want to update the entity's position based off of it's velocity
     this->_position += this->_velocity;
@@ -64,7 +64,7 @@ void Entity::kill()
 
 }
 
-void Entity::spawn(sf::Vector2<int> spawnLocation)
+void Entity::spawn(sf::Vector2<float> spawnLocation)
 {
 
 }
@@ -77,15 +77,10 @@ sf::Sprite& Entity::getSprite()
 void Entity::onDraw()
 {
     // Default behavior is to just set the sprite's position I guess
-    _sprite.setPosition(static_cast<sf::Vector2<float>>(_position));
+    _sprite.setPosition(_position);
 }
 
 void Entity::onCollision(Entity &hitEntity)
-{
-
-}
-
-void Entity::onUpdate()
 {
 
 }

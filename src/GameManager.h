@@ -36,7 +36,7 @@ class GameManager
 
         // Called from the main game loop,
         // will update all of our game objects using the read inputs
-        void updateEntities();
+        void updateEntities(sf::Time frameTime);
 
         // Called from main loop, will check for collisions between entities and objects
         void checkCollisions();

@@ -24,16 +24,22 @@ GameManager::GameManager() :
 
 void GameManager::runGame()
 {
+    // Game clock for tracking time
+    sf::Clock gameClock;
+
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
     {
+        // Update the game clock and get the frame time
+        sf::Time frameTime = gameClock.restart();
+
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is
         // input from the user, so that's the first thing we want to do
         handleInput();
 
         // Once input is handled, we now want to update all of our objects
-        updateEntities();
+        updateEntities(frameTime);
 
         // Next step is to check the collisions on all of our entities
         checkCollisions();
@@ -116,9 +122,9 @@ void GameManager::checkCollisions()
     // TODO: Check for collision between dynamic entities and other entities
 }
 
-void GameManager::updateEntities()
+void GameManager::updateEntities(sf::Time frameTime)
 {
-    this->_player.update();
+    this->_player.update(frameTime.asSeconds());
     // TODO: Update other entities
 }
 
