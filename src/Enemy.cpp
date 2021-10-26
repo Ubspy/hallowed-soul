@@ -2,21 +2,9 @@
 
 Enemy::Enemy()
 {
-    health = 0;
-    locationX = 0;
-    locationY = 0;
+    _health = 0;
     ammo = 0;
-    isAlive = false;
-}
-
-void Enemy::spawn(int x, int y)
-{
-    health = 100;
-    locationX = x;
-    locationY = y;
-    ammo = 100;
     isAlive = true;
-    //Add to map
 }
 
 void Enemy::attack()
@@ -26,8 +14,8 @@ void Enemy::attack()
 
 void Enemy::takeDamage(int damage)
 {
-    health = health - damage;
-    if(health<=0)
+    _health = _health - damage;
+    if(_health<=0)
     {
         // the operator "this" does not exist in c++, just call kill()
         kill();
@@ -40,17 +28,7 @@ void Enemy::takeDamage(int damage)
 
 int Enemy::getHealth()
 {
-    return health;
-}
-
-int Enemy::getLocationX()
-{
-    return locationX;
-}
-
-int Enemy::getLocationY()
-{
-    return locationY;
+    return _health;
 }
 
 int Enemy::getAmmo()
@@ -61,17 +39,6 @@ int Enemy::getAmmo()
 bool Enemy::getIsAlive()
 {
     return isAlive;
-}
-
-void Enemy::kill()
-{
-    isAlive = false;
-
-    // you cannot call the deconstructor as a function, the enemy has to be deleted elsewhere
-    // don't worry, wave manager will handle that
-
-    //remove from map
-    //~Enemy();
 }
 
 Enemy::~Enemy()
