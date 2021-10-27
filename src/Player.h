@@ -26,15 +26,20 @@ class Player : public Entity
         void counter();
 
     private:
-        const float _moveSpeed = 500;
+        const float _moveSpeed = 350;
+        const float _friction = 2;
+        const float _deadZone = 0.01;
+
         MoveState _currentMoveState;
 
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
-
         // Function to call once every frame
         void onUpdate(float deltaTime);
 
         // Function to handle collision with other entities
         void onCollision(Entity &hitEntity); 
+
+        // Handles slowing down when player isn't moving in a particular direction
+        float checkDeadMoveAxis(float axis, float moveAxis);
 };

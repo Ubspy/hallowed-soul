@@ -52,7 +52,7 @@ void Entity::update(float deltaTime)
     this->onUpdate(deltaTime);
 
     // After the update, we want to update the entity's position based off of it's velocity
-    this->_position += this->_velocity;
+    this->_position += this->_velocity * deltaTime;
 
     // The below '/' was added by Diesel, he's a good boy
     // Finally, we draw the entity  /
