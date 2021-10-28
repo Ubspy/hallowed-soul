@@ -9,6 +9,7 @@ EXE_NAME = Gaming.out
 # It takes the pattern %.cpp with % being anything in the src folder
 # and turns it into %.o in the obj folder
 GAME_SRC = $(wildcard $(SRC_DIR)/*.cpp)
+GAME_HEADERS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(SRC_DIR)/%.h)
 GAME_OBJS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Guarding incase there is no directory for the objs directory
@@ -37,7 +38,7 @@ release : $(GAME_OBJS)
 
 # Here we're gonna override the default make rule for turning cpp files into object files
 # Because we need to make sure the obj files are compiled using the correct version
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(SRC_DIR)/%.h
 	$(dir_guard)
 	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
 
