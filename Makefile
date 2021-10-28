@@ -36,11 +36,16 @@ $(EXE_NAME) : $(GAME_OBJS)
 release : $(GAME_OBJS)
 	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $(EXE_NAME)
 
-# Here we're gonna override the default make rule for turning cpp files into object files
-# Because we need to make sure the obj files are compiled using the correct version
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(SRC_DIR)/%.h
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
 	$(dir_guard)
 	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
+
+# Here we're gonna override the default make rule for turning cpp files into object files
+# Because we need to make sure the obj files are compiled using the correct version
+# $< is the first prerequisite, so it doesn't compile with the .h file
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(SRC_DIR)/%.h
+	$(dir_guard)
+	$(CC) $< $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
 
 clean:
 	rm $(EXE_NAME) $(GAME_OBJS) $(COAL_OBJS)
