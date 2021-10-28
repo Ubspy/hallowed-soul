@@ -6,6 +6,7 @@ WaveManager::WaveManager()
 {
     currentWave = 1;
     enemyCount = 0;
+    aliveEnemyCount =0;
 }
 
 bool WaveManager::waveOver()
@@ -59,6 +60,21 @@ int WaveManager::getEnemiesRemaining()
         }
     }
     return(alive);
+}
+
+void WaveManager::updateWaves()
+{
+    if(waveOver())
+    {
+        endWave();
+        beginWave();
+    }
+    else {}
+}
+
+void WaveManager::updateAliveEnemyCount()
+{
+    aliveEnemyCount = getEnemiesRemaining();
 }
 
 Enemy* WaveManager::getEnemy(int n)
