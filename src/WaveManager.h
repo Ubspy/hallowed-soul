@@ -8,6 +8,7 @@ class WaveManager
     private:
         int currentWave;
         int enemyCount;
+        int aliveEnemyCount;
         std::vector<Enemy*> enemies;
     public:
         WaveManager();
@@ -17,5 +18,7 @@ class WaveManager
         void endWave();
         int getWave();
         int getEnemiesRemaining();
+        void updateWaves();
+        void updateAliveEnemyCount();
         Enemy* getEnemy(int n);
 };
