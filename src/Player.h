@@ -27,13 +27,19 @@ class Player : public Entity
 
     private:
         const float _moveSpeed = 350;
-        const float _friction = 2;
+        const float _dodgeSpeed = 1100;
+        const float _friction = 8;
+        const float _dodgeFriction = 5;
         const float _deadZone = 0.01;
 
         MoveState _currentMoveState;
 
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
+
+        // Current direction player is dodging in, as well as the speed of the dodge
+        sf::Vector2<float> _dodgeVec;
+
         // Function to call once every frame
         void onUpdate(float deltaTime);
 
@@ -41,5 +47,7 @@ class Player : public Entity
         void onCollision(Entity &hitEntity); 
 
         // Handles slowing down when player isn't moving in a particular direction
-        float checkDeadMoveAxis(float axis, float moveAxis);
+        float checkDeadMoveAxis(float axis, float moveAxis, float friction);
+
+        sf::Vector2<float> getUnitVector(sf::Vector2<float> vec);
 };

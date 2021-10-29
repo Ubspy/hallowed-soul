@@ -118,12 +118,10 @@ void GameManager::handleInput()
 
 void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
 {
-    printf("KDB\n");
     switch(kdbEvent.key.code)
     {
         case sf::Keyboard::Space:
         {
-            printf("SPACE\n");
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
         }
         default:
