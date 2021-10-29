@@ -19,22 +19,22 @@ Entity::Entity()
     _health = 100;
 }
 
-sf::Vector2<float> Entity::getPosition()
+const sf::Vector2<float>& Entity::getPosition() const
 {
     return _position;
 }
 
-sf::Vector2<float> Entity::getVelocity()
+const sf::Vector2<float>& Entity::getVelocity() const
 {
     return _velocity;
 }
 
-int Entity::getWidth()
+const int& Entity::getWidth() const
 {
     return _width;
 }
 
-int Entity::getHeight()
+const int& Entity::getHeight() const
 {
     return _height;
 }
@@ -52,7 +52,7 @@ void Entity::update(float deltaTime)
     this->onUpdate(deltaTime, sf::Vector2<float> (0, 0));
 
     // After the update, we want to update the entity's position based off of it's velocity
-    this->_position += this->_velocity;
+    this->_position += this->_velocity * deltaTime;
 
     // The below '/' was added by Diesel, he's a good boy
     // Finally, we draw the entity  /

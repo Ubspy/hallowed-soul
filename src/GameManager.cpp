@@ -75,6 +75,11 @@ void GameManager::handleInput()
         // First we want to check what type of event it is 
         switch(currentEvent.type)
         {
+            case sf::Event::KeyPressed:
+            {
+                this->handleKeyboardEvent(currentEvent);
+                break;
+            }
             case sf::Event::Closed:
             {
                 this->_currentState = GameState::exiting;
@@ -115,6 +120,20 @@ void GameManager::handleInput()
         this->_player.moveInDirection(sf::Vector2<float>(1, 0));
     }
 
+}
+
+void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
+{
+    switch(kdbEvent.key.code)
+    {
+        case sf::Keyboard::Space:
+        {
+            this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
+        }
+        default:
+            // Do nothing
+            break;
+    }
 }
 
 void GameManager::handleMouseEvent(sf::Event &mouseEvent)

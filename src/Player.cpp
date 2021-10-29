@@ -3,7 +3,8 @@
 
 Player::Player() : 
     // Initialize movement vector to <0, 0>
-    _moveVec(sf::Vector2<int>(0, 0))
+    _moveVec(sf::Vector2<float>(0, 0)),
+    _dodgeVec(sf::Vector2<float>(0, 0))
 {
     // Set default move state to None
     _currentMoveState = None;
@@ -13,30 +14,62 @@ Player::Player() :
 void Player::onUpdate(float deltaTime, sf::Vector2<float> player)
 {
     // At this point, we want to slow down if we are not currently moving 
-    if(this->_moveVec.x == 0 && this->_moveVec.y == 0) 
-    {
-        // TODO: Slow down
-        this->_velocity = sf::Vector2<float>(0, 0);
-    }
-    else
+    // We want to individually check each movement axis to see if we need to slow them
+    this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x, this->_friction);
+    this->_velocity.y = this->checkDeadMoveAxis(this->_velocity.y, this->_moveVec.y, this->_friction);
+
+    // If there is movement on both axes, then we want to do something special
+    if(this->_moveVec.x != 0 && this->_moveVec.y != 0)
     {
         // We want to get the magnitude of the moveVector to make sure we're not moving
         // more when moving diagonally vs laterally
-        float moveVecMagnitude = std::sqrt(this->_moveVec.x * this->_moveVec.x + 
-                this->_moveVec.y * this->_moveVec.y);
-
-        // Get the unit vector using the above magnitude
-        sf::Vector2<float> moveVecUnit = this->_moveVec / moveVecMagnitude;
+        sf::Vector2<float> moveVecUnit = this->getUnitVector(this->_moveVec);
 
         // Set the current velocity to the movement vector
-        // We want to multiply by a delta time so we can get an exact movement speed
-        // no matter what the time difference between frames is,
-        // we also want to multiply by the private move speed var so we don't move at
+        // We want to multiply by the private move speed var so we don't move at
         // a snail's pace, this can be edited for better feeling movement before compile
-        this->_velocity = moveVecUnit * this->_moveSpeed * deltaTime;
-        
-        // Reset the movement vector to <0, 0>
-        this->_moveVec = sf::Vector2<float>(0, 0);
+        //this->_velocity += moveVecUnit * this->_moveSpeed;
+        this->_velocity.x = (abs(this->_velocity.x + moveVecUnit.x * this->_friction)) > 
+            this->_moveSpeed ? (this->_velocity.x < 0 ? -this->_moveSpeed : this->_moveSpeed) :
+            this->_velocity.x + moveVecUnit.x * this->_friction;       
+
+        this->_velocity.y = (abs(this->_velocity.y + moveVecUnit.y * this->_friction)) >
+            this->_moveSpeed ? (this->_velocity.y < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
+            this->_velocity.y + moveVecUnit.y * this->_friction;
+    }  
+
+    if(this->_dodgeVec.x != 0 || this->_dodgeVec.y != 0)
+    {
+        // TODO: There needs to be a better way to call this function
+        this->_dodgeVec.x = this->checkDeadMoveAxis(this->_dodgeVec.x, 0, this->_dodgeFriction);
+        this->_dodgeVec.y = this->checkDeadMoveAxis(this->_dodgeVec.y, 0, this->_dodgeFriction);
+
+        this->_velocity += this->_dodgeVec;
+    }
+
+    // Reset the movement vector to <0, 0>
+    this->_moveVec = sf::Vector2<float>(0, 0);
+}
+
+float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction)
+{
+    if(moveAxis == 0) 
+    {
+        // We want to decrease the x and y components of velocity by the friction each frame
+        if(abs(velAxis) - friction >= this->_deadZone)
+        {
+            return velAxis + (velAxis > 0 ? -friction : friction);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        return (abs(velAxis + moveAxis * this->_friction)) >
+            this->_moveSpeed ? (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
+            velAxis + moveAxis * this->_friction;
     }
 }
 
@@ -56,7 +89,20 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
-    
+    // The first thing we want to do is set the dodge vector now
+    this->_dodgeVec = this->getUnitVector(this->_velocity) * this->_dodgeSpeed;
+
+    // When we dodge, we want to set the state of movement to dodging 
+    this->_currentMoveState = MoveState::Dodging;
+}
+
+sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
+{
+    // Get the magnitude using the magnitude formula
+    float vecMagnitude = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+
+    // Get the unit vector using the above magnitude
+    return vec / vecMagnitude;
 }
 
 void Player::attack()
