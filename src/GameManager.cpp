@@ -130,6 +130,11 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         {
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
         }
+        case sf::Keyboard::Backspace:
+        {
+            this->_wave.endWave();
+            this->_wave.beginWave(this->_player.getPosition());
+        }
         default:
             // Do nothing
             break;
