@@ -29,12 +29,12 @@ const sf::Vector2<float>& Entity::getVelocity() const
     return _velocity;
 }
 
-int Entity::getWidth() const
+const int& Entity::getWidth() const
 {
     return _width;
 }
 
-int Entity::getHeight() const
+const int& Entity::getHeight() const
 {
     return _height;
 }
