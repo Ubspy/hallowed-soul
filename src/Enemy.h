@@ -15,9 +15,12 @@ class Enemy : public Entity
         int getHealth();
         int getAmmo();
         bool getIsAlive();
+        void spawn(sf::Vector2<float> pos);
 
-        void onCollision(Entity &hitEntity){}
-        void onUpdate(float deltaTime){}
+        void onUpdate(float deltaTime, sf::Vector2<float> player);
+        void update(float deltaTime, sf::Vector2<float> player);
+        void onCollision(Entity &hitEntity) {}
+        
 
         ~Enemy();
 };

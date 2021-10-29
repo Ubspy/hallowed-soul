@@ -48,7 +48,7 @@ class Entity
          *   - Check for collision
          *   - Draw a sprite using window.draw()
         **/
-        virtual void onUpdate(float deltaTime) = 0;
+        virtual void onUpdate(float deltaTime, sf::Vector2<float> player) = 0;
 
         /** Called when the collision manager has detected a collision between
          * this entity and another entity.

@@ -33,7 +33,7 @@ class Player : public Entity
         sf::Vector2<float> _moveVec;
 
         // Function to call once every frame
-        void onUpdate(float deltaTime);
+        void onUpdate(float deltaTime, sf::Vector2<float> player);
 
         // Function to handle collision with other entities
         void onCollision(Entity &hitEntity); 

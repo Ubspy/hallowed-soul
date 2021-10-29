@@ -10,7 +10,7 @@ Player::Player() :
 }
 
 // Pure virtuan function from the Entity class
-void Player::onUpdate(float deltaTime)
+void Player::onUpdate(float deltaTime, sf::Vector2<float> player)
 {
     // At this point, we want to slow down if we are not currently moving 
     if(this->_moveVec.x == 0 && this->_moveVec.y == 0) 
