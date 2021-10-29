@@ -19,22 +19,22 @@ Entity::Entity()
     _health = 100;
 }
 
-sf::Vector2<float> Entity::getPosition()
+const sf::Vector2<float>& Entity::getPosition() const
 {
     return _position;
 }
 
-sf::Vector2<float> Entity::getVelocity()
+const sf::Vector2<float>& Entity::getVelocity() const
 {
     return _velocity;
 }
 
-int Entity::getWidth()
+int Entity::getWidth() const
 {
     return _width;
 }
 
-int Entity::getHeight()
+int Entity::getHeight() const
 {
     return _height;
 }

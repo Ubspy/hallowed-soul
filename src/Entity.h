@@ -9,13 +9,13 @@ class Entity
         Entity();
 
         /** Getters and Setters **/
-        sf::Vector2<float> getPosition();
-        sf::Vector2<float> getVelocity();
+        const sf::Vector2<float>& getPosition() const;
+        const sf::Vector2<float>& getVelocity() const;
 
         sf::Sprite& getSprite();
 
-        int getWidth();
-        int getHeight();
+        const int& getWidth() const;
+        const int& getHeight() const;
 
         /** Main function to update an entity **/
         // deltaTime is the time between the last frame and the current frame
