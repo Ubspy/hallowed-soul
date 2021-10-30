@@ -17,6 +17,8 @@ class GameManager
         // Run the main game loop 
         void runGame();
 
+        const Entity* rayCast(Entity &source, sf::Vector2<float> &rayDir);
+
     private:
         sf::RenderWindow _gameWindow;
         sf::View _view;

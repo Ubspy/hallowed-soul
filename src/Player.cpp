@@ -112,5 +112,4 @@ void Player::attack()
 
 void Player::counter()
 {
-
 }

@@ -24,4 +24,5 @@ class WaveManager
         void updateEnemies(float time, sf::Vector2<float> player);
         void waveDraw();
         Enemy* getEnemy(int n);
+        const std::vector<Enemy*> &getEnemiesVec() const;
 };

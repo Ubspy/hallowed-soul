@@ -240,3 +240,27 @@ void GameManager::updateView()
 
     _gameWindow.setView(_view);
 }
+
+const Entity* GameManager::rayCast(Entity &source, sf::Vector2<float> &ray)
+{
+    // TODO: Add other entities
+    std::vector<Enemy*> enemies = this->_wave.getEnemiesVec();  
+    
+    // Let's get the center point for the source
+    sf::Vector2<float> sourceCenter(source.getPosition().x + source.getWidth() / 2.0,
+        source.getPosition().y + source.getHeight() / 2.0);
+
+    for(int i = 0; i < enemies.size(); i++)
+    {
+        Enemy* currentEnemy = enemies.at(i);
+
+        // Skip this loop is enemy is dead
+        if(!currentEnemy->getIsAlive())
+            continue;
+
+        // I'm lost
+
+    }
+
+    return nullptr;
+}

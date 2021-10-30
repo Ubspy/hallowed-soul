@@ -143,3 +143,8 @@ Enemy* WaveManager::getEnemy(int n)
     //return(-1);
     throw std::runtime_error("literally how");
 }
+
+const std::vector<Enemy*>& WaveManager::getEnemiesVec() const
+{
+    return this->enemies;
+}
