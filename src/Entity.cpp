@@ -69,7 +69,7 @@ void Entity::spawn(sf::Vector2<float> spawnLocation)
 
 }
 
-sf::Sprite& Entity::getSprite()
+const sf::Sprite& Entity::getSprite() const
 {
     return _sprite;
 }
