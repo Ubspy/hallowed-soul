@@ -179,8 +179,11 @@ void GameManager::drawFrame()
     // Clear current buffer
     _gameWindow.clear();
 
-    // need to update the camera before drawing anything
-    // updateView();
+    // Now update the position of the view as nessisary.
+    updateViewLocked();
+
+    // Draw the temporary background before anything else
+    drawMap();
 
     // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
     // and calling the game window draw function
@@ -200,43 +203,44 @@ void GameManager::drawFrame()
     _gameWindow.display();    
 }
 
-void GameManager::updateView()
+void GameManager::updateViewLocked()
 {
-    // TODO: this is a mess, clean it up
+    sf::View view = _gameWindow.getView();
+    const sf::Vector2f &playerLocation = this->_player.getPosition();
+    const sf::Vector2f &viewSize = _view.getSize();
+    sf::Vector2f mapSize{1500.0, 1125.0}; // this can probably be moved to a member variable later when the map is made.
 
-    // I want to define a 100x50 rectangle in the middle of the view.
-    // If the player walks outside of this rectangle, then we should
-    // move the view to follow it and keep it in the rectangle.
-    const int centerRectWidth = 100;
-    const int centerRectHeight = 50;
-    sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(this->_player.getPosition()));
-    sf::Vector2i viewCenter = static_cast<sf::Vector2i>(_view.getSize() * 0.5f);
-    sf::Vector2i displFromCenter = posInView - viewCenter;
-    sf::Vector2i outsideRect {0, 0}; // Vector that gives us how outside of the rectangle we are
-    if (displFromCenter.x < -(centerRectWidth/2))
-        outsideRect.x = displFromCenter.x + (centerRectWidth/2);
-    else if (displFromCenter.x > (centerRectWidth/2))
-        outsideRect.x = displFromCenter.x - (centerRectWidth/2);
-    
-    if (displFromCenter.y < -(centerRectHeight/2))
-        outsideRect.y = displFromCenter.y + (centerRectHeight/2);
-    else if (displFromCenter.y > (centerRectHeight/2))
-        outsideRect.y = displFromCenter.y - (centerRectHeight/2);
+    view.setCenter(this->_player.getPosition());
 
-    sf::Vector2i topLeft = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords({0, 0}));
-    sf::Vector2i bottomRight = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(_view.getSize())));
-    sf::Vector2i translateView = outsideRect;
-    if (topLeft.x + outsideRect.x < 0)
-        translateView.x = -topLeft.x;
-    else if (bottomRight.x + outsideRect.x > _gameWindow.getSize().x)
-        translateView.x = _gameWindow.getSize().x - bottomRight.x;
+    if (playerLocation.x < viewSize.x / 2) // If camera view is extends past left side of the map.
+    {
+        view.setCenter(sf::Vector2f{viewSize.x / 2, view.getCenter().y});
+    }
+    else if (playerLocation.x + viewSize.x / 2 > mapSize.x) // If camera view is extends past right side of the map.
+    {
+        view.setCenter(sf::Vector2f{mapSize.x - (viewSize.x / 2), view.getCenter().y});
+    }
 
-    if (topLeft.y + outsideRect.y < 0)
-        translateView.y = -topLeft.y;
-    else if (bottomRight.y + outsideRect.y > _gameWindow.getSize().y)
-        translateView.y = _gameWindow.getSize().y - bottomRight.y;
+    if (playerLocation.y < viewSize.y / 2) // If camera view is extends past top side of the map.
+    {
+        view.setCenter(sf::Vector2f{view.getCenter().x, viewSize.y / 2});
+    }
+    else if (playerLocation.y + viewSize.y / 2 > mapSize.y) // If camera view is extends past bottom side of the map.
+    {
+        view.setCenter(sf::Vector2f{view.getCenter().x, mapSize.y - (viewSize.y / 2)});
+    }
 
-    _view.move(static_cast<sf::Vector2f>(translateView));
+    _gameWindow.setView(view);
+}
 
-    _gameWindow.setView(_view);
+void GameManager::drawMap()
+{
+    sf::Texture texture;
+    texture.loadFromFile("assets/textures/temp_floor_128.png");
+    texture.setRepeated(true);
+
+    sf::IntRect rectSourceSprite(0, 0, 1500, 1125);
+    sf::Sprite sprite(texture, rectSourceSprite);
+
+    this->_gameWindow.draw(sprite);
 }
