@@ -49,7 +49,7 @@ void Entity::update(float deltaTime)
     }
 
     // Then we want to update the entity
-    this->onUpdate(deltaTime, sf::Vector2<float> (0, 0));
+    this->onUpdate(deltaTime);
 
     // After the update, we want to update the entity's position based off of it's velocity
     this->_position += this->_velocity * deltaTime;
@@ -69,7 +69,7 @@ void Entity::spawn(sf::Vector2<float> spawnLocation)
 
 }
 
-sf::Sprite& Entity::getSprite()
+const sf::Sprite& Entity::getSprite() const
 {
     return _sprite;
 }
