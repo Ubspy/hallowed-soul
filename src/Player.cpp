@@ -31,13 +31,13 @@ void Player::onUpdate(float deltaTime)
         // We want to multiply by the private move speed var so we don't move at
         // a snail's pace, this can be edited for better feeling movement before compile
         //this->_velocity += moveVecUnit * this->_moveSpeed;
-        this->_velocity.x = (abs(this->_velocity.x + moveVecUnit.x * this->_friction)) > 
-            this->_moveSpeed ? (this->_velocity.x < 0 ? -this->_moveSpeed : this->_moveSpeed) :
-            this->_velocity.x + moveVecUnit.x * this->_friction * deltaTime;       
+        this->_velocity.x = (abs(this->_velocity.x + moveVecUnit.x * this->_friction *
+            deltaTime)) > this->_moveSpeed ? (this->_velocity.x < 0 ? -this->_moveSpeed :
+            this->_moveSpeed) : this->_velocity.x + moveVecUnit.x * this->_friction * deltaTime;       
 
-        this->_velocity.y = (abs(this->_velocity.y + moveVecUnit.y * this->_friction)) >
-            this->_moveSpeed ? (this->_velocity.y < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
-            this->_velocity.y + moveVecUnit.y * this->_friction * deltaTime;
+        this->_velocity.y = (abs(this->_velocity.y + moveVecUnit.y * this->_friction * 
+            deltaTime)) > this->_moveSpeed ? (this->_velocity.y < 0 ? -this->_moveSpeed :
+            this->_moveSpeed) : this->_velocity.y + moveVecUnit.y * this->_friction * deltaTime;
     }  
 
     if(this->_dodgeVec.x != 0 || this->_dodgeVec.y != 0)

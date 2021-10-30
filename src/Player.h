@@ -29,7 +29,7 @@ class Player : public Entity
         const float _moveSpeed = 350;
         const float _dodgeSpeed = 1100;
         const float _friction = 1600;
-        const float _dodgeFriction = 5;
+        const float _dodgeFriction = 2000;
         const float _deadZone = 0.01;
 
         MoveState _currentMoveState;
