@@ -15,8 +15,10 @@ void Player::onUpdate(float deltaTime)
 {
     // At this point, we want to slow down if we are not currently moving 
     // We want to individually check each movement axis to see if we need to slow them
-    this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x, this->_friction);
-    this->_velocity.y = this->checkDeadMoveAxis(this->_velocity.y, this->_moveVec.y, this->_friction);
+    this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x,
+            this->_friction, deltaTime);
+    this->_velocity.y = this->checkDeadMoveAxis(this->_velocity.y, this->_moveVec.y,
+            this->_friction, deltaTime);
 
     // If there is movement on both axes, then we want to do something special
     if(this->_moveVec.x != 0 && this->_moveVec.y != 0)
@@ -31,18 +33,20 @@ void Player::onUpdate(float deltaTime)
         //this->_velocity += moveVecUnit * this->_moveSpeed;
         this->_velocity.x = (abs(this->_velocity.x + moveVecUnit.x * this->_friction)) > 
             this->_moveSpeed ? (this->_velocity.x < 0 ? -this->_moveSpeed : this->_moveSpeed) :
-            this->_velocity.x + moveVecUnit.x * this->_friction;       
+            this->_velocity.x + moveVecUnit.x * this->_friction * deltaTime;       
 
         this->_velocity.y = (abs(this->_velocity.y + moveVecUnit.y * this->_friction)) >
             this->_moveSpeed ? (this->_velocity.y < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
-            this->_velocity.y + moveVecUnit.y * this->_friction;
+            this->_velocity.y + moveVecUnit.y * this->_friction * deltaTime;
     }  
 
     if(this->_dodgeVec.x != 0 || this->_dodgeVec.y != 0)
     {
         // TODO: There needs to be a better way to call this function
-        this->_dodgeVec.x = this->checkDeadMoveAxis(this->_dodgeVec.x, 0, this->_dodgeFriction);
-        this->_dodgeVec.y = this->checkDeadMoveAxis(this->_dodgeVec.y, 0, this->_dodgeFriction);
+        this->_dodgeVec.x = this->checkDeadMoveAxis(this->_dodgeVec.x, 0, this->_dodgeFriction,
+                deltaTime);
+        this->_dodgeVec.y = this->checkDeadMoveAxis(this->_dodgeVec.y, 0, this->_dodgeFriction,
+                deltaTime);
 
         this->_velocity += this->_dodgeVec;
     }
@@ -51,14 +55,14 @@ void Player::onUpdate(float deltaTime)
     this->_moveVec = sf::Vector2<float>(0, 0);
 }
 
-float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction)
+float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime)
 {
     if(moveAxis == 0) 
     {
         // We want to decrease the x and y components of velocity by the friction each frame
-        if(abs(velAxis) - friction >= this->_deadZone)
+        if(abs(velAxis) - friction * deltaTime >= this->_deadZone)
         {
-            return velAxis + (velAxis > 0 ? -friction : friction);
+            return velAxis + (velAxis > 0 ? -friction : friction) * deltaTime;
         }
         else
         {
@@ -67,9 +71,9 @@ float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction)
     }
     else
     {
-        return (abs(velAxis + moveAxis * this->_friction)) >
+        return (abs(velAxis + moveAxis * this->_friction * deltaTime)) >
             this->_moveSpeed ? (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
-            velAxis + moveAxis * this->_friction;
+            velAxis + moveAxis * this->_friction * deltaTime;
     }
 }
 

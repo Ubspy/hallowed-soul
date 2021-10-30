@@ -28,7 +28,7 @@ class Player : public Entity
     private:
         const float _moveSpeed = 350;
         const float _dodgeSpeed = 1100;
-        const float _friction = 8;
+        const float _friction = 1600;
         const float _dodgeFriction = 5;
         const float _deadZone = 0.01;
 
@@ -47,7 +47,7 @@ class Player : public Entity
         void onCollision(Entity &hitEntity); 
 
         // Handles slowing down when player isn't moving in a particular direction
-        float checkDeadMoveAxis(float axis, float moveAxis, float friction);
+        float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
 
         sf::Vector2<float> getUnitVector(sf::Vector2<float> vec);
 };
