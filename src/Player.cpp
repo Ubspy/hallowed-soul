@@ -10,7 +10,9 @@ Player::Player() :
     _currentMoveState = None;
 }
 
-// Pure virtuan function from the Entity class
+// TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
+
+// Pure virtual function from the Entity class
 void Player::onUpdate(float deltaTime)
 {
     // At this point, we want to slow down if we are not currently moving 
@@ -49,8 +51,6 @@ void Player::onUpdate(float deltaTime)
 
         this->_velocity += this->_dodgeVec;
     }
-
-    printf("x: %f, y: %f\n", this->_velocity.x, this->_velocity.y);
 
     // Set previous move vector for dodging
     this->_lastMoveVec = this->_moveVec;
