@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "WaveManager.h"
 
 enum GameState
 {
@@ -27,6 +28,7 @@ class GameManager
 
         GameState _currentState;
         Player _player;
+        WaveManager _wave;
 
         /**
          * @brief Called from main loop, turns all the user inputs into game instructions

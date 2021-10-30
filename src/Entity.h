@@ -87,7 +87,6 @@ class Entity
          * @param deltaTime The time between this update and the last one
          */
         virtual void onUpdate(float deltaTime) = 0;
-
         
         /**
          * @brief Called from the game manager after a collision with another entity

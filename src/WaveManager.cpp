@@ -1,10 +1,12 @@
 #include "WaveManager.h"
 #include "Enemy.h"
 #include <stdexcept>
+#include <time.h>
+#include <cstdlib>
 
 WaveManager::WaveManager()
 {
-    currentWave = 1;
+    currentWave = 0;
     enemyCount = 0;
     aliveEnemyCount =0;
 }
@@ -21,8 +23,9 @@ bool WaveManager::waveOver()
     return(true);
 }
 
-void WaveManager::beginWave()
+void WaveManager::beginWave(sf::Vector2<float> player)
 {
+    currentWave++;
     // For now, waves will progress linearly for simple demonstration sake
     enemyCount = currentWave;
     // Spawn enemies
@@ -30,6 +33,31 @@ void WaveManager::beginWave()
     for(int i=0; i<enemyCount; i++)
     {
         temp = new Enemy();
+        sf::Vector2<float> spawn;
+        bool loop;
+        srand(time(0));
+        do {
+            // TODO IN MERGE: change max coords
+            spawn = sf::Vector2<float> (rand()%650, rand()%350);
+            if(spawn==player)
+            {
+                loop = true;
+            }
+            else
+            {
+                loop = false;
+                for(int j=0; j<i; j++)
+                {
+                    // TODO MAYBE: change distances here?
+                    if(spawn==enemies.at(j)->getPosition())
+                    {
+                        loop = true;
+                        break;
+                    }
+                }
+            }
+        }while(loop);
+        temp->spawn(spawn); 
         enemies.push_back(temp);
     }
 }
@@ -49,6 +77,11 @@ int WaveManager::getWave()
     return(currentWave);
 }
 
+int WaveManager::getEnemies()
+{
+    return(enemyCount);
+}
+
 int WaveManager::getEnemiesRemaining()
 {
     int alive = 0;
@@ -62,12 +95,12 @@ int WaveManager::getEnemiesRemaining()
     return(alive);
 }
 
-void WaveManager::updateWaves()
+void WaveManager::updateWaves(sf::Vector2<float> player)
 {
     if(waveOver())
     {
         endWave();
-        beginWave();
+        beginWave(player);
     }
     else {}
 }
@@ -75,6 +108,29 @@ void WaveManager::updateWaves()
 void WaveManager::updateAliveEnemyCount()
 {
     aliveEnemyCount = getEnemiesRemaining();
+}
+
+void WaveManager::updateEnemies(float time, sf::Vector2<float> player)
+{
+    for(int i=0; i<enemyCount; i++)
+    {
+        if(enemies.at(i)->getIsAlive())
+        {
+            enemies.at(i)->updatePlayerLocation(player);
+            enemies.at(i)->update(time);
+        }
+    }
+}
+
+void WaveManager::waveDraw()
+{
+    for(int i=0; i<enemyCount; i++)
+    {
+        if(enemies.at(i)->getIsAlive())
+        {
+            enemies.at(i)->onDraw();
+        }
+    }
 }
 
 Enemy* WaveManager::getEnemy(int n)

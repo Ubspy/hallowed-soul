@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include <cmath>
+#include <stdexcept>
 
 GameManager::GameManager() : 
     // First thing we want to do is create a window
@@ -27,11 +28,16 @@ void GameManager::runGame()
     // Game clock for tracking time
     sf::Clock gameClock;
 
+    this->_wave.beginWave(this->_player.getPosition());
+
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
     {
         // Update the game clock and get the frame time
         sf::Time frameTime = gameClock.restart();
+
+        // This can go anywhere, really
+        this->_wave.updateWaves(this->_player.getPosition());
 
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is
@@ -114,6 +120,7 @@ void GameManager::handleInput()
         // Right is positive x direction
         this->_player.moveInDirection(sf::Vector2<float>(1, 0));
     }
+
 }
 
 void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
@@ -123,6 +130,25 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         case sf::Keyboard::Space:
         {
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
+        }
+        case sf::Keyboard::Backspace:
+        {
+            // THE KILL BUTTON
+            for(int i=0; i<this->_wave.getEnemies(); i++)
+            {
+                try
+                {
+                    if(this->_wave.getEnemy(i)->getIsAlive())
+                    {
+                        this->_wave.getEnemy(i)->kill();
+                        break;
+                    }
+                }
+                catch(const std::exception& e)
+                {
+                    break;
+                }
+            }
         }
         default:
             // Do nothing
@@ -145,6 +171,7 @@ void GameManager::updateEntities(sf::Time frameTime)
 {
     this->_player.update(frameTime.asSeconds());
     // TODO: Update other entities
+    this->_wave.updateEnemies(frameTime.asSeconds(), this->_player.getPosition());
 }
 
 void GameManager::drawFrame()
@@ -158,7 +185,15 @@ void GameManager::drawFrame()
     // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
     // and calling the game window draw function
     this->_player.onDraw();
+    this->_wave.waveDraw();
     this->_gameWindow.draw(this->_player.getSprite());
+    for(int i=0; i<this->_wave.getEnemies(); i++)
+    {
+        if(this->_wave.getEnemy(i)->getIsAlive())
+        {
+            this->_gameWindow.draw(this->_wave.getEnemy(i)->getSprite());
+        }
+    }
     // TODO: Add other entities
 
     // Finally, display the window

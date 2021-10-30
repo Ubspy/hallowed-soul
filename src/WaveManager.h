@@ -14,11 +14,14 @@ class WaveManager
         WaveManager();
 
         bool waveOver();
-        void beginWave();
+        void beginWave(sf::Vector2<float> player);
         void endWave();
         int getWave();
+        int getEnemies();
         int getEnemiesRemaining();
-        void updateWaves();
+        void updateWaves(sf::Vector2<float> player);
         void updateAliveEnemyCount();
+        void updateEnemies(float time, sf::Vector2<float> player);
+        void waveDraw();
         Enemy* getEnemy(int n);
 };

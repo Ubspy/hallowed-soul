@@ -4,6 +4,7 @@
 class Enemy : public Entity
 {
     private:
+        sf::Vector2<float> _playerPos;
         int ammo;
         bool isAlive;
         
@@ -15,9 +16,14 @@ class Enemy : public Entity
         int getHealth();
         int getAmmo();
         bool getIsAlive();
+        void spawn(sf::Vector2<float> pos);
 
-        void onCollision(Entity &hitEntity){}
-        void onUpdate(float deltaTime){}
+        void updatePlayerLocation(sf::Vector2<float> playerPos);
+        void onUpdate(float deltaTime);
+        void onCollision(Entity &hitEntity) {}
+
+        void kill();
+        
 
         ~Enemy();
 };
