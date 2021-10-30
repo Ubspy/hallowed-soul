@@ -50,5 +50,7 @@ class Player : public Entity
         // Handles slowing down when player isn't moving in a particular direction
         float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
 
+        float getVectorMagnitude(sf::Vector2<float> vec);
+
         sf::Vector2<float> getUnitVector(sf::Vector2<float> vec);
 };

@@ -30,7 +30,6 @@ void Player::onUpdate(float deltaTime)
         // Set the current velocity to the movement vector
         // We want to multiply by the private move speed var so we don't move at
         // a snail's pace, this can be edited for better feeling movement before compile
-        //this->_velocity += moveVecUnit * this->_moveSpeed;
         this->_velocity.x = (abs(this->_velocity.x + moveVecUnit.x * this->_friction *
             deltaTime)) > this->_moveSpeed ? (this->_velocity.x < 0 ? -this->_moveSpeed :
             this->_moveSpeed) : this->_velocity.x + moveVecUnit.x * this->_friction * deltaTime;       
@@ -50,6 +49,8 @@ void Player::onUpdate(float deltaTime)
 
         this->_velocity += this->_dodgeVec;
     }
+
+    printf("x: %f, y: %f\n", this->_velocity.x, this->_velocity.y);
 
     // Set previous move vector for dodging
     this->_lastMoveVec = this->_moveVec;
@@ -74,8 +75,12 @@ float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, f
     }
     else
     {
+        // I'm sorry, this is so fucking gross
+        // TODO: Fix this mess
         return (abs(velAxis + moveAxis * this->_friction * deltaTime)) >
-            this->_moveSpeed ? (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) : 
+            this->_moveSpeed / this->getVectorMagnitude(this->_moveVec) ?
+            (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) /
+            this->getVectorMagnitude(this->_moveVec) :
             velAxis + moveAxis * this->_friction * deltaTime;
     }
 }
@@ -103,13 +108,16 @@ void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
     this->_currentMoveState = MoveState::Dodging;
 }
 
-sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
+float Player::getVectorMagnitude(sf::Vector2<float> vec)
 {
     // Get the magnitude using the magnitude formula
-    float vecMagnitude = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+    return std::sqrt(vec.x * vec.x + vec.y * vec.y);
+}
 
+sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
+{
     // Get the unit vector using the above magnitude
-    return vec / vecMagnitude;
+    return vec / this->getVectorMagnitude(vec);
 }
 
 void Player::attack()
