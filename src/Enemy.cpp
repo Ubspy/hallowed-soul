@@ -74,6 +74,11 @@ void Enemy::update(float deltaTime, sf::Vector2<float> player)
     this->onDraw();
 }
 
+void Enemy::kill()
+{
+    isAlive = false;
+}
+
 Enemy::~Enemy()
 {
 

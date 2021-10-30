@@ -114,7 +114,10 @@ void WaveManager::updateEnemies(float time, sf::Vector2<float> player)
 {
     for(int i=0; i<enemyCount; i++)
     {
-        enemies.at(i)->update(time, player);
+        if(enemies.at(i)->getIsAlive())
+        {
+            enemies.at(i)->update(time, player);
+        }
     }
 }
 
@@ -122,7 +125,10 @@ void WaveManager::waveDraw()
 {
     for(int i=0; i<enemyCount; i++)
     {
-        enemies.at(i)->onDraw();
+        if(enemies.at(i)->getIsAlive())
+        {
+            enemies.at(i)->onDraw();
+        }
     }
 }
 

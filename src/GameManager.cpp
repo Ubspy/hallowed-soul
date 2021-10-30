@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include <cmath>
+#include <stdexcept>
 
 GameManager::GameManager() : 
     // First thing we want to do is create a window
@@ -132,8 +133,22 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::Backspace:
         {
-            this->_wave.endWave();
-            this->_wave.beginWave(this->_player.getPosition());
+            // THE KILL BUTTON
+            for(int i=0; i<this->_wave.getEnemies(); i++)
+            {
+                try
+                {
+                    if(this->_wave.getEnemy(i)->getIsAlive())
+                    {
+                        this->_wave.getEnemy(i)->kill();
+                        break;
+                    }
+                }
+                catch(const std::exception& e)
+                {
+                    break;
+                }
+            }
         }
         default:
             // Do nothing
@@ -174,7 +189,10 @@ void GameManager::drawFrame()
     this->_gameWindow.draw(this->_player.getSprite());
     for(int i=0; i<this->_wave.getEnemies(); i++)
     {
-        this->_gameWindow.draw(this->_wave.getEnemy(i)->getSprite());
+        if(this->_wave.getEnemy(i)->getIsAlive())
+        {
+            this->_gameWindow.draw(this->_wave.getEnemy(i)->getSprite());
+        }
     }
     // TODO: Add other entities
 
