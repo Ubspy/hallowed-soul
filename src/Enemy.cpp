@@ -57,8 +57,6 @@ void Enemy::onUpdate(float deltaTime)
 {
     this->_velocity = sf::Vector2<float>(this->_playerPos.x-this->_position.x,
             this->_playerPos.y-this->_position.y);
-
-    printf("x: %f, y: %f\n", this->_velocity.x, this->_velocity.y);
     this->_velocity = this->_velocity / (std::sqrt(this->_velocity.x*this->_velocity.x + this->_velocity.y*this->_velocity.y));
     this->_velocity *= deltaTime * 5000;
 }
