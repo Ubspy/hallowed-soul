@@ -116,7 +116,8 @@ void WaveManager::updateEnemies(float time, sf::Vector2<float> player)
     {
         if(enemies.at(i)->getIsAlive())
         {
-            enemies.at(i)->update(time, player);
+            enemies.at(i)->updatePlayerLocation(player);
+            enemies.at(i)->update(time);
         }
     }
 }
