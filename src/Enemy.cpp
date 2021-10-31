@@ -11,17 +11,11 @@ Enemy::Enemy()
     _attacking = false;
 }
 
-void Enemy::attack()
-{
-    //Attack logic
-}
-
 void Enemy::takeDamage(int damage)
 {
     _health = _health - damage;
     if(_health<=0)
     {
-        // the operator "this" does not exist in c++, just call kill()
         kill();
     }
     else
@@ -53,11 +47,6 @@ void Enemy::spawn(sf::Vector2<float> pos)
 void Enemy::setPlayer(Player* playerRef)
 {
     _player = playerRef;
-}
-
-void Enemy::updatePlayerLocation(sf::Vector2<float> playerPos)
-{
-    this->_playerPos = playerPos;
 }
 
 void Enemy::onUpdate(float deltaTime)

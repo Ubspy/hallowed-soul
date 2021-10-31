@@ -29,7 +29,7 @@ void GameManager::runGame()
     // Game clock for tracking time
     sf::Clock gameClock;
 
-    this->_wave.beginWave(this->_player.getPosition());
+    this->_wave.beginWave();
 
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
@@ -38,7 +38,7 @@ void GameManager::runGame()
         sf::Time frameTime = gameClock.restart();
 
         // This can go anywhere, really
-        this->_wave.updateWaves(this->_player.getPosition());
+        this->_wave.updateWaves();
 
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is
@@ -173,7 +173,7 @@ void GameManager::updateEntities(sf::Time frameTime)
 {
     this->_player.update(frameTime.asSeconds());
     // TODO: Update other entities
-    this->_wave.updateEnemies(frameTime.asSeconds(), this->_player.getPosition());
+    this->_wave.updateEnemies(frameTime.asSeconds());
 }
 
 void GameManager::drawFrame()

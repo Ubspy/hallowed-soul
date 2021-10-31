@@ -28,7 +28,7 @@ bool WaveManager::waveOver()
     return(true);
 }
 
-void WaveManager::beginWave(sf::Vector2<float> player)
+void WaveManager::beginWave()
 {
     currentWave++;
     // For now, waves will progress linearly for simple demonstration sake
@@ -45,7 +45,7 @@ void WaveManager::beginWave(sf::Vector2<float> player)
         do {
             // TODO IN MERGE: change max coords
             spawn = sf::Vector2<float> (rand()%1450, rand()%1125);
-            if(spawn==player)
+            if(spawn==_player->getPosition())
             {
                 loop = true;
             }
@@ -107,12 +107,12 @@ int WaveManager::getEnemiesRemaining()
     return(alive);
 }
 
-void WaveManager::updateWaves(sf::Vector2<float> player)
+void WaveManager::updateWaves()
 {
     if(waveOver())
     {
         endWave();
-        beginWave(player);
+        beginWave();
     }
     else {}
 }
@@ -122,13 +122,12 @@ void WaveManager::updateAliveEnemyCount()
     aliveEnemyCount = getEnemiesRemaining();
 }
 
-void WaveManager::updateEnemies(float time, sf::Vector2<float> player)
+void WaveManager::updateEnemies(float time)
 {
     for(int i=0; i<enemyCount; i++)
     {
         if(enemies.at(i)->getIsAlive())
         {
-            enemies.at(i)->updatePlayerLocation(player);
             enemies.at(i)->update(time);
         }
     }
