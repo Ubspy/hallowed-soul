@@ -28,6 +28,7 @@ void WaveManager::beginWave(sf::Vector2<float> player)
     currentWave++;
     // For now, waves will progress linearly for simple demonstration sake
     enemyCount = currentWave;
+    aliveEnemyCount = currentWave;
     // Spawn enemies
     Enemy* temp = nullptr;
     for(int i=0; i<enemyCount; i++)
@@ -80,6 +81,11 @@ int WaveManager::getWave()
 int WaveManager::getEnemies()
 {
     return(enemyCount);
+}
+
+int WaveManager::getEnemiesAlive()
+{
+    return(aliveEnemyCount);
 }
 
 int WaveManager::getEnemiesRemaining()

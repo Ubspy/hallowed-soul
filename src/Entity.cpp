@@ -39,6 +39,11 @@ const int& Entity::getHeight() const
     return _height;
 }
 
+const int& Entity::getHealth() const
+{
+    return _health;
+}
+
 void Entity::update(float deltaTime)
 {
     // When we update a frame we want to do a few things
