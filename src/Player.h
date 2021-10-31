@@ -45,6 +45,13 @@ class Player : public Entity
          */
         void getAttacked(int damage);
 
+        /**
+         * @brief checks if player is dodging
+         * 
+         * @return true if dodging
+         */
+        bool isDodging();
+
     private:
         // Constants for player movement
         const float _moveSpeed = 350;

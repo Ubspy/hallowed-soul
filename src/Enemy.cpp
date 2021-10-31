@@ -56,8 +56,9 @@ void Enemy::setFriends(std::vector<Enemy*>& friendRef)
 
 void Enemy::onUpdate(float deltaTime)
 {
-    if((_position.x-_player->getPosition().x<30&&_position.x-_player->getPosition().x>-30
-            &&_position.y-_player->getPosition().y<30&&_position.y-_player->getPosition().y>-30)||_attacking)
+    if(((_position.x-_player->getPosition().x<30&&_position.x-_player->getPosition().x>-30
+            &&_position.y-_player->getPosition().y<30&&_position.y-_player->getPosition().y>-30)
+            &&!_player->isDodging())||_attacking)
     {
         _attacking = true;
         _velocity = sf::Vector2<float> (0,0);
@@ -75,8 +76,8 @@ void Enemy::onUpdate(float deltaTime)
                 this->_player->getPosition().y-this->_position.y);
         for(int i=0; i<friends->size(); i++)
         {
-            if((_position.x-friends->at(i)->getPosition().x<31&&_position.x-friends->at(i)->getPosition().x>-31
-                    &&_position.y-friends->at(i)->getPosition().y<31&&_position.y-friends->at(i)->getPosition().y>-31)
+            if((_position.x-friends->at(i)->getPosition().x<35&&_position.x-friends->at(i)->getPosition().x>-35
+                    &&_position.y-friends->at(i)->getPosition().y<35&&_position.y-friends->at(i)->getPosition().y>-35)
                     &&friends->at(i)!=this&&friends->at(i)->getIsAlive())
             {
                 if(_position.x-friends->at(i)->getPosition().x<30&&_velocity.x>0)
@@ -97,8 +98,11 @@ void Enemy::onUpdate(float deltaTime)
                 }
             }
         }
-        this->_velocity = this->_velocity / (std::sqrt(this->_velocity.x*this->_velocity.x + this->_velocity.y*this->_velocity.y));
-        this->_velocity *= deltaTime * 5000;
+        if(_velocity!=sf::Vector2<float> (0,0))
+        {
+            this->_velocity = this->_velocity / (std::sqrt(this->_velocity.x*this->_velocity.x + this->_velocity.y*this->_velocity.y));
+            this->_velocity *= deltaTime * 5000;
+        }
     }
 }
 
