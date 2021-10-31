@@ -254,7 +254,6 @@ void GameManager::drawHealthHUD()
 {
     const int lineSize = 2;
     const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2f &playerLocation = this->_player.getPosition();
     const sf::Vector2f &viewSize = _view.getSize();
     const sf::Vector2f barOutterSize{100.f, 10.f};
     const sf::Vector2f barInnerSize{barOutterSize.x * (_player.getHealth() / 100), barOutterSize.y};
@@ -284,7 +283,6 @@ void GameManager::drawRoundProgressHUD()
 
     const int lineSize = 2;
     const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2f &playerLocation = this->_player.getPosition();
     const sf::Vector2f &viewSize = _view.getSize();
     const sf::Vector2f barOutterSize{100.f, 5.f};
     const sf::Vector2f barInnerSize{barOutterSize.x * (enemiesAlive / totalEnemies), barOutterSize.y};
