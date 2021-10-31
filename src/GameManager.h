@@ -76,5 +76,11 @@ class GameManager
          * @brief Called from drawFrame(),
          *  will move the current view based off of the player's location
          */
-        void updateView();
+        void updateViewLocked();
+
+         /**
+         * @brief Called from drawFrame(),
+         *  Temporary function to draw a basic background of our map
+         */
+        void drawMap();
 };
