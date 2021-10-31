@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <vector>
 
+/** Enemy class */
 class Enemy : public Entity
 {
     private:

@@ -4,6 +4,11 @@
 #include "Enemy.h"
 #include "Player.h"
 
+/** Class which is used by GameManager to spawn and update hoards of enemies.
+ * 
+ * WaveManager exclusively owns the enemies of the game, so it is calling
+ * the drawing and updating functions for them.
+ */
 class WaveManager
 {
     private:
@@ -13,6 +18,7 @@ class WaveManager
         std::vector<Enemy*> enemies;
         Player* _player;
     public:
+        /** WaveManager constructor */
         WaveManager();
 
         /**
