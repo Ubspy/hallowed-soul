@@ -128,3 +128,17 @@ void Player::attack()
 void Player::counter()
 {
 }
+
+void Player::getAttacked(int damage)
+{
+    _health -= damage;
+}
+
+bool Player::isDodging()
+{
+    if(_currentMoveState==Dodging)
+    {
+        return(true);
+    }
+    return(false);
+}

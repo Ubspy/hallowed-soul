@@ -3,6 +3,21 @@
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics.hpp"
 
+/** Abstract base class which entities are based off of.
+ * 
+ * Entities are generally anything that can have a sprite and/or a position.
+ * 
+ * To make your subclass of Entity visible on the screen, you need to do the following:
+ * 
+ * 1. set _texture
+ * 2. set _sprite
+ * 3. Somewhere in the main game loop where drawing happens, call your subclass's onDraw()
+ * method and draw() the entity's sprite to the screen.
+ * 
+ * Updating position is handled by update(). Position is set based on the value of _velocity. You can
+ * set _position or _velocity in onUpdate() to define the movement behavior of your Entity.
+ */
+
 class Entity
 {
     public:
@@ -47,6 +62,14 @@ class Entity
          * @return Height of entity 
          */
         const int& getHeight() const;
+
+
+        /**
+         * @brief Getter for entity health
+         *
+         * @return Health of entity 
+         */
+        const int& getHealth() const;
 
         /// Main function to update an entity 
 
@@ -96,25 +119,58 @@ class Entity
         virtual void onCollision(Entity &hitEntity) = 0;  
 
     protected:
-        // Vectors for position and velocity
+        /** Vector for position in world coordinates.
+         * 
+         * Modify this to reposition the entity in the world.
+         */
         sf::Vector2<float> _position;
+
+        /** Vector for velocity. 
+         * 
+         * Modify this to give the entity a new velocity.
+         */
         sf::Vector2<float> _velocity;
 
-        // Size of this entity
-        int _width, _height;
+        /** Width of this entity */
+        int _width;
 
-        // Health of this entity
+        /** Height of this entity */
+        int _height;
+
+        /** Health of this entity */
         int _health;
 
-        // The texture that this entity uses
-        // Could potentially be a spritesheet with multiple frames of an animation, 
-        // or could be just one drawing
+        /** The texture that this entity uses.
+         * 
+         * To give your subclass an image, set this in the constructor like so:
+         * 
+         *     _texture.loadFromFile("path/to/image.png");
+         *     // set the sprite, see _sprite
+         * 
+         * The texture could potentially be a spritesheet with multiple frames of an animation, 
+         * or could be just one drawing.
+         */
         
         sf::Texture _texture;
 
-        // The sprite that this entity uses.
-        // Will be used for animation, the active sprite is the part of the texture
-        // we want to display
+        /** The sprite that this entity uses.
+         * 
+         * The active sprite adds a rectangle around a texture, defining the region
+         * of the texture that we actually want to display.
+         * 
+         * To give your subclass a sprite, do something like the following in the constructor
+         * after giving your subclass a texture:
+         * 
+         *     // You've already set _texture, now set _sprite
+         *     _sprite.setTexture(_texture);
+         *     // set your rectangle, origin, etc. See docs on sf::Sprite.
+         *     // Here's an example:
+         *     _sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
+         * 
+         * One use case of this is animation; you could use one texture to store all the frames
+         * of an animation and update the sprite to change which part of the texture it renders
+         * when you want to show a different animation frame.
+         */
         // TODO: Sprite array?
         sf::Sprite _sprite;
 };

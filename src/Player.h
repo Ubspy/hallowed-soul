@@ -3,11 +3,21 @@
 #include "Entity.h"
 #include <math.h>
 
+/** Enum which holds what state the player is in. */
 enum MoveState
 {
-    Moving, Dodging, None
+    /** The player is moving. */
+    Moving,
+    /** The player is dodging. */
+    Dodging,
+    /** The player is standing still. */
+    None
 };
 
+/** Class for the player.
+ * 
+ * The Player is an Entity which is controlled by the player and responds to keyboard input.
+ */
 class Player : public Entity
 {
     public:
@@ -37,6 +47,20 @@ class Player : public Entity
          * @brief Tells the player it needs to be countering
          */
         void counter();
+
+        /**
+         * @brief updates health upon being attacked
+         * 
+         * @param damage the amount of health to be removed
+         */
+        void getAttacked(int damage);
+
+        /**
+         * @brief checks if player is dodging
+         * 
+         * @return true if dodging
+         */
+        bool isDodging();
 
     private:
         // Constants for player movement
