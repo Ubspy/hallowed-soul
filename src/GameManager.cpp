@@ -186,8 +186,6 @@ void GameManager::drawFrame()
     // Draw the temporary background before anything else
     drawMap();
 
-    drawHealthHUD();
-    drawRoundProgressHUD();
     // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
     // and calling the game window draw function
     this->_player.onDraw();
@@ -201,6 +199,10 @@ void GameManager::drawFrame()
         }
     }
     // TODO: Add other entities
+
+    // Draw the HUD over most things
+    drawHealthHUD();
+    drawRoundProgressHUD();
 
     // Finally, display the window
     _gameWindow.display();    
