@@ -258,7 +258,7 @@ void GameManager::drawHealthHUD()
     const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
     const sf::Vector2f &viewSize = _view.getSize();
     const sf::Vector2f barOutterSize{100.f, 10.f};
-    const sf::Vector2f barInnerSize{barOutterSize.x * (_player.getHealth() / 100), barOutterSize.y};
+    const sf::Vector2f barInnerSize{barOutterSize.x * (_player.getHealth() / 100.0), barOutterSize.y};
     const sf::Vector2i padding{5 + lineSize, 5 + lineSize};
     const sf::Vector2f barPosition{viewCenter.x + padding.x - (viewSize.x / 2), viewCenter.y - padding.y - barOutterSize.y + viewSize.y / 2};
 
