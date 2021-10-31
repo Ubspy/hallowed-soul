@@ -56,6 +56,8 @@ void GameManager::runGame()
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
         {
+            // Clear enemy objects
+            this->_wave.endWave();
             _gameWindow.close();
             break;
         }
@@ -130,6 +132,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         case sf::Keyboard::Space:
         {
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
+            break;
         }
         case sf::Keyboard::Backspace:
         {
