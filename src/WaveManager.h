@@ -18,6 +18,7 @@ class WaveManager
         void endWave();
         int getWave();
         int getEnemies();
+        int getEnemiesAlive();
         int getEnemiesRemaining();
         void updateWaves(sf::Vector2<float> player);
         void updateAliveEnemyCount();

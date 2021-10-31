@@ -48,6 +48,14 @@ class Entity
          */
         const int& getHeight() const;
 
+
+        /**
+         * @brief Getter for entity health
+         *
+         * @return Health of entity 
+         */
+        const int& getHealth() const;
+
         /// Main function to update an entity 
 
         /**

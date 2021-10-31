@@ -78,9 +78,21 @@ class GameManager
          */
         void updateViewLocked();
 
-         /**
+        /**
          * @brief Called from drawFrame(),
          *  Temporary function to draw a basic background of our map
          */
         void drawMap();
+    
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw the players health heads up display
+         */
+        void drawHealthHUD();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw a heads up display on the current round information
+         */
+        void drawRoundProgressHUD();
 };
