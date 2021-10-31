@@ -4,11 +4,28 @@
 #include "Player.h"
 #include "WaveManager.h"
 
+/** Enum representing the game state. */
 enum GameState
 {
-    playing, menu, gameOver, exiting
+    /** Game is currently being played. */
+    playing,
+
+    /** On the main menu. */
+    menu,
+
+    /** Game is complete. */
+    gameOver,
+
+    /** Window is closing. */
+    exiting
 };
 
+/** Class which handles the main loop, timing, and game logic. 
+ * 
+ * Calls drawing and updating functions explicitly on the Player and non-enemy Entities.
+ * Enemies are fully handled and owned by WaveManager; GameManager calls WaveManager's
+ * drawing and updating functions to control Enemies.
+ */
 class GameManager
 {
     public:
@@ -23,11 +40,19 @@ class GameManager
         void runGame();
 
     private:
+        /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
+
+        /** The view, or "camera" that we are using to display the world. */
         sf::View _view;
 
+        /** The current game state. */
         GameState _currentState;
+
+        /** The player. */
         Player _player;
+
+        /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
 
         /**
@@ -76,5 +101,23 @@ class GameManager
          * @brief Called from drawFrame(),
          *  will move the current view based off of the player's location
          */
-        void updateView();
+        void updateViewLocked();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Temporary function to draw a basic background of our map
+         */
+        void drawMap();
+    
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw the players health heads up display
+         */
+        void drawHealthHUD();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw a heads up display on the current round information
+         */
+        void drawRoundProgressHUD();
 };

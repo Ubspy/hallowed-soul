@@ -21,6 +21,7 @@ GameManager::GameManager() :
     // but will take up the full size of the RenderWindow. Therefore,
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
+    this->_wave.setPlayer(this->_player);
 }
 
 void GameManager::runGame()
@@ -28,7 +29,7 @@ void GameManager::runGame()
     // Game clock for tracking time
     sf::Clock gameClock;
 
-    this->_wave.beginWave(this->_player.getPosition());
+    this->_wave.beginWave();
 
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
@@ -37,7 +38,7 @@ void GameManager::runGame()
         sf::Time frameTime = gameClock.restart();
 
         // This can go anywhere, really
-        this->_wave.updateWaves(this->_player.getPosition());
+        this->_wave.updateWaves();
 
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is
@@ -144,6 +145,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
                     if(this->_wave.getEnemy(i)->getIsAlive())
                     {
                         this->_wave.getEnemy(i)->kill();
+                        this->_wave.updateAliveEnemyCount();
                         break;
                     }
                 }
@@ -174,7 +176,7 @@ void GameManager::updateEntities(sf::Time frameTime)
 {
     this->_player.update(frameTime.asSeconds());
     // TODO: Update other entities
-    this->_wave.updateEnemies(frameTime.asSeconds(), this->_player.getPosition());
+    this->_wave.updateEnemies(frameTime.asSeconds());
 }
 
 void GameManager::drawFrame()
@@ -182,8 +184,11 @@ void GameManager::drawFrame()
     // Clear current buffer
     _gameWindow.clear();
 
-    // need to update the camera before drawing anything
-    // updateView();
+    // Now update the position of the view as nessisary.
+    updateViewLocked();
+
+    // Draw the temporary background before anything else
+    drawMap();
 
     // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
     // and calling the game window draw function
@@ -199,47 +204,125 @@ void GameManager::drawFrame()
     }
     // TODO: Add other entities
 
+    // Draw the HUD over most things
+    drawHealthHUD();
+    drawRoundProgressHUD();
+
     // Finally, display the window
     _gameWindow.display();    
 }
 
-void GameManager::updateView()
+void GameManager::updateViewLocked()
 {
-    // TODO: this is a mess, clean it up
+    sf::View view = _gameWindow.getView();
+    const sf::Vector2f &playerLocation = this->_player.getPosition();
+    const sf::Vector2f &viewSize = _view.getSize();
+    sf::Vector2f mapSize{1500.0, 1125.0}; // this can probably be moved to a member variable later when the map is made.
 
-    // I want to define a 100x50 rectangle in the middle of the view.
-    // If the player walks outside of this rectangle, then we should
-    // move the view to follow it and keep it in the rectangle.
-    const int centerRectWidth = 100;
-    const int centerRectHeight = 50;
-    sf::Vector2i posInView = _gameWindow.mapCoordsToPixel(static_cast<sf::Vector2f>(this->_player.getPosition()));
-    sf::Vector2i viewCenter = static_cast<sf::Vector2i>(_view.getSize() * 0.5f);
-    sf::Vector2i displFromCenter = posInView - viewCenter;
-    sf::Vector2i outsideRect {0, 0}; // Vector that gives us how outside of the rectangle we are
-    if (displFromCenter.x < -(centerRectWidth/2))
-        outsideRect.x = displFromCenter.x + (centerRectWidth/2);
-    else if (displFromCenter.x > (centerRectWidth/2))
-        outsideRect.x = displFromCenter.x - (centerRectWidth/2);
-    
-    if (displFromCenter.y < -(centerRectHeight/2))
-        outsideRect.y = displFromCenter.y + (centerRectHeight/2);
-    else if (displFromCenter.y > (centerRectHeight/2))
-        outsideRect.y = displFromCenter.y - (centerRectHeight/2);
+    view.setCenter(this->_player.getPosition());
 
-    sf::Vector2i topLeft = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords({0, 0}));
-    sf::Vector2i bottomRight = static_cast<sf::Vector2i>(_gameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(_view.getSize())));
-    sf::Vector2i translateView = outsideRect;
-    if (topLeft.x + outsideRect.x < 0)
-        translateView.x = -topLeft.x;
-    else if (bottomRight.x + outsideRect.x > _gameWindow.getSize().x)
-        translateView.x = _gameWindow.getSize().x - bottomRight.x;
+    if (playerLocation.x < viewSize.x / 2) // If camera view is extends past left side of the map.
+    {
+        view.setCenter(sf::Vector2f{viewSize.x / 2, view.getCenter().y});
+    }
+    else if (playerLocation.x + viewSize.x / 2 > mapSize.x) // If camera view is extends past right side of the map.
+    {
+        view.setCenter(sf::Vector2f{mapSize.x - (viewSize.x / 2), view.getCenter().y});
+    }
 
-    if (topLeft.y + outsideRect.y < 0)
-        translateView.y = -topLeft.y;
-    else if (bottomRight.y + outsideRect.y > _gameWindow.getSize().y)
-        translateView.y = _gameWindow.getSize().y - bottomRight.y;
+    if (playerLocation.y < viewSize.y / 2) // If camera view is extends past top side of the map.
+    {
+        view.setCenter(sf::Vector2f{view.getCenter().x, viewSize.y / 2});
+    }
+    else if (playerLocation.y + viewSize.y / 2 > mapSize.y) // If camera view is extends past bottom side of the map.
+    {
+        view.setCenter(sf::Vector2f{view.getCenter().x, mapSize.y - (viewSize.y / 2)});
+    }
 
-    _view.move(static_cast<sf::Vector2f>(translateView));
+    _gameWindow.setView(view);
+}
 
-    _gameWindow.setView(_view);
+void GameManager::drawMap()
+{
+    sf::Texture texture;
+    texture.loadFromFile("assets/textures/temp_floor_128.png");
+    texture.setRepeated(true);
+
+    sf::IntRect rectSourceSprite(0, 0, 1500, 1125);
+    sf::Sprite sprite(texture, rectSourceSprite);
+
+    this->_gameWindow.draw(sprite);
+}
+
+void GameManager::drawHealthHUD()
+{
+    const int lineSize = 2;
+    const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
+    const sf::Vector2f &viewSize = _view.getSize();
+    const sf::Vector2f barOutterSize{100.f, 10.f};
+    const sf::Vector2f barInnerSize{barOutterSize.x * ((float)_player.getHealth() / 100), barOutterSize.y};
+    const sf::Vector2i padding{5 + lineSize, 5 + lineSize};
+    const sf::Vector2f barPosition{viewCenter.x + padding.x - (viewSize.x / 2), viewCenter.y - padding.y - barOutterSize.y + viewSize.y / 2};
+
+    // This is the outside grey/black rectangle.
+    sf::RectangleShape outsideRect(barOutterSize);
+    outsideRect.setPosition(barPosition);
+    outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
+    outsideRect.setOutlineColor(sf::Color::Black);
+    outsideRect.setOutlineThickness(lineSize);
+    _gameWindow.draw(outsideRect);
+
+    // This is the inside red rectangle.
+    sf::RectangleShape insideRect(barInnerSize);
+    insideRect.setPosition(barPosition);
+    insideRect.setFillColor(sf::Color(255, 0, 0, 255));
+    _gameWindow.draw(insideRect);
+}
+
+void GameManager::drawRoundProgressHUD()
+{
+    float enemiesAlive = (float)this->_wave.getEnemiesAlive();
+    float totalEnemies = (float)this->_wave.getEnemies();
+    int currWave = this->_wave.getWave();
+
+    const int lineSize = 2;
+    const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
+    const sf::Vector2f &viewSize = _view.getSize();
+    const sf::Vector2f barOutterSize{100.f, 5.f};
+    const sf::Vector2f barInnerSize{barOutterSize.x * (enemiesAlive / totalEnemies), barOutterSize.y};
+    const sf::Vector2i padding{2 + lineSize, 2 + lineSize};
+    const sf::Vector2f barPosition{viewCenter.x - padding.x - barOutterSize.x / 2, viewCenter.y + padding.y + barOutterSize.y - viewSize.y / 2};
+
+    // This is the outside grey/black rectangle.
+    sf::RectangleShape outsideRect(barOutterSize);
+    outsideRect.setPosition(barPosition);
+    outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
+    outsideRect.setOutlineColor(sf::Color::Black);
+    outsideRect.setOutlineThickness(lineSize);
+    _gameWindow.draw(outsideRect);
+
+    // This is the inside purple rectangle.
+    sf::RectangleShape insideRect(barInnerSize);
+    insideRect.setPosition(barPosition);
+    insideRect.setFillColor(sf::Color(128, 0, 187, 255));
+    _gameWindow.draw(insideRect);
+
+    sf::Text text;
+    sf::Font font;
+
+    if (!font.loadFromFile("fonts/Helvetica.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
+    // Current wave number text
+    text.setFont(font);
+    text.setString(std::to_string(currWave));
+    text.setCharacterSize(lineSize * 2 + barOutterSize.y);
+    text.setFillColor(sf::Color::White);
+    text.setOutlineColor(sf::Color::Black);
+    text.setOutlineThickness(1);
+
+    text.setPosition(sf::Vector2f{barPosition.x - padding.x - (text.getGlobalBounds().left + text.getGlobalBounds().width), barPosition.y + lineSize - (text.getGlobalBounds().top + text.getGlobalBounds().height) / 2});
+    _gameWindow.draw(text);
 }

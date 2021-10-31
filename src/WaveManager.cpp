@@ -11,6 +11,11 @@ WaveManager::WaveManager()
     aliveEnemyCount =0;
 }
 
+void WaveManager::setPlayer(Player &play)
+{
+    _player = &play;
+}
+
 bool WaveManager::waveOver()
 {
     for(int i=0; i<enemyCount; i++)
@@ -23,11 +28,12 @@ bool WaveManager::waveOver()
     return(true);
 }
 
-void WaveManager::beginWave(sf::Vector2<float> player)
+void WaveManager::beginWave()
 {
     currentWave++;
     // For now, waves will progress linearly for simple demonstration sake
     enemyCount = currentWave;
+    aliveEnemyCount = currentWave;
     // Spawn enemies
     Enemy* temp = nullptr;
     for(int i=0; i<enemyCount; i++)
@@ -37,9 +43,9 @@ void WaveManager::beginWave(sf::Vector2<float> player)
         bool loop;
         srand(time(0));
         do {
-            // TODO IN MERGE: change max coords
-            spawn = sf::Vector2<float> (rand()%650, rand()%350);
-            if(spawn==player)
+            spawn = sf::Vector2<float> (rand()%1450, rand()%1125);
+            if(spawn.x-_player->getPosition().x<100&&spawn.x-_player->getPosition().x>-100
+                    &&spawn.y-_player->getPosition().y<100&&spawn.y-_player->getPosition().y>-100)
             {
                 loop = true;
             }
@@ -48,8 +54,8 @@ void WaveManager::beginWave(sf::Vector2<float> player)
                 loop = false;
                 for(int j=0; j<i; j++)
                 {
-                    // TODO MAYBE: change distances here?
-                    if(spawn==enemies.at(j)->getPosition())
+                    if(spawn.x-enemies.at(j)->getPosition().x<30&&spawn.x-enemies.at(j)->getPosition().x>-30
+                            &&spawn.y-enemies.at(j)->getPosition().y<30&&spawn.y-enemies.at(j)->getPosition().y>-30)
                     {
                         loop = true;
                         break;
@@ -58,6 +64,8 @@ void WaveManager::beginWave(sf::Vector2<float> player)
             }
         }while(loop);
         temp->spawn(spawn); 
+        temp->setPlayer(_player);
+        temp->setFriends(enemies);
         enemies.push_back(temp);
     }
 }
@@ -82,6 +90,11 @@ int WaveManager::getEnemies()
     return(enemyCount);
 }
 
+int WaveManager::getEnemiesAlive()
+{
+    return(aliveEnemyCount);
+}
+
 int WaveManager::getEnemiesRemaining()
 {
     int alive = 0;
@@ -95,12 +108,12 @@ int WaveManager::getEnemiesRemaining()
     return(alive);
 }
 
-void WaveManager::updateWaves(sf::Vector2<float> player)
+void WaveManager::updateWaves()
 {
     if(waveOver())
     {
         endWave();
-        beginWave(player);
+        beginWave();
     }
     else {}
 }
@@ -110,13 +123,12 @@ void WaveManager::updateAliveEnemyCount()
     aliveEnemyCount = getEnemiesRemaining();
 }
 
-void WaveManager::updateEnemies(float time, sf::Vector2<float> player)
+void WaveManager::updateEnemies(float time)
 {
     for(int i=0; i<enemyCount; i++)
     {
         if(enemies.at(i)->getIsAlive())
         {
-            enemies.at(i)->updatePlayerLocation(player);
             enemies.at(i)->update(time);
         }
     }
