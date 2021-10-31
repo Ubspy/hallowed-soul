@@ -129,3 +129,8 @@ void Player::counter()
 {
 
 }
+
+void Player::getAttacked(int damage)
+{
+    _health -= damage;
+}

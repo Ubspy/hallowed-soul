@@ -38,6 +38,8 @@ class Player : public Entity
          */
         void counter();
 
+        void getAttacked(int damage);
+
     private:
         // Constants for player movement
         const float _moveSpeed = 350;

@@ -21,6 +21,7 @@ GameManager::GameManager() :
     // but will take up the full size of the RenderWindow. Therefore,
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
+    this->_wave.setPlayer(this->_player);
 }
 
 void GameManager::runGame()

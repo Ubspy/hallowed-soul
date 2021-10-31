@@ -11,6 +11,11 @@ WaveManager::WaveManager()
     aliveEnemyCount =0;
 }
 
+void WaveManager::setPlayer(Player &play)
+{
+    _player = &play;
+}
+
 bool WaveManager::waveOver()
 {
     for(int i=0; i<enemyCount; i++)
@@ -39,7 +44,7 @@ void WaveManager::beginWave(sf::Vector2<float> player)
         srand(time(0));
         do {
             // TODO IN MERGE: change max coords
-            spawn = sf::Vector2<float> (rand()%650, rand()%350);
+            spawn = sf::Vector2<float> (rand()%1450, rand()%1125);
             if(spawn==player)
             {
                 loop = true;
@@ -59,6 +64,7 @@ void WaveManager::beginWave(sf::Vector2<float> player)
             }
         }while(loop);
         temp->spawn(spawn); 
+        temp->setPlayer(_player);
         enemies.push_back(temp);
     }
 }

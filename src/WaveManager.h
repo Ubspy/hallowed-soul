@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Enemy.h"
+#include "Player.h"
 
 class WaveManager
 {
@@ -10,9 +11,11 @@ class WaveManager
         int enemyCount;
         int aliveEnemyCount;
         std::vector<Enemy*> enemies;
+        Player* _player;
     public:
         WaveManager();
 
+        void setPlayer(Player &play);
         bool waveOver();
         void beginWave(sf::Vector2<float> player);
         void endWave();
