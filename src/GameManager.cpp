@@ -131,6 +131,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         case sf::Keyboard::Space:
         {
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
+            break;
         }
         case sf::Keyboard::Backspace:
         {

@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Player.h"
+#include <vector>
 
 class Enemy : public Entity
 {
@@ -10,6 +11,7 @@ class Enemy : public Entity
         float _atkTime;
         bool _attacking;
         Player* _player;
+        std::vector<Enemy*>* friends;
         
     public:
         Enemy();
@@ -56,6 +58,13 @@ class Enemy : public Entity
          * @param playerRef a pointer to the player, as to be sent from WaveManager
          */
         void setPlayer(Player* playerRef);
+
+        /**
+         * @brief establishes pointer to other enemies
+         * 
+         * @param friendRef reference to enemy vector
+         */
+        void setFriends(std::vector<Enemy*>& friendRef);
 
 
         /**

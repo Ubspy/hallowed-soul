@@ -43,9 +43,9 @@ void WaveManager::beginWave()
         bool loop;
         srand(time(0));
         do {
-            // TODO IN MERGE: change max coords
             spawn = sf::Vector2<float> (rand()%1450, rand()%1125);
-            if(spawn==_player->getPosition())
+            if(spawn.x-_player->getPosition().x<100&&spawn.x-_player->getPosition().x>-100
+                    &&spawn.y-_player->getPosition().y<100&&spawn.y-_player->getPosition().y>-100)
             {
                 loop = true;
             }
@@ -54,8 +54,8 @@ void WaveManager::beginWave()
                 loop = false;
                 for(int j=0; j<i; j++)
                 {
-                    // TODO MAYBE: change distances here?
-                    if(spawn==enemies.at(j)->getPosition())
+                    if(spawn.x-enemies.at(j)->getPosition().x<30&&spawn.x-enemies.at(j)->getPosition().x>-30
+                            &&spawn.y-enemies.at(j)->getPosition().y<30&&spawn.y-enemies.at(j)->getPosition().y>-30)
                     {
                         loop = true;
                         break;
@@ -65,6 +65,7 @@ void WaveManager::beginWave()
         }while(loop);
         temp->spawn(spawn); 
         temp->setPlayer(_player);
+        temp->setFriends(enemies);
         enemies.push_back(temp);
     }
 }
