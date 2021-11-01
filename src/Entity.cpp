@@ -17,6 +17,9 @@ Entity::Entity()
     _width = 0;
     _height = 0;
     _health = 100;
+
+    // Entity starts as alive
+    this->_isAlive = true;
 }
 
 const sf::Vector2<float>& Entity::getPosition() const
@@ -64,14 +67,19 @@ void Entity::update(float deltaTime)
     this->onDraw();
 }
 
-void Entity::giveDamage(int damage)
+void Entity::doDamage(int damage)
 {
     this->_health -= damage;
 }
 
+bool Entity::isAlive()
+{
+    return this->_isAlive;
+}
+
 void Entity::kill()
 {
-
+    _isAlive = false;
 }
 
 void Entity::spawn(sf::Vector2<float> spawnLocation)

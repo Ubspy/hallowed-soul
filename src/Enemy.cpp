@@ -3,39 +3,15 @@
 Enemy::Enemy()
 {
     ammo = 0;
-    isAlive = true;
     _position = sf::Vector2<float> (0,0);
     _velocity = sf::Vector2<float>(0, 0);
     _atkTime = 0;
     _attacking = false;
 }
 
-void Enemy::takeDamage(int damage)
-{
-    _health = _health - damage;
-    if(_health<=0)
-    {
-        kill();
-    }
-    else
-    {
-
-    }
-}
-
-int Enemy::getHealth()
-{
-    return _health;
-}
-
 int Enemy::getAmmo()
 {
     return ammo;
-}
-
-bool Enemy::getIsAlive()
-{
-    return isAlive;
 }
 
 void Enemy::spawn(sf::Vector2<float> pos)
@@ -66,7 +42,7 @@ void Enemy::onUpdate(float deltaTime)
         {
             _attacking = false;
             _atkTime = 0;
-            _player->getAttacked(10);
+            _player->doDamage(10);
         }
     }
     else
@@ -77,7 +53,7 @@ void Enemy::onUpdate(float deltaTime)
         {
             if((_position.x-friends->at(i)->getPosition().x<35&&_position.x-friends->at(i)->getPosition().x>-35
                     &&_position.y-friends->at(i)->getPosition().y<35&&_position.y-friends->at(i)->getPosition().y>-35)
-                    &&friends->at(i)!=this&&friends->at(i)->getIsAlive())
+                    &&friends->at(i)!=this&&friends->at(i)->isAlive())
             {
                 if(_position.x-friends->at(i)->getPosition().x<30&&_velocity.x>0)
                 {
@@ -103,11 +79,6 @@ void Enemy::onUpdate(float deltaTime)
             this->_velocity *= deltaTime * 5000;
         }
     }
-}
-
-void Enemy::kill()
-{
-    isAlive = false;
 }
 
 Enemy::~Enemy()

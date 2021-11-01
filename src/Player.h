@@ -49,13 +49,6 @@ class Player : public Entity
         void counter();
 
         /**
-         * @brief updates health upon being attacked
-         * 
-         * @param damage the amount of health to be removed
-         */
-        void getAttacked(int damage);
-
-        /**
          * @brief checks if player is dodging
          * 
          * @return true if dodging

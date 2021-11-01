@@ -37,9 +37,6 @@ void GameManager::runGame()
         // Update the game clock and get the frame time
         sf::Time frameTime = gameClock.restart();
 
-        // This can go anywhere, really
-        this->_wave.updateWaves();
-
         // This is the main game loop, there's a specific order we want to execute our loop in
         // First we need to consider that the only thing that will change our objects is
         // input from the user, so that's the first thing we want to do
@@ -142,10 +139,9 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
             {
                 try
                 {
-                    if(this->_wave.getEnemy(i)->getIsAlive())
+                    if(this->_wave.getEnemy(i)->isAlive())
                     {
                         this->_wave.getEnemy(i)->kill();
-                        this->_wave.updateAliveEnemyCount();
                         break;
                     }
                 }
@@ -184,9 +180,13 @@ void GameManager::checkCollisions()
 
 void GameManager::updateEntities(sf::Time frameTime)
 {
-    this->_player.update(frameTime.asSeconds());
     // TODO: Update other entities
-    this->_wave.updateEnemies(frameTime.asSeconds());
+
+    // Update player
+    this->_player.update(frameTime.asSeconds());
+
+    // Update the enemy wave manager 
+    this->_wave.update(frameTime.asSeconds());
 }
 
 void GameManager::drawFrame()
@@ -207,7 +207,7 @@ void GameManager::drawFrame()
     this->_gameWindow.draw(this->_player.getSprite());
     for(int i=0; i<this->_wave.getEnemies(); i++)
     {
-        if(this->_wave.getEnemy(i)->getIsAlive())
+        if(this->_wave.getEnemy(i)->isAlive())
         {
             this->_gameWindow.draw(this->_wave.getEnemy(i)->getSprite());
         }
@@ -268,12 +268,12 @@ void GameManager::drawMap()
 void GameManager::drawHealthHUD()
 {
     const int lineSize = 2;
-    const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2f &viewSize = _view.getSize();
-    const sf::Vector2f barOutterSize{100.f, 10.f};
-    const sf::Vector2f barInnerSize{barOutterSize.x * ((float)_player.getHealth() / 100), barOutterSize.y};
-    const sf::Vector2i padding{5 + lineSize, 5 + lineSize};
-    const sf::Vector2f barPosition{viewCenter.x + padding.x - (viewSize.x / 2), viewCenter.y - padding.y - barOutterSize.y + viewSize.y / 2};
+    const sf::Vector2<float> viewCenter = _gameWindow.getView().getCenter();
+    const sf::Vector2<float> &viewSize = _view.getSize();
+    const sf::Vector2<float> barOutterSize{100.f, 10.f};
+    const sf::Vector2<float> barInnerSize{barOutterSize.x * ((float)_player.getHealth() / 100), barOutterSize.y};
+    const sf::Vector2<int> padding{5 + lineSize, 5 + lineSize};
+    const sf::Vector2<float> barPosition{viewCenter.x + padding.x - (viewSize.x / 2), viewCenter.y - padding.y - barOutterSize.y + viewSize.y / 2};
 
     // This is the outside grey/black rectangle.
     sf::RectangleShape outsideRect(barOutterSize);
@@ -294,7 +294,7 @@ void GameManager::drawEnemyHealth()
 {
     for(int i=0; i<this->_wave.getEnemies(); i++)
     {
-        if(this->_wave.getEnemy(i)->getIsAlive())
+        if(this->_wave.getEnemy(i)->isAlive())
         {
             _gameWindow.draw(this->_wave.getHealthBarBorder(this->_wave.getEnemy(i)));
             _gameWindow.draw(this->_wave.getHealthBar(this->_wave.getEnemy(i)));
@@ -309,12 +309,12 @@ void GameManager::drawRoundProgressHUD()
     int currWave = this->_wave.getWave();
 
     const int lineSize = 2;
-    const sf::Vector2f viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2f &viewSize = _view.getSize();
-    const sf::Vector2f barOutterSize{100.f, 5.f};
-    const sf::Vector2f barInnerSize{barOutterSize.x * (enemiesAlive / totalEnemies), barOutterSize.y};
-    const sf::Vector2i padding{2 + lineSize, 2 + lineSize};
-    const sf::Vector2f barPosition{viewCenter.x - padding.x - barOutterSize.x / 2, viewCenter.y + padding.y + barOutterSize.y - viewSize.y / 2};
+    const sf::Vector2<float> viewCenter = _gameWindow.getView().getCenter();
+    const sf::Vector2<float> &viewSize = _view.getSize();
+    const sf::Vector2<float> barOutterSize{100.f, 5.f};
+    const sf::Vector2<float> barInnerSize{barOutterSize.x * (enemiesAlive / totalEnemies), barOutterSize.y};
+    const sf::Vector2<int> padding{2 + lineSize, 2 + lineSize};
+    const sf::Vector2<float> barPosition{viewCenter.x - padding.x - barOutterSize.x / 2, viewCenter.y + padding.y + barOutterSize.y - viewSize.y / 2};
 
     // This is the outside grey/black rectangle.
     sf::RectangleShape outsideRect(barOutterSize);
@@ -364,7 +364,7 @@ Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
         Enemy* currentEnemy = enemies.at(i);
 
         // Skip this loop is enemy is dead
-        if(!currentEnemy->getIsAlive())
+        if(!currentEnemy->isAlive())
             continue;
 
         // First thing we want to do is get the closest point on the entity we're checking to our current point

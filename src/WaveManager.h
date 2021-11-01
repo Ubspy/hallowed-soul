@@ -17,6 +17,7 @@ class WaveManager
         int aliveEnemyCount;
         std::vector<Enemy*> enemies;
         Player* _player;
+
     public:
         /** WaveManager constructor */
         WaveManager();
@@ -74,10 +75,11 @@ class WaveManager
         int getEnemiesRemaining();
 
         /**
-         * @brief if the current wave is over, ends it and begins anew
-         *  calls waveOver, endWave, and beginWave
+         * @brief Updates the status of the enemies, and the current wave 
+         *
+         * @param deltaTime The time between the last update and this one (in seconds)
          */
-        void updateWaves();
+        void update(float deltaTime);
 
         /**
          * @brief updates alive enemies member variable

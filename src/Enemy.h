@@ -11,7 +11,6 @@ class Enemy : public Entity
 {
     private:
         int ammo;
-        bool isAlive;
         float _atkTime;
         bool _attacking;
         Player* _player;
@@ -26,13 +25,6 @@ class Enemy : public Entity
          * @param damage amount to remove from health
          */
         void takeDamage(int damage);
-
-        /**
-         * @brief get current health
-         * 
-         * @return health
-         */
-        int getHealth();
 
         /**
          * @brief get current ammo
@@ -82,13 +74,6 @@ class Enemy : public Entity
          * @brief does nothing, exists for pure virtual override
          */
         void onCollision(Entity &hitEntity) {}
-
-
-        /**
-         * @brief kills enemy
-         */
-        void kill();
-        
 
         ~Enemy();
 };

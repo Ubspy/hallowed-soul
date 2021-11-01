@@ -85,7 +85,14 @@ class Entity
          *
          * @param damage The amount of damage to do
          */
-        void giveDamage(int damage);
+        void doDamage(int damage);
+
+        /**
+         * @brief Getter for is entity is alive
+         *
+         * @return If entity is alive 
+         */
+        bool isAlive();
 
         /// Interface methods with a default implementation, can be overridden
 
@@ -150,6 +157,9 @@ class Entity
         /** Health of this entity */
         int _health;
 
+        /* If the entity is alive or not */
+        bool _isAlive;
+
         /** The texture that this entity uses.
          * 
          * To give your subclass an image, set this in the constructor like so:
@@ -160,7 +170,6 @@ class Entity
          * The texture could potentially be a spritesheet with multiple frames of an animation, 
          * or could be just one drawing.
          */
-        
         sf::Texture _texture;
 
         /** The sprite that this entity uses.

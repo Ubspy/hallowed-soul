@@ -21,7 +21,7 @@ bool WaveManager::waveOver()
 {
     for(int i=0; i<enemyCount; i++)
     {
-        if(enemies.at(i)->getIsAlive())
+        if(enemies.at(i)->isAlive())
         {
             return(false);
         }
@@ -101,7 +101,7 @@ int WaveManager::getEnemiesRemaining()
     int alive = 0;
     for(int i=0; i<enemyCount; i++)
     {
-        if(enemies.at(i)->getIsAlive())
+        if(enemies.at(i)->isAlive())
         {
             alive++;
         }
@@ -109,37 +109,33 @@ int WaveManager::getEnemiesRemaining()
     return(alive);
 }
 
-void WaveManager::updateWaves()
+void WaveManager::update(float deltaTime)
 {
+    // Update wave if the current wave is over
     if(waveOver())
     {
         endWave();
         beginWave();
     }
-    else {}
-}
 
-void WaveManager::updateAliveEnemyCount()
-{
-    aliveEnemyCount = getEnemiesRemaining();
-}
-
-void WaveManager::updateEnemies(float time)
-{
+    // Update all our enemy objects
     for(int i=0; i<enemyCount; i++)
     {
-        if(enemies.at(i)->getIsAlive())
+        if(enemies.at(i)->isAlive())
         {
-            enemies.at(i)->update(time);
+            enemies.at(i)->update(deltaTime);
         }
     }
+
+    // Update the alive enemy count
+    aliveEnemyCount = getEnemiesRemaining();
 }
 
 void WaveManager::waveDraw()
 {
     for(int i=0; i<enemyCount; i++)
     {
-        if(enemies.at(i)->getIsAlive())
+        if(enemies.at(i)->isAlive())
         {
             enemies.at(i)->onDraw();
         }
@@ -148,8 +144,8 @@ void WaveManager::waveDraw()
 
 sf::RectangleShape WaveManager::getHealthBarBorder(Enemy* e)
 {
-    const sf::Vector2f barOutterSize{50.f, 5.f};
-    const sf::Vector2f barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    const sf::Vector2<float> barOutterSize{50.f, 5.f};
+    const sf::Vector2<float> barPosition{(e->_position.x)-23, (e->_position.y)-30};
     sf::RectangleShape outsideRect(barOutterSize);
     outsideRect.setPosition(barPosition);
     outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
@@ -161,9 +157,9 @@ sf::RectangleShape WaveManager::getHealthBarBorder(Enemy* e)
 
 sf::RectangleShape WaveManager::getHealthBar(Enemy* e)
 {
-    const sf::Vector2f barOutterSize{50.f, 5.f};
-    const sf::Vector2f barInnerSize{barOutterSize.x * ((float)e->getHealth() / 100), barOutterSize.y};
-    const sf::Vector2f barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    const sf::Vector2<float> barOutterSize{50.f, 5.f};
+    const sf::Vector2<float> barInnerSize{barOutterSize.x * ((float)e->getHealth() / 100.0f), barOutterSize.y};
+    const sf::Vector2<float> barPosition{(e->_position.x)-23, (e->_position.y)-30};
     sf::RectangleShape insideRect(barInnerSize);
     insideRect.setPosition(barPosition);
     insideRect.setFillColor(sf::Color(255, 0, 0, 255));

@@ -127,16 +127,12 @@ sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
 void Player::attack(Entity* toAttack)
 {
     // TODO: Change this
-    toAttack->giveDamage(100);
+    toAttack->doDamage(40);
 }
 
 void Player::counter()
 {
-}
-
-void Player::getAttacked(int damage)
-{
-    _health -= damage;
+    
 }
 
 bool Player::isDodging()
