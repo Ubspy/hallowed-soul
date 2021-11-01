@@ -1,0 +1,185 @@
+\hypertarget{class_enemy}{}\doxysection{Enemy Class Reference}
+\label{class_enemy}\index{Enemy@{Enemy}}
+
+
+{\ttfamily \#include $<$Enemy.\+h$>$}
+
+Inheritance diagram for Enemy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_enemy}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_enemy_ae01c62a474fbcd547000ff1068976d49}{take\+Damage}} (int damage)
+\begin{DoxyCompactList}\small\item\em changes enemy health amount \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_enemy_a174811c422d9cb491845d3dd6a4215d8}{get\+Ammo}} ()
+\begin{DoxyCompactList}\small\item\em get current ammo note\+: ammo not currently in use \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_enemy_a4deeb25f9d678adfee645c25b300309b}{get\+Is\+Alive}} ()
+\begin{DoxyCompactList}\small\item\em get if the enemy is alive \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_enemy_a875a1e7b6e595165f3600e1929f4182c}{spawn}} (sf\+::\+Vector2$<$ float $>$ pos)
+\begin{DoxyCompactList}\small\item\em sets position to chosen location \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_enemy_af95d8a33e1f1a5be9f9c36e400013161}{set\+Player}} (\mbox{\hyperlink{class_player}{Player}} $\ast$player\+Ref)
+\begin{DoxyCompactList}\small\item\em establishes player pointer \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_enemy_ad9f1ccac5aaf2536b37c049ef54abce9}{set\+Friends}} (std\+::vector$<$ \mbox{\hyperlink{class_enemy}{Enemy}} $\ast$ $>$ \&friend\+Ref)
+\begin{DoxyCompactList}\small\item\em establishes pointer to other enemies \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_enemy_abc8c4fbe9e8e78885ac9bf33a9923029}{on\+Update}} (float delta\+Time)
+\begin{DoxyCompactList}\small\item\em basic AI structure, determines movement/attacks \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_enemy_ab3d0a8e5e9254a0c003358fa363313f4}{on\+Collision}} (\mbox{\hyperlink{class_entity}{Entity}} \&hit\+Entity)
+\begin{DoxyCompactList}\small\item\em does nothing, exists for pure virtual override \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_enemy_aa177bcd158893703ddf0b1d9a2f02093}\label{class_enemy_aa177bcd158893703ddf0b1d9a2f02093}} 
+int {\bfseries ammo}
+\item 
+\mbox{\Hypertarget{class_enemy_a2334ddf66f07d7f4fa0fb1c51c0d75e7}\label{class_enemy_a2334ddf66f07d7f4fa0fb1c51c0d75e7}} 
+float {\bfseries \+\_\+atk\+Time}
+\item 
+\mbox{\Hypertarget{class_enemy_a6e6a60f9b8cdec51bb8fa2624eadab4c}\label{class_enemy_a6e6a60f9b8cdec51bb8fa2624eadab4c}} 
+bool {\bfseries \+\_\+attacking}
+\item 
+\mbox{\Hypertarget{class_enemy_a5774e85c3a450191e5862a4c143f34f2}\label{class_enemy_a5774e85c3a450191e5862a4c143f34f2}} 
+\mbox{\hyperlink{class_player}{Player}} $\ast$ {\bfseries \+\_\+player}
+\item 
+\mbox{\Hypertarget{class_enemy_a04f56cbdcd0862e77894d4d220fe342b}\label{class_enemy_a04f56cbdcd0862e77894d4d220fe342b}} 
+std\+::vector$<$ \mbox{\hyperlink{class_enemy}{Enemy}} $\ast$ $>$ $\ast$ {\bfseries friends}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_enemy}{Enemy}} class 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_enemy_a174811c422d9cb491845d3dd6a4215d8}\label{class_enemy_a174811c422d9cb491845d3dd6a4215d8}} 
+\index{Enemy@{Enemy}!getAmmo@{getAmmo}}
+\index{getAmmo@{getAmmo}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getAmmo()}{getAmmo()}}
+{\footnotesize\ttfamily int Enemy\+::get\+Ammo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get current ammo note\+: ammo not currently in use 
+
+\begin{DoxyReturn}{Returns}
+ammo 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_enemy_a4deeb25f9d678adfee645c25b300309b}\label{class_enemy_a4deeb25f9d678adfee645c25b300309b}} 
+\index{Enemy@{Enemy}!getIsAlive@{getIsAlive}}
+\index{getIsAlive@{getIsAlive}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getIsAlive()}{getIsAlive()}}
+{\footnotesize\ttfamily bool Enemy\+::get\+Is\+Alive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get if the enemy is alive 
+
+\begin{DoxyReturn}{Returns}
+true if alive 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_enemy_ab3d0a8e5e9254a0c003358fa363313f4}\label{class_enemy_ab3d0a8e5e9254a0c003358fa363313f4}} 
+\index{Enemy@{Enemy}!onCollision@{onCollision}}
+\index{onCollision@{onCollision}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{onCollision()}{onCollision()}}
+{\footnotesize\ttfamily void Enemy\+::on\+Collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_entity}{Entity}} \&}]{hit\+Entity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+does nothing, exists for pure virtual override 
+
+
+
+Implements \mbox{\hyperlink{class_entity_ab61623f60c5a7c04deaf0dcb2d1f97de}{Entity}}.
+
+\mbox{\Hypertarget{class_enemy_abc8c4fbe9e8e78885ac9bf33a9923029}\label{class_enemy_abc8c4fbe9e8e78885ac9bf33a9923029}} 
+\index{Enemy@{Enemy}!onUpdate@{onUpdate}}
+\index{onUpdate@{onUpdate}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{onUpdate()}{onUpdate()}}
+{\footnotesize\ttfamily void Enemy\+::on\+Update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+basic AI structure, determines movement/attacks 
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & time since last frame \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}{Entity}}.
+
+\mbox{\Hypertarget{class_enemy_ad9f1ccac5aaf2536b37c049ef54abce9}\label{class_enemy_ad9f1ccac5aaf2536b37c049ef54abce9}} 
+\index{Enemy@{Enemy}!setFriends@{setFriends}}
+\index{setFriends@{setFriends}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{setFriends()}{setFriends()}}
+{\footnotesize\ttfamily void Enemy\+::set\+Friends (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{class_enemy}{Enemy}} $\ast$ $>$ \&}]{friend\+Ref }\end{DoxyParamCaption})}
+
+
+
+establishes pointer to other enemies 
+
+
+\begin{DoxyParams}{Parameters}
+{\em friend\+Ref} & reference to enemy vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_enemy_af95d8a33e1f1a5be9f9c36e400013161}\label{class_enemy_af95d8a33e1f1a5be9f9c36e400013161}} 
+\index{Enemy@{Enemy}!setPlayer@{setPlayer}}
+\index{setPlayer@{setPlayer}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{setPlayer()}{setPlayer()}}
+{\footnotesize\ttfamily void Enemy\+::set\+Player (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player}{Player}} $\ast$}]{player\+Ref }\end{DoxyParamCaption})}
+
+
+
+establishes player pointer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Ref} & a pointer to the player, as to be sent from \mbox{\hyperlink{class_wave_manager}{Wave\+Manager}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_enemy_a875a1e7b6e595165f3600e1929f4182c}\label{class_enemy_a875a1e7b6e595165f3600e1929f4182c}} 
+\index{Enemy@{Enemy}!spawn@{spawn}}
+\index{spawn@{spawn}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{spawn()}{spawn()}}
+{\footnotesize\ttfamily void Enemy\+::spawn (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2$<$ float $>$}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+sets position to chosen location 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & the position chosen to spawn at \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{class_entity_a8eafe7d5ebb62407ee5f266518a35292}{Entity}}.
+
+\mbox{\Hypertarget{class_enemy_ae01c62a474fbcd547000ff1068976d49}\label{class_enemy_ae01c62a474fbcd547000ff1068976d49}} 
+\index{Enemy@{Enemy}!takeDamage@{takeDamage}}
+\index{takeDamage@{takeDamage}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{takeDamage()}{takeDamage()}}
+{\footnotesize\ttfamily void Enemy\+::take\+Damage (\begin{DoxyParamCaption}\item[{int}]{damage }\end{DoxyParamCaption})}
+
+
+
+changes enemy health amount 
+
+
+\begin{DoxyParams}{Parameters}
+{\em damage} & amount to remove from health \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/Enemy.\+h\item 
+src/Enemy.\+cpp\end{DoxyCompactItemize}

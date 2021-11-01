@@ -1,0 +1,343 @@
+\hypertarget{class_entity}{}\doxysection{Entity Class Reference}
+\label{class_entity}\index{Entity@{Entity}}
+
+
+{\ttfamily \#include $<$Entity.\+h$>$}
+
+Inheritance diagram for Entity\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_entity}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const sf\+::\+Vector2$<$ float $>$ \& \mbox{\hyperlink{class_entity_aeabe846158ff4641d21ffe1d572e5487}{get\+Position}} () const
+\begin{DoxyCompactList}\small\item\em Getters and Setters. \end{DoxyCompactList}\item 
+const sf\+::\+Vector2$<$ float $>$ \& \mbox{\hyperlink{class_entity_a7d1238384a4353e0f5df908726c9bc3e}{get\+Velocity}} () const
+\begin{DoxyCompactList}\small\item\em Getter for entity velocity. \end{DoxyCompactList}\item 
+const sf\+::\+Sprite \& \mbox{\hyperlink{class_entity_aece77e1e86fae668e67a57ee7ccce265}{get\+Sprite}} () const
+\begin{DoxyCompactList}\small\item\em Getter for entity active sprite. \end{DoxyCompactList}\item 
+const int \& \mbox{\hyperlink{class_entity_ae170fce9596c2e20aa0ec3029b94c349}{get\+Width}} () const
+\begin{DoxyCompactList}\small\item\em Getter for entity width. \end{DoxyCompactList}\item 
+const int \& \mbox{\hyperlink{class_entity_a4422208756dd881274aaec619870776a}{get\+Height}} () const
+\begin{DoxyCompactList}\small\item\em Getter for entity height. \end{DoxyCompactList}\item 
+const int \& \mbox{\hyperlink{class_entity_ac44988c8df8d396eb23d8215e2f26046}{get\+Health}} () const
+\begin{DoxyCompactList}\small\item\em Getter for entity health. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_a205443d87b309a074a6088b6e148f2a2}{update}} (float delta\+Time)
+\begin{DoxyCompactList}\small\item\em Main function to update an entity. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_a3eb4bd5f0f6698ed9632004ef0d170ba}{do\+Damage}} (int damage)
+\begin{DoxyCompactList}\small\item\em Will tell this entity to lower it\textquotesingle{}s health. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_entity_ab0986ba7a1b24f022b5623781050c0f1}{is\+Alive}} ()
+\begin{DoxyCompactList}\small\item\em Getter for is entity is alive. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_entity_a8eafe7d5ebb62407ee5f266518a35292}{spawn}} (sf\+::\+Vector2$<$ float $>$ spawn\+Location)
+\begin{DoxyCompactList}\small\item\em Interface methods with a default implementation, can be overridden. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_entity_a522648b330daab91b49f78f0737a943f}\label{class_entity_a522648b330daab91b49f78f0737a943f}} 
+virtual void {\bfseries kill} ()
+\begin{DoxyCompactList}\small\item\em Kills the entity, stops it from being rendered on the scene and affecting collisions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_entity_a820404587abe78b6383d829348efbe2b}\label{class_entity_a820404587abe78b6383d829348efbe2b}} 
+virtual void {\bfseries on\+Draw} ()
+\begin{DoxyCompactList}\small\item\em Called from update, change the active sprite to draw to the scene, and set up current sprite for rendering. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}{on\+Update}} (float delta\+Time)=0
+\begin{DoxyCompactList}\small\item\em Interface methods that must be overridden. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_entity_ab61623f60c5a7c04deaf0dcb2d1f97de}{on\+Collision}} (\mbox{\hyperlink{class_entity}{Entity}} \&hit\+Entity)=0
+\begin{DoxyCompactList}\small\item\em Called from the game manager after a collision with another entity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2$<$ float $>$ \mbox{\hyperlink{class_entity_aacc64bc5f7b1d3c24a78e1a492591ca6}{\+\_\+position}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2$<$ float $>$ \mbox{\hyperlink{class_entity_a2272f04c6e19fb9aa55c0e8c41217e67}{\+\_\+velocity}}
+\item 
+int \mbox{\hyperlink{class_entity_a358f7a5e65c03415b36cc612c36e6f47}{\+\_\+width}}
+\item 
+int \mbox{\hyperlink{class_entity_a161dc9b3d8e2b47c59e661dd2000cbf7}{\+\_\+height}}
+\item 
+int \mbox{\hyperlink{class_entity_a5d9f213ef26f1e09ebff7fcb46634b97}{\+\_\+health}}
+\item 
+\mbox{\Hypertarget{class_entity_aacf8a96c8862a9a78707cc840e3cdd6b}\label{class_entity_aacf8a96c8862a9a78707cc840e3cdd6b}} 
+bool {\bfseries \+\_\+is\+Alive}
+\item 
+sf\+::\+Texture \mbox{\hyperlink{class_entity_a8e409f1b737a84cd895e42e4ec8c28bc}{\+\_\+texture}}
+\item 
+sf\+::\+Sprite \mbox{\hyperlink{class_entity_a040bd9d02a9c5d0c7f07348bc15cc0a3}{\+\_\+sprite}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract base class which entities are based off of.
+
+Entities are generally anything that can have a sprite and/or a position.
+
+To make your subclass of \mbox{\hyperlink{class_entity}{Entity}} visible on the screen, you need to do the following\+:
+
+
+\begin{DoxyEnumerate}
+\item set \+\_\+texture
+\item set \+\_\+sprite
+\item Somewhere in the main game loop where drawing happens, call your subclass\textquotesingle{}s \mbox{\hyperlink{class_entity_a820404587abe78b6383d829348efbe2b}{on\+Draw()}} method and draw() the entity\textquotesingle{}s sprite to the screen.
+\end{DoxyEnumerate}
+
+Updating position is handled by \mbox{\hyperlink{class_entity_a205443d87b309a074a6088b6e148f2a2}{update()}}. Position is set based on the value of \+\_\+velocity. You can set \+\_\+position or \+\_\+velocity in \mbox{\hyperlink{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}{on\+Update()}} to define the movement behavior of your \mbox{\hyperlink{class_entity}{Entity}}. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_entity_a3eb4bd5f0f6698ed9632004ef0d170ba}\label{class_entity_a3eb4bd5f0f6698ed9632004ef0d170ba}} 
+\index{Entity@{Entity}!doDamage@{doDamage}}
+\index{doDamage@{doDamage}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{doDamage()}{doDamage()}}
+{\footnotesize\ttfamily void Entity\+::do\+Damage (\begin{DoxyParamCaption}\item[{int}]{damage }\end{DoxyParamCaption})}
+
+
+
+Will tell this entity to lower it\textquotesingle{}s health. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em damage} & The amount of damage to do \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_entity_ac44988c8df8d396eb23d8215e2f26046}\label{class_entity_ac44988c8df8d396eb23d8215e2f26046}} 
+\index{Entity@{Entity}!getHealth@{getHealth}}
+\index{getHealth@{getHealth}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getHealth()}{getHealth()}}
+{\footnotesize\ttfamily const int \& Entity\+::get\+Health (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for entity health. 
+
+\begin{DoxyReturn}{Returns}
+Health of entity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_a4422208756dd881274aaec619870776a}\label{class_entity_a4422208756dd881274aaec619870776a}} 
+\index{Entity@{Entity}!getHeight@{getHeight}}
+\index{getHeight@{getHeight}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getHeight()}{getHeight()}}
+{\footnotesize\ttfamily const int \& Entity\+::get\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for entity height. 
+
+\begin{DoxyReturn}{Returns}
+Height of entity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_aeabe846158ff4641d21ffe1d572e5487}\label{class_entity_aeabe846158ff4641d21ffe1d572e5487}} 
+\index{Entity@{Entity}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily const sf\+::\+Vector2$<$ float $>$ \& Entity\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getters and Setters. 
+
+Getter for entity position
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_entity}{Entity}}\textquotesingle{}s position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_aece77e1e86fae668e67a57ee7ccce265}\label{class_entity_aece77e1e86fae668e67a57ee7ccce265}} 
+\index{Entity@{Entity}!getSprite@{getSprite}}
+\index{getSprite@{getSprite}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getSprite()}{getSprite()}}
+{\footnotesize\ttfamily const sf\+::\+Sprite \& Entity\+::get\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for entity active sprite. 
+
+\begin{DoxyReturn}{Returns}
+Sprite to render to window for this entity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_a7d1238384a4353e0f5df908726c9bc3e}\label{class_entity_a7d1238384a4353e0f5df908726c9bc3e}} 
+\index{Entity@{Entity}!getVelocity@{getVelocity}}
+\index{getVelocity@{getVelocity}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getVelocity()}{getVelocity()}}
+{\footnotesize\ttfamily const sf\+::\+Vector2$<$ float $>$ \& Entity\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for entity velocity. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_entity}{Entity}}\textquotesingle{}s velocity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_ae170fce9596c2e20aa0ec3029b94c349}\label{class_entity_ae170fce9596c2e20aa0ec3029b94c349}} 
+\index{Entity@{Entity}!getWidth@{getWidth}}
+\index{getWidth@{getWidth}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{getWidth()}{getWidth()}}
+{\footnotesize\ttfamily const int \& Entity\+::get\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for entity width. 
+
+\begin{DoxyReturn}{Returns}
+Width of entity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_ab0986ba7a1b24f022b5623781050c0f1}\label{class_entity_ab0986ba7a1b24f022b5623781050c0f1}} 
+\index{Entity@{Entity}!isAlive@{isAlive}}
+\index{isAlive@{isAlive}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{isAlive()}{isAlive()}}
+{\footnotesize\ttfamily bool Entity\+::is\+Alive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Getter for is entity is alive. 
+
+\begin{DoxyReturn}{Returns}
+If entity is alive 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_entity_ab61623f60c5a7c04deaf0dcb2d1f97de}\label{class_entity_ab61623f60c5a7c04deaf0dcb2d1f97de}} 
+\index{Entity@{Entity}!onCollision@{onCollision}}
+\index{onCollision@{onCollision}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{onCollision()}{onCollision()}}
+{\footnotesize\ttfamily void Entity\+::on\+Collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_entity}{Entity}} \&}]{hit\+Entity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Called from the game manager after a collision with another entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hit\+Entity} & The other entity this one collider with \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_enemy_ab3d0a8e5e9254a0c003358fa363313f4}{Enemy}}, and \mbox{\hyperlink{class_player_a91567245da0d74ae16791c230decb4e4}{Player}}.
+
+\mbox{\Hypertarget{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}\label{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}} 
+\index{Entity@{Entity}!onUpdate@{onUpdate}}
+\index{onUpdate@{onUpdate}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{onUpdate()}{onUpdate()}}
+{\footnotesize\ttfamily virtual void Entity\+::on\+Update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Interface methods that must be overridden. 
+
+Called from update, the overridable function for specific entities to change their members based off user input
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & The time between this update and the last one \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_enemy_abc8c4fbe9e8e78885ac9bf33a9923029}{Enemy}}, and \mbox{\hyperlink{class_player_a464755533654054313735283c44747dd}{Player}}.
+
+\mbox{\Hypertarget{class_entity_a8eafe7d5ebb62407ee5f266518a35292}\label{class_entity_a8eafe7d5ebb62407ee5f266518a35292}} 
+\index{Entity@{Entity}!spawn@{spawn}}
+\index{spawn@{spawn}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{spawn()}{spawn()}}
+{\footnotesize\ttfamily void Entity\+::spawn (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2$<$ float $>$}]{spawn\+Location }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Interface methods with a default implementation, can be overridden. 
+
+Spawns the entity in at a given location
+
+
+\begin{DoxyParams}{Parameters}
+{\em spawn\+Location} & The location to spawn the entity at \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \mbox{\hyperlink{class_enemy_a875a1e7b6e595165f3600e1929f4182c}{Enemy}}.
+
+\mbox{\Hypertarget{class_entity_a205443d87b309a074a6088b6e148f2a2}\label{class_entity_a205443d87b309a074a6088b6e148f2a2}} 
+\index{Entity@{Entity}!update@{update}}
+\index{update@{update}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Entity\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})}
+
+
+
+Main function to update an entity. 
+
+Called from \mbox{\hyperlink{class_game_manager}{Game\+Manager}}, will update the entity based off user input
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & the time between this update and the previous update \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_entity_a5d9f213ef26f1e09ebff7fcb46634b97}\label{class_entity_a5d9f213ef26f1e09ebff7fcb46634b97}} 
+\index{Entity@{Entity}!\_health@{\_health}}
+\index{\_health@{\_health}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_health}{\_health}}
+{\footnotesize\ttfamily int Entity\+::\+\_\+health\hspace{0.3cm}{\ttfamily [protected]}}
+
+Health of this entity \mbox{\Hypertarget{class_entity_a161dc9b3d8e2b47c59e661dd2000cbf7}\label{class_entity_a161dc9b3d8e2b47c59e661dd2000cbf7}} 
+\index{Entity@{Entity}!\_height@{\_height}}
+\index{\_height@{\_height}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_height}{\_height}}
+{\footnotesize\ttfamily int Entity\+::\+\_\+height\hspace{0.3cm}{\ttfamily [protected]}}
+
+Height of this entity \mbox{\Hypertarget{class_entity_aacc64bc5f7b1d3c24a78e1a492591ca6}\label{class_entity_aacc64bc5f7b1d3c24a78e1a492591ca6}} 
+\index{Entity@{Entity}!\_position@{\_position}}
+\index{\_position@{\_position}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_position}{\_position}}
+{\footnotesize\ttfamily sf\+::\+Vector2$<$float$>$ Entity\+::\+\_\+position}
+
+Vector for position in world coordinates.
+
+Modify this to reposition the entity in the world. \mbox{\Hypertarget{class_entity_a040bd9d02a9c5d0c7f07348bc15cc0a3}\label{class_entity_a040bd9d02a9c5d0c7f07348bc15cc0a3}} 
+\index{Entity@{Entity}!\_sprite@{\_sprite}}
+\index{\_sprite@{\_sprite}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_sprite}{\_sprite}}
+{\footnotesize\ttfamily sf\+::\+Sprite Entity\+::\+\_\+sprite\hspace{0.3cm}{\ttfamily [protected]}}
+
+The sprite that this entity uses.
+
+The active sprite adds a rectangle around a texture, defining the region of the texture that we actually want to display.
+
+To give your subclass a sprite, do something like the following in the constructor after giving your subclass a texture\+: \begin{DoxyVerb}// You've already set _texture, now set _sprite
+_sprite.setTexture(_texture);
+// set your rectangle, origin, etc. See docs on sf::Sprite.
+// Here's an example:
+_sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
+\end{DoxyVerb}
+ One use case of this is animation; you could use one texture to store all the frames of an animation and update the sprite to change which part of the texture it renders when you want to show a different animation frame. \mbox{\Hypertarget{class_entity_a8e409f1b737a84cd895e42e4ec8c28bc}\label{class_entity_a8e409f1b737a84cd895e42e4ec8c28bc}} 
+\index{Entity@{Entity}!\_texture@{\_texture}}
+\index{\_texture@{\_texture}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_texture}{\_texture}}
+{\footnotesize\ttfamily sf\+::\+Texture Entity\+::\+\_\+texture\hspace{0.3cm}{\ttfamily [protected]}}
+
+The texture that this entity uses.
+
+To give your subclass an image, set this in the constructor like so\+: \begin{DoxyVerb}_texture.loadFromFile("path/to/image.png");
+// set the sprite, see _sprite
+\end{DoxyVerb}
+ The texture could potentially be a spritesheet with multiple frames of an animation, or could be just one drawing. \mbox{\Hypertarget{class_entity_a2272f04c6e19fb9aa55c0e8c41217e67}\label{class_entity_a2272f04c6e19fb9aa55c0e8c41217e67}} 
+\index{Entity@{Entity}!\_velocity@{\_velocity}}
+\index{\_velocity@{\_velocity}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_velocity}{\_velocity}}
+{\footnotesize\ttfamily sf\+::\+Vector2$<$float$>$ Entity\+::\+\_\+velocity\hspace{0.3cm}{\ttfamily [protected]}}
+
+Vector for velocity.
+
+Modify this to give the entity a new velocity. \mbox{\Hypertarget{class_entity_a358f7a5e65c03415b36cc612c36e6f47}\label{class_entity_a358f7a5e65c03415b36cc612c36e6f47}} 
+\index{Entity@{Entity}!\_width@{\_width}}
+\index{\_width@{\_width}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{\_width}{\_width}}
+{\footnotesize\ttfamily int Entity\+::\+\_\+width\hspace{0.3cm}{\ttfamily [protected]}}
+
+Width of this entity 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/Entity.\+h\item 
+src/Entity.\+cpp\end{DoxyCompactItemize}
