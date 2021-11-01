@@ -45,6 +45,12 @@ void GameManager::runGame()
         // Once input is handled, we now want to update all of our objects
         updateEntities(frameTime);
 
+        if(!this->_player.isAlive())
+        {
+            printf("YOU DIED!!!!!\n");
+            this->_currentState = GameState::exiting;
+        }
+
         // Next step is to check the collisions on all of our entities
         checkCollisions();
 
