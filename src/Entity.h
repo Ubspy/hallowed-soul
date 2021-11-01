@@ -125,17 +125,20 @@ class Entity
          */
         virtual void onCollision(Entity &hitEntity) = 0;  
 
-    protected:
         /** Vector for position in world coordinates.
          * 
          * Modify this to reposition the entity in the world.
          */
+        
         sf::Vector2<float> _position;
+
+    protected:
 
         /** Vector for velocity. 
          * 
          * Modify this to give the entity a new velocity.
          */
+        // Vectors for position and velocity
         sf::Vector2<float> _velocity;
 
         /** Width of this entity */

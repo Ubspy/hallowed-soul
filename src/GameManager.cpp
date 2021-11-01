@@ -216,6 +216,7 @@ void GameManager::drawFrame()
 
     // Draw the HUD over most things
     drawHealthHUD();
+    drawEnemyHealth();
     drawRoundProgressHUD();
 
     // Finally, display the window
@@ -287,6 +288,18 @@ void GameManager::drawHealthHUD()
     insideRect.setPosition(barPosition);
     insideRect.setFillColor(sf::Color(255, 0, 0, 255));
     _gameWindow.draw(insideRect);
+}
+
+void GameManager::drawEnemyHealth()
+{
+    for(int i=0; i<this->_wave.getEnemies(); i++)
+    {
+        if(this->_wave.getEnemy(i)->getIsAlive())
+        {
+            _gameWindow.draw(this->_wave.getHealthBarBorder(this->_wave.getEnemy(i)));
+            _gameWindow.draw(this->_wave.getHealthBar(this->_wave.getEnemy(i)));
+        }
+    }
 }
 
 void GameManager::drawRoundProgressHUD()

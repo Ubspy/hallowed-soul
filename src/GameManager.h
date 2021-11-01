@@ -118,6 +118,8 @@ class GameManager
          */
         void drawHealthHUD();
 
+        void drawEnemyHealth();
+
         /**
          * @brief Called from drawFrame(),
          *  Draw a heads up display on the current round information

@@ -146,6 +146,31 @@ void WaveManager::waveDraw()
     }
 }
 
+sf::RectangleShape WaveManager::getHealthBarBorder(Enemy* e)
+{
+    const sf::Vector2f barOutterSize{50.f, 5.f};
+    const sf::Vector2f barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    sf::RectangleShape outsideRect(barOutterSize);
+    outsideRect.setPosition(barPosition);
+    outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
+    outsideRect.setOutlineColor(sf::Color::Black);
+    outsideRect.setOutlineThickness(2);
+    return outsideRect;
+
+}
+
+sf::RectangleShape WaveManager::getHealthBar(Enemy* e)
+{
+    const sf::Vector2f barOutterSize{50.f, 5.f};
+    const sf::Vector2f barInnerSize{barOutterSize.x * ((float)e->getHealth() / 100), barOutterSize.y};
+    const sf::Vector2f barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    sf::RectangleShape insideRect(barInnerSize);
+    insideRect.setPosition(barPosition);
+    insideRect.setFillColor(sf::Color(255, 0, 0, 255));
+    return insideRect;
+}
+
+
 Enemy* WaveManager::getEnemy(int n)
 {
     // Blah blah not how blah blah no enemies blah blah
