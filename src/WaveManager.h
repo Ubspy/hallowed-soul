@@ -97,6 +97,10 @@ class WaveManager
          */
         void waveDraw();
 
+        sf::RectangleShape getHealthBarBorder(Enemy* e);
+
+        sf::RectangleShape getHealthBar(Enemy* e);
+
         /**
          * @brief fetches enemy at requested position
          * 
