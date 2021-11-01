@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "GameManager.h"
 #include "WaveManager.h"
 
 /** Enum representing the game state. */
@@ -39,7 +40,7 @@ class GameManager
          */
         void runGame();
 
-        const Entity* rayCast(Entity &source, sf::Vector2<float> &rayDir);
+        Entity* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
         /** The window we are displaying in */

@@ -155,6 +155,16 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
                 }
             }
         }
+        case sf::Keyboard::LShift:
+        {
+            Entity* hitEnemy = this->rayCast(this->_player,
+                    this->_player.getLastMoveDirection() * this->_player.getAttackRange());
+
+            if(hitEnemy != nullptr)
+            {
+                this->_player.attack(hitEnemy);
+            }
+        }
         default:
             // Do nothing
             break;
@@ -327,7 +337,7 @@ void GameManager::drawRoundProgressHUD()
     _gameWindow.draw(text);
 }
 
-const Entity* GameManager::rayCast(Entity &source, sf::Vector2<float> &ray)
+Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {
     // TODO: Add other entities
     std::vector<Enemy*> enemies = this->_wave.getEnemiesVec();  
@@ -344,8 +354,24 @@ const Entity* GameManager::rayCast(Entity &source, sf::Vector2<float> &ray)
         if(!currentEnemy->getIsAlive())
             continue;
 
-        // I'm lost
+        // First thing we want to do is get the closest point on the entity we're checking to our current point
+        float dx = std::min(currentEnemy->getPosition().x + currentEnemy->getWidth(), currentEnemy->getPosition().x);
+        float dy = std::min(currentEnemy->getPosition().y + currentEnemy->getHealth(), currentEnemy->getPosition().y);
 
+        // Now we can get get the closest point
+        sf::Vector2<float> enemyPoint(dx, dy);
+
+        // Now we get the end point
+        sf::Vector2<float> endRayPoint = source.getPosition() + ray;
+
+        // TODO: This is wrong, it doesn't entirely get the idea together
+        // Now we check to see if it's hit this object
+        if(abs(endRayPoint.x - source.getPosition().x) > abs(source.getPosition().x - enemyPoint.x) && 
+                (abs(endRayPoint.y - source.getPosition().y) > abs(source.getPosition().y - enemyPoint.y)))
+        {
+            // Here it has intersected the box of the other entity, so we do the thing now
+            return currentEnemy; 
+        }
     }
 
     return nullptr;

@@ -64,6 +64,11 @@ void Entity::update(float deltaTime)
     this->onDraw();
 }
 
+void Entity::giveDamage(int damage)
+{
+    this->_health -= damage;
+}
+
 void Entity::kill()
 {
 

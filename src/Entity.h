@@ -80,6 +80,13 @@ class Entity
          */
         void update(float deltaTime);
 
+        /**
+         * @brief Will tell this entity to lower it's health
+         *
+         * @param damage The amount of damage to do
+         */
+        void giveDamage(int damage);
+
         /// Interface methods with a default implementation, can be overridden
 
         /**

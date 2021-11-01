@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Entity.h"
 #include <math.h>
+#include "Entity.h"
 
 /** Enum which holds what state the player is in. */
 enum MoveState
@@ -41,7 +41,7 @@ class Player : public Entity
         /**
          * @brief Tells the player it needs to be attacking 
          */
-        void attack();
+        void attack(Entity* toAttack);
 
         /**
          * @brief Tells the player it needs to be countering
@@ -62,12 +62,28 @@ class Player : public Entity
          */
         bool isDodging();
 
+        /**
+         * @brief Gets the last direction the player moved in (for attacking)
+         *
+         * @return Hmmmm, I wonder? Maybe the last direction the player moved in?? 
+         */
+        const sf::Vector2<float>& getLastMoveDirection() const;
+
+        /**
+         * @brief Getter for attack range
+         *
+         * @return It returns a random number. Just kidding it's the constant attack range of
+         *  the player
+         */
+        const float& getAttackRange() const;
+
     private:
         // Constants for player movement
         const float _moveSpeed = 350;
         const float _dodgeSpeed = 1100;
         const float _friction = 1600;
         const float _dodgeFriction = 6000;
+        const float _attackRange = 250;
         const float _deadZone = 0.01;
 
         // TODO: Unsure if this is needed

@@ -50,10 +50,14 @@ void Player::onUpdate(float deltaTime)
                 deltaTime);
 
         this->_velocity += this->_dodgeVec;
-    }
+    } 
 
-    // Set previous move vector for dodging
-    this->_lastMoveVec = this->_moveVec;
+    // Only if the current move vector is non zero
+    if(this->_moveVec.x != 0 || this->_moveVec.y != 0)
+    {
+        // Set previous move vector for dodging
+        this->_lastMoveVec = this->_moveVec;
+    }
 
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -120,9 +124,10 @@ sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
     return vec / this->getVectorMagnitude(vec);
 }
 
-void Player::attack()
+void Player::attack(Entity* toAttack)
 {
-
+    // TODO: Change this
+    toAttack->giveDamage(100);
 }
 
 void Player::counter()
@@ -141,4 +146,14 @@ bool Player::isDodging()
         return(true);
     }
     return(false);
+}
+
+const sf::Vector2<float>& Player::getLastMoveDirection() const
+{
+    return this->_lastMoveVec;
+}
+
+const float& Player::getAttackRange() const
+{
+    return this->_attackRange;
 }

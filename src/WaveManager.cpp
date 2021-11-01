@@ -1,8 +1,9 @@
-#include "WaveManager.h"
-#include "Enemy.h"
 #include <stdexcept>
 #include <time.h>
 #include <cstdlib>
+
+#include "WaveManager.h"
+#include "Enemy.h"
 
 WaveManager::WaveManager()
 {

@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include <cmath>
 
 Enemy::Enemy()
 {

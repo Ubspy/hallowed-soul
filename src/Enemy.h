@@ -1,7 +1,10 @@
 #pragma once
+
+#include <vector>
+#include <cmath>
+
 #include "Entity.h"
 #include "Player.h"
-#include <vector>
 
 /** Enemy class */
 class Enemy : public Entity
