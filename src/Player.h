@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "Entity.h"
+#include "VectorUtil.h"
 
 /** Enum which holds what state the player is in. */
 enum MoveState
@@ -116,22 +117,4 @@ class Player : public Entity
          * @return The new value for the velocity after slow down 
          */
         float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
-
-        /**
-         * @brief Get the magnitude of a vector
-         *
-         * @param vec The vector to get the magnitude of
-         *
-         * @return The magnitude of the vector 
-         */
-        float getVectorMagnitude(sf::Vector2<float> vec);
-
-        /**
-         * @brief Get the unit vector of any vector
-         *
-         * @param vec The vector to get the unit of
-         *
-         * @return The unit vector 
-         */
-        sf::Vector2<float> getUnitVector(sf::Vector2<float> vec);
 };

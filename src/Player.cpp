@@ -27,7 +27,7 @@ void Player::onUpdate(float deltaTime)
     {
         // We want to get the magnitude of the moveVector to make sure we're not moving
         // more when moving diagonally vs laterally
-        sf::Vector2<float> moveVecUnit = this->getUnitVector(this->_moveVec);
+        sf::Vector2<float> moveVecUnit = VectorUtil::getUnitVector(this->_moveVec);  
 
         // Set the current velocity to the movement vector
         // We want to multiply by the private move speed var so we don't move at
@@ -82,9 +82,9 @@ float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, f
         // I'm sorry, this is so fucking gross
         // TODO: Fix this mess
         return (abs(velAxis + moveAxis * this->_friction * deltaTime)) >
-            this->_moveSpeed / this->getVectorMagnitude(this->_moveVec) ?
+            this->_moveSpeed / VectorUtil::getVectorMagnitude(this->_moveVec) ?
             (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) /
-            this->getVectorMagnitude(this->_moveVec) :
+            VectorUtil::getVectorMagnitude(this->_moveVec) :
             velAxis + moveAxis * this->_friction * deltaTime;
     }
 }
@@ -106,22 +106,10 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
     // The first thing we want to do is set the dodge vector now
-    this->_dodgeVec = this->getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
+    this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
 
     // When we dodge, we want to set the state of movement to dodging 
     this->_currentMoveState = MoveState::Dodging;
-}
-
-float Player::getVectorMagnitude(sf::Vector2<float> vec)
-{
-    // Get the magnitude using the magnitude formula
-    return std::sqrt(vec.x * vec.x + vec.y * vec.y);
-}
-
-sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
-{
-    // Get the unit vector using the above magnitude
-    return vec / this->getVectorMagnitude(vec);
 }
 
 void Player::attack(Entity* toAttack)
