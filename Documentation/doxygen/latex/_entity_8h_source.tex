@@ -1,0 +1,74 @@
+\hypertarget{_entity_8h_source}{}\doxysection{Entity.\+h}
+\label{_entity_8h_source}\index{src/Entity.h@{src/Entity.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}SFML/System/Vector2.hpp"{}}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}SFML/Graphics.hpp"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{class_entity}{Entity}}}
+\DoxyCodeLine{22 \{}
+\DoxyCodeLine{23     \textcolor{keyword}{public}:}
+\DoxyCodeLine{24         \mbox{\hyperlink{class_entity}{Entity}}();}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{32         \textcolor{keyword}{const} sf::Vector2<float>\& \mbox{\hyperlink{class_entity_aeabe846158ff4641d21ffe1d572e5487}{getPosition}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34         }
+\DoxyCodeLine{40         \textcolor{keyword}{const} sf::Vector2<float>\& \mbox{\hyperlink{class_entity_a7d1238384a4353e0f5df908726c9bc3e}{getVelocity}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{48         \textcolor{keyword}{const} sf::Sprite\& \mbox{\hyperlink{class_entity_aece77e1e86fae668e67a57ee7ccce265}{getSprite}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 }
+\DoxyCodeLine{56         \textcolor{keyword}{const} \textcolor{keywordtype}{int}\& \mbox{\hyperlink{class_entity_ae170fce9596c2e20aa0ec3029b94c349}{getWidth}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 }
+\DoxyCodeLine{64         \textcolor{keyword}{const} \textcolor{keywordtype}{int}\& \mbox{\hyperlink{class_entity_a4422208756dd881274aaec619870776a}{getHeight}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{72         \textcolor{keyword}{const} \textcolor{keywordtype}{int}\& \mbox{\hyperlink{class_entity_ac44988c8df8d396eb23d8215e2f26046}{getHealth}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{75 }
+\DoxyCodeLine{81         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_a205443d87b309a074a6088b6e148f2a2}{update}}(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{88         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_a3eb4bd5f0f6698ed9632004ef0d170ba}{doDamage}}(\textcolor{keywordtype}{int} damage);}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{95         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_entity_ab0986ba7a1b24f022b5623781050c0f1}{isAlive}}();}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{98 }
+\DoxyCodeLine{104         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_a8eafe7d5ebb62407ee5f266518a35292}{spawn}}(sf::Vector2<float> spawnLocation);}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{110         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_a522648b330daab91b49f78f0737a943f}{kill}}();}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{116         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_a820404587abe78b6383d829348efbe2b}{onDraw}}();}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{119         }
+\DoxyCodeLine{126         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_aeb0bd1940e7932d3e244984259b5cc0e}{onUpdate}}(\textcolor{keywordtype}{float} deltaTime) = 0;}
+\DoxyCodeLine{127         }
+\DoxyCodeLine{133         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_entity_ab61623f60c5a7c04deaf0dcb2d1f97de}{onCollision}}(\mbox{\hyperlink{class_entity}{Entity}} \&hitEntity) = 0;  }
+\DoxyCodeLine{134 }
+\DoxyCodeLine{140         sf::Vector2<float> \mbox{\hyperlink{class_entity_aacc64bc5f7b1d3c24a78e1a492591ca6}{\_position}};}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{148         \textcolor{comment}{// Vectors for position and velocity}}
+\DoxyCodeLine{149         sf::Vector2<float> \mbox{\hyperlink{class_entity_a2272f04c6e19fb9aa55c0e8c41217e67}{\_velocity}};}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{152         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_entity_a358f7a5e65c03415b36cc612c36e6f47}{\_width}};}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{155         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_entity_a161dc9b3d8e2b47c59e661dd2000cbf7}{\_height}};}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{158         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_entity_a5d9f213ef26f1e09ebff7fcb46634b97}{\_health}};}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160         \textcolor{comment}{/* If the entity is alive or not */}}
+\DoxyCodeLine{161         \textcolor{keywordtype}{bool} \_isAlive;}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{173         sf::Texture \mbox{\hyperlink{class_entity_a8e409f1b737a84cd895e42e4ec8c28bc}{\_texture}};}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{193         \textcolor{comment}{// TODO: Sprite array?}}
+\DoxyCodeLine{194         sf::Sprite \mbox{\hyperlink{class_entity_a040bd9d02a9c5d0c7f07348bc15cc0a3}{\_sprite}};}
+\DoxyCodeLine{195 \};}
+
+\end{DoxyCode}
