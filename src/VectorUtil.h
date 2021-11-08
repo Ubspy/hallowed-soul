@@ -31,5 +31,5 @@ class VectorUtil
         static sf::Vector2<T> getUnitVector(const sf::Vector2<T>& vec)
         {
             return vec / getVectorMagnitude(vec);
-        }
+        } 
 };

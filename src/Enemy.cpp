@@ -75,7 +75,7 @@ void Enemy::onUpdate(float deltaTime)
         }
         if(_velocity!=sf::Vector2<float> (0,0))
         {
-            this->_velocity = this->_velocity / (std::sqrt(this->_velocity.x*this->_velocity.x + this->_velocity.y*this->_velocity.y));
+            this->_velocity = VectorUtil::getUnitVector(this->_velocity); 
             this->_velocity *= deltaTime * 5000;
         }
     }
