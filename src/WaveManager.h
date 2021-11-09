@@ -22,6 +22,8 @@ class WaveManager
         /** WaveManager constructor */
         WaveManager();
 
+        sf::Text getHitIndicator(Enemy* e);
+
         /**
          * @brief establishes a player pointer that can be passed to the enemies
          * 

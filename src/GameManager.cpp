@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 GameManager::GameManager() : 
     // First thing we want to do is create a window
@@ -9,6 +10,13 @@ GameManager::GameManager() :
     // Initialize the view (camera) 
     _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
 {
+    if (!font.loadFromFile("fonts/Helvetica.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
+    _hitEnemy = nullptr;
+
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
     _currentState = GameState::playing;
@@ -159,12 +167,19 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::LShift:
         {
-            Entity* hitEnemy = this->rayCast(this->_player,
+            Enemy* hitEnemy = this->rayCast(this->_player,
                     this->_player.getLastMoveDirection() * this->_player.getAttackRange());
 
             if(hitEnemy != nullptr)
             {
                 this->_player.attack(hitEnemy);
+                _hitEnemy = hitEnemy;
+                //drawHitIndicator(hitEnemy);
+            }
+            else 
+            {
+                _hitEnemy = hitEnemy;
+                //drawHitIndicator(hitEnemy);
             }
         }
         default:
@@ -222,9 +237,11 @@ void GameManager::drawFrame()
 
     // Draw the HUD over most things
     drawHealthHUD();
+    drawHitIndicator(_hitEnemy);
     drawEnemyHealth();
     drawRoundProgressHUD();
-
+    
+    //this->_gameWindow.draw(this->hitIndicator);
     // Finally, display the window
     _gameWindow.display();    
 }
@@ -337,12 +354,6 @@ void GameManager::drawRoundProgressHUD()
     _gameWindow.draw(insideRect);
 
     sf::Text text;
-    sf::Font font;
-
-    if (!font.loadFromFile("fonts/Helvetica.ttf"))
-    {
-        printf("ERROR: font can not be loaded!!");
-    }
 
     // Current wave number text
     text.setFont(font);
@@ -356,7 +367,7 @@ void GameManager::drawRoundProgressHUD()
     _gameWindow.draw(text);
 }
 
-Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
+Enemy* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {
     // TODO: Add other entities
     std::vector<Enemy*> enemies = this->_wave.getEnemiesVec();  
@@ -394,4 +405,28 @@ Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
     }
 
     return nullptr;
+}
+
+void GameManager::drawHitIndicator(Enemy* e)
+{
+    //sf::Clock gameClock;
+    //sf::Time time = gameClock.restart();
+    
+    if(e!=nullptr)
+    {
+        hitIndicator = this->_wave.getHitIndicator(e);
+        hitIndicator.setFont(font);
+        if(e->isAlive())
+        {
+            _gameWindow.draw(hitIndicator);
+        }
+        //_hitEnemy = nullptr;
+    }
+    else
+    {
+        //text.setFillColor(sf::Color::Transparent);
+        //text.setOutlineColor(sf::Color::Transparent);
+    }
+    
+    //hitIndicator
 }

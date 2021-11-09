@@ -40,9 +40,17 @@ class GameManager
          */
         void runGame();
 
-        Entity* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
+        Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
+
+        Enemy* _hitEnemy;
+
+        sf::Text hitIndicator;
+
+        //int num;
+
+        //sf::Clock gameClock;
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
@@ -57,6 +65,10 @@ class GameManager
 
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
+
+        sf::Font font;
+
+        //bool hitIndicator;
 
         /**
          * @brief Called from main loop, turns all the user inputs into game instructions
@@ -125,4 +137,6 @@ class GameManager
          *  Draw a heads up display on the current round information
          */
         void drawRoundProgressHUD();
+
+        void drawHitIndicator(Enemy* e);
 };
