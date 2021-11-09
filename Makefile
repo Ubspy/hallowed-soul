@@ -10,7 +10,7 @@ EXE_NAME = Gaming.out
 # and turns it into %.o in the obj folder
 GAME_SRC = $(wildcard $(SRC_DIR)/*.cpp)
 GAME_HEADERS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(SRC_DIR)/%.h)
-GAME_OBJS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
+GAME_OBJS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Guarding incase there is no directory for the objs directory
 dir_guard=@mkdir -p $(@D)
@@ -28,7 +28,7 @@ LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # This is the target that compiles our executable
 # The ^ variable is all the dependencies, and the @ variable is the target
-$(EXE_NAME) : $(GAME_OBJS) 
+$(EXE_NAME) : $(GAME_OBJS)
 	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $@
 
 # Target for release, with no additional debug information
