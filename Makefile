@@ -10,7 +10,7 @@ EXE_NAME = Gaming.out
 # and turns it into %.o in the obj folder
 GAME_SRC = $(wildcard $(SRC_DIR)/*.cpp)
 GAME_HEADERS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(SRC_DIR)/%.h)
-GAME_OBJS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+GAME_OBJS = $(GAME_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
 
 # Guarding incase there is no directory for the objs directory
 dir_guard=@mkdir -p $(@D)
@@ -37,6 +37,11 @@ release : $(GAME_OBJS)
 	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $(EXE_NAME)
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
+	$(dir_guard)
+	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
+
+# Special rule for GameManagerGFX.o since we split it up into multiple files
+$(OBJ_DIR)/GameManagerGFX.o: $(SRC_DIR)/GameManagerGFX.cpp
 	$(dir_guard)
 	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
 
