@@ -1,13 +1,17 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player() : 
-    // Initialize movement vector to <0, 0>
-    _moveVec(sf::Vector2<float>(0, 0)),
-    _dodgeVec(sf::Vector2<float>(0, 0))
+Player::Player() 
 {
+    // Initialize movement vector to <0, 0>
+    _moveVec = sf::Vector2<float>(0, 0);
+    _dodgeVec = sf::Vector2<float>(0, 0);
+    
     // Set default move state to None
     _currentMoveState = None;
+
+    // Set texture
+    this->setTexture("assets/textures/test.png");
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6

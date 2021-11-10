@@ -7,6 +7,8 @@ Enemy::Enemy()
     _velocity = sf::Vector2<float>(0, 0);
     _atkTime = 0;
     _attacking = false;
+
+    this->setTexture("assets/textures/test.png");
 }
 
 int Enemy::getAmmo()

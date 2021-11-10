@@ -1,6 +1,6 @@
 #include "GameManager.h"
-#include <cmath>
-#include <stdexcept>
+
+bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
 GameManager::GameManager() : 
     // First thing we want to do is create a window
@@ -22,6 +22,10 @@ GameManager::GameManager() :
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
     this->_wave.setPlayer(this->_player);
+
+    // TODO: Test line function
+    bool assert = linesIntersect(150, 250, 300, 450, 100, 350, 600, 550);
+    printf("ASSERT: %s\n", assert ? "TRUE" : "FALSE");
 }
 
 void GameManager::runGame()
@@ -225,6 +229,10 @@ void GameManager::drawFrame()
     drawEnemyHealth();
     drawRoundProgressHUD();
 
+    #if DEBUG
+        this->debugDraw();
+    #endif
+
     // Finally, display the window
     _gameWindow.display();    
 }
@@ -356,6 +364,18 @@ void GameManager::drawRoundProgressHUD()
     _gameWindow.draw(text);
 }
 
+void GameManager::debugDraw()
+{
+    for(int i = 0; i < (this->_debugLines.size()); i += 2)
+    {
+        sf::Vertex currentLine[2];
+        currentLine[0] = this->_debugLines.at(i);
+        currentLine[1] = this->_debugLines.at(i + 1);
+
+        this->_gameWindow.draw(currentLine, 2, sf::Lines);
+    }
+}
+
 Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {
     // TODO: Add other entities
@@ -365,6 +385,19 @@ Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
     sf::Vector2<float> sourceCenter(source.getPosition().x + source.getWidth() / 2.0,
         source.getPosition().y + source.getHeight() / 2.0);
 
+#if DEBUG
+    // Draw the ray cast line if DEBUG mode is on 
+    sf::Vertex line[2];
+
+    line[0].position = sourceCenter;
+    line[0].color = sf::Color::Blue;
+    line[1].position = sourceCenter + ray;
+    line[1].color = sf::Color::Blue;
+
+    this->_debugLines.push_back(line[0]);
+    this->_debugLines.push_back(line[1]);
+#endif
+
     for(int i = 0; i < enemies.size(); i++)
     {
         Enemy* currentEnemy = enemies.at(i);
@@ -372,26 +405,133 @@ Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
         // Skip this loop is enemy is dead
         if(!currentEnemy->isAlive())
             continue;
-
-        // First thing we want to do is get the closest point on the entity we're checking to our current point
-        float dx = std::min(currentEnemy->getPosition().x + currentEnemy->getWidth(), currentEnemy->getPosition().x);
-        float dy = std::min(currentEnemy->getPosition().y + currentEnemy->getHealth(), currentEnemy->getPosition().y);
-
-        // Now we can get get the closest point
-        sf::Vector2<float> enemyPoint(dx, dy);
-
-        // Now we get the end point
-        sf::Vector2<float> endRayPoint = source.getPosition() + ray;
-
-        // TODO: This is wrong, it doesn't entirely get the idea together
-        // Now we check to see if it's hit this object
-        if(abs(endRayPoint.x - source.getPosition().x) > abs(source.getPosition().x - enemyPoint.x) && 
-                (abs(endRayPoint.y - source.getPosition().y) > abs(source.getPosition().y - enemyPoint.y)))
+    
+        // There are four lines to check for intersection here, so we need to check all of them
+        // First is the left-most line
+        if(linesIntersect(sourceCenter.x, sourceCenter.y, (sourceCenter.x + ray.x), (sourceCenter.y + ray.y),
+                    currentEnemy->getPosition().x, (currentEnemy->getPosition().y + currentEnemy->getHeight()),
+                    currentEnemy->getPosition().x, currentEnemy->getPosition().y))
         {
-            // Here it has intersected the box of the other entity, so we do the thing now
-            return currentEnemy; 
+            #if DEBUG
+                 sf::Vertex line[2];
+
+                 line[0].position = sf::Vector2<float>(currentEnemy->getPosition().x,
+                         currentEnemy->getPosition().y + currentEnemy->getHeight());
+                 line[0].color = sf::Color::Red;
+                 line[1].position = currentEnemy->getPosition();
+                 line[1].color = sf::Color::Red;
+
+                this->_debugLines.push_back(line[0]);
+                this->_debugLines.push_back(line[1]);
+            #endif
+
+            return currentEnemy;
+        }
+
+        // Then check the top-most line
+        if(linesIntersect(sourceCenter.x, sourceCenter.y, (sourceCenter.x + ray.x), (sourceCenter.y + ray.y),
+                    currentEnemy->getPosition().x, currentEnemy->getPosition().y,
+                    (currentEnemy->getPosition().x + currentEnemy->getWidth()), currentEnemy->getPosition().y))
+        {
+            #if DEBUG
+                sf::Vertex line[2];
+
+                line[0].position = currentEnemy->getPosition();
+                line[0].color = sf::Color::Red;
+                line[1].position = sf::Vector2<float>(currentEnemy->getPosition().x + currentEnemy->getWidth(),
+                         currentEnemy->getPosition().y);
+                line[1].color = sf::Color::Red;
+
+                this->_debugLines.push_back(line[0]);
+                this->_debugLines.push_back(line[1]);
+            #endif
+            
+            return currentEnemy;
+        }
+
+        // Then check the right-most line
+        if(linesIntersect(sourceCenter.x, sourceCenter.y, (sourceCenter.x + ray.x), (sourceCenter.y + ray.y),
+                    (currentEnemy->getPosition().x + currentEnemy->getWidth()), currentEnemy->getPosition().y,
+                    (currentEnemy->getPosition().x + currentEnemy->getWidth()), (currentEnemy->getPosition().y + currentEnemy->getHeight())))
+        {
+            #if DEBUG
+                sf::Vertex line[2];
+
+                line[0].position = sf::Vector2<float>(currentEnemy->getPosition().x + currentEnemy->getWidth(),
+                         currentEnemy->getPosition().y); 
+                line[0].color = sf::Color::Red;
+                line[1].position = sf::Vector2<float>(currentEnemy->getPosition().x + currentEnemy->getWidth(),
+                         currentEnemy->getPosition().y + currentEnemy->getHeight());
+                line[1].color = sf::Color::Red;
+
+                this->_debugLines.push_back(line[0]);
+                this->_debugLines.push_back(line[1]);
+            #endif
+            
+            return currentEnemy;
+        }
+        
+        // Lastly, the bottom-most line
+        if(linesIntersect(sourceCenter.x, sourceCenter.y, (sourceCenter.x + ray.x), (sourceCenter.y + ray.y),
+                    currentEnemy->getPosition().x, (currentEnemy->getPosition().y + currentEnemy->getHeight()),
+                    (currentEnemy->getPosition().x + currentEnemy->getWidth()), (currentEnemy->getPosition().y + currentEnemy->getHeight())))
+        {
+             #if DEBUG
+                sf::Vertex line[2];
+
+                line[0].position = sf::Vector2<float>(currentEnemy->getPosition().x,
+                         currentEnemy->getPosition().y + currentEnemy->getHeight()); 
+                line[0].color = sf::Color::Red;
+                line[1].position = sf::Vector2<float>(currentEnemy->getPosition().x + currentEnemy->getWidth(),
+                         currentEnemy->getPosition().y + currentEnemy->getHeight());
+                line[1].color = sf::Color::Red;
+
+                this->_debugLines.push_back(line[0]);
+                this->_debugLines.push_back(line[1]);
+            #endif
+
+            return currentEnemy;
         }
     }
 
     return nullptr;
+}
+
+bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
+{
+    // If the lines intersect, then the intersection point on the x-axis Ix has to be in between x1 and x2, and x3 and x4
+    // If point Ix lies outside of either range, then it is not part of one segment, and then isn't on the intersection
+    // We want to make sure this interval can exist
+    if(std::max(x1, x2) < std::min(x3, x4))
+    {
+        // If the furthest point on line 1 doesn't even reach the min on line two, then this interval doesn't exist
+        // Here we want to say they don't interesct
+        return false;
+    }
+
+    // Now we want to calculate the slopes of both lines
+    // If the two X values are the same, then set the slope to the maximum possible value
+    // TODO: Maybe bad for performance to use the max number, idk how floating point math works
+    float slope1 = (x2 == x1) ? 10000 : (y2 - y1) / (x2 - x1);
+    float slope2 = (x4 == x3) ? 10000 : (y4 - y3) / (x4 - x3);
+
+    // One thing to check here is if the lines are parallel, because if they are then they won't intersect, we check another line
+    if(slope1 == slope2)
+    {
+        return false;
+    }
+
+    // Using y = m*x + b, we can solve for b and find the intersepts for line 1 and 2
+    float b1 = y1 - slope1 * x1;
+    float b2 = y3 - slope2 * x3;
+
+    // We now have the equations for both lines, and we can find their intersect point by setting them equal
+    // Iy = m1 * Ix + b1, Iy = m2 * Ix + b2, for some point (Ix, Iy), we can solve for Ix and get it's value 
+    // There is no divide by zero here since we checked before if slope1 and slope 2 are the same
+    float intersectX = (b2 - b1) / (slope1 - slope2); 
+
+    // Finally, we need to see if this intersectX is in the range we talked about at the top of this function
+    // If our intersectX is out of these ranges, there is no intersection on the limited segments
+    // If not, then there is an intersection
+    return !(intersectX < std::min({x1, x2, x3, x4}) || intersectX > std::max({x1, x2, x3, x4}));
 }

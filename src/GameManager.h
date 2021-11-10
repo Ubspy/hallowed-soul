@@ -1,6 +1,12 @@
 #pragma once
 
+#define DEBUG 1
+
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Vertex.hpp>
+#include <cmath>
+#include <stdexcept>
+#include <limits>
 #include "Player.h"
 #include "GameManager.h"
 #include "WaveManager.h"
@@ -57,6 +63,10 @@ class GameManager
 
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
+
+        std::vector<sf::Vertex> _debugLines;
+
+        void debugDraw();
 
         /**
          * @brief Called from main loop, turns all the user inputs into game instructions
