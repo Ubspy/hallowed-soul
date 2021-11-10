@@ -124,6 +124,11 @@ sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
     return vec / this->getVectorMagnitude(vec);
 }
 
+void Player::spawn(sf::Vector2<float> spawnLocation)
+{
+    this->_position = spawnLocation;
+}
+
 void Player::attack(Entity* toAttack)
 {
     // TODO: Change this
