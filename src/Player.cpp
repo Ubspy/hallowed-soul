@@ -157,7 +157,10 @@ const sf::Vector2<float>& Player::getLastMoveDirection() const
     return this->_lastMoveVec;
 }
 
-const float& Player::getAttackRange() const
+float Player::getAttackRange() const
 {
-    return this->_attackRange;
+    // We want to return the attack range plus the distance from the center of the 
+    // player sprite to the edge, this is because if we ever change the size of the
+    // sprite the attack range should be adjusted accordingly
+    return this->_attackRange + this->_width / 2.0f;
 }

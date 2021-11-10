@@ -140,9 +140,9 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
             this->_player.dodgeInDirection(sf::Vector2<float>(0, 0));
             break;
         }
-#if DEBUG
         case sf::Keyboard::Backspace:
         {
+#if DEBUG
             // THE KILL BUTTON
             for(int i=0; i<this->_wave.getEnemies(); i++)
             {
@@ -159,8 +159,8 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
                     break;
                 }
             }
-        }
 #endif
+        }
         case sf::Keyboard::LShift:
         {
             Entity* hitEnemy = this->rayCast(this->_player,

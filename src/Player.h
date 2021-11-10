@@ -76,7 +76,7 @@ class Player : public Entity
          * @return It returns a random number. Just kidding it's the constant attack range of
          *  the player
          */
-        const float& getAttackRange() const;
+        float getAttackRange() const;
 
     private:
         // Constants for player movement
@@ -84,7 +84,7 @@ class Player : public Entity
         const float _dodgeSpeed = 1100;
         const float _friction = 1600;
         const float _dodgeFriction = 6000;
-        const float _attackRange = 250;
+        const float _attackRange = 40;
         const float _deadZone = 0.01;
         const float _attackTime = 0.6;
 
