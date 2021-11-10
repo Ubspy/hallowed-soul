@@ -88,7 +88,7 @@ void Player::updateTextureRect()
     {
         topLeft += {0, _height};
     }
-        else if (_velocity.y > 0)
+    else if (_velocity.y > 0)
     {
         topLeft += {0, _height*2};
     }
