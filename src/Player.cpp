@@ -116,6 +116,11 @@ void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
     this->_currentMoveState = MoveState::Dodging;
 }
 
+void Player::spawn(sf::Vector2<float> spawnLocation)
+{
+    this->_position = spawnLocation;
+}
+
 void Player::attack(Entity* toAttack)
 {
     // TODO: Change this

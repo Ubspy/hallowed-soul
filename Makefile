@@ -28,7 +28,7 @@ LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # This is the target that compiles our executable
 # The ^ variable is all the dependencies, and the @ variable is the target
-$(EXE_NAME) : $(GAME_OBJS) 
+$(EXE_NAME) : $(GAME_OBJS)
 	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $@
 
 # Target for release, with no additional debug information
@@ -37,6 +37,11 @@ release : $(GAME_OBJS)
 	$(CC) $^ $(CXX_FLAGS) $(LINKER_FLAGS) -o $(EXE_NAME)
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
+	$(dir_guard)
+	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
+
+# Special rule for GameManagerGFX.o since we split it up into multiple files
+$(OBJ_DIR)/GameManagerGFX.o: $(SRC_DIR)/GameManagerGFX.cpp
 	$(dir_guard)
 	$(CC) $^ $(CXX_FLAGS) $(DEBUG_FLAGS) -c -o $@
 

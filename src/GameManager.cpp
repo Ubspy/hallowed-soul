@@ -23,9 +23,7 @@ GameManager::GameManager() :
     _gameWindow.setView(_view);
     this->_wave.setPlayer(this->_player);
 
-    // TODO: Test line function
-    bool assert = linesIntersect(150, 250, 300, 450, 100, 350, 600, 550);
-    printf("ASSERT: %s\n", assert ? "TRUE" : "FALSE");
+    this->_player.spawn(sf::Vector2<float>(1280.0 / 2.0, 720.0 / 2.0));
 }
 
 void GameManager::runGame()
@@ -237,133 +235,6 @@ void GameManager::drawFrame()
     _gameWindow.display();    
 }
 
-void GameManager::updateViewLocked()
-{
-    sf::View view = _gameWindow.getView();
-    const sf::Vector2f &playerLocation = this->_player.getPosition();
-    const sf::Vector2f &viewSize = _view.getSize();
-    sf::Vector2f mapSize{1500.0, 1125.0}; // this can probably be moved to a member variable later when the map is made.
-
-    view.setCenter(this->_player.getPosition());
-
-    if (playerLocation.x < viewSize.x / 2) // If camera view is extends past left side of the map.
-    {
-        view.setCenter(sf::Vector2f{viewSize.x / 2, view.getCenter().y});
-    }
-    else if (playerLocation.x + viewSize.x / 2 > mapSize.x) // If camera view is extends past right side of the map.
-    {
-        view.setCenter(sf::Vector2f{mapSize.x - (viewSize.x / 2), view.getCenter().y});
-    }
-
-    if (playerLocation.y < viewSize.y / 2) // If camera view is extends past top side of the map.
-    {
-        view.setCenter(sf::Vector2f{view.getCenter().x, viewSize.y / 2});
-    }
-    else if (playerLocation.y + viewSize.y / 2 > mapSize.y) // If camera view is extends past bottom side of the map.
-    {
-        view.setCenter(sf::Vector2f{view.getCenter().x, mapSize.y - (viewSize.y / 2)});
-    }
-
-    _gameWindow.setView(view);
-}
-
-void GameManager::drawMap()
-{
-    sf::Texture texture;
-    texture.loadFromFile("assets/textures/temp_floor_128.png");
-    texture.setRepeated(true);
-
-    sf::IntRect rectSourceSprite(0, 0, 1500, 1125);
-    sf::Sprite sprite(texture, rectSourceSprite);
-
-    this->_gameWindow.draw(sprite);
-}
-
-void GameManager::drawHealthHUD()
-{
-    const int lineSize = 2;
-    const sf::Vector2<float> viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2<float> &viewSize = _view.getSize();
-    const sf::Vector2<float> barOutterSize{100.f, 10.f};
-    const sf::Vector2<float> barInnerSize{barOutterSize.x * ((float)_player.getHealth() / 100), barOutterSize.y};
-    const sf::Vector2<int> padding{5 + lineSize, 5 + lineSize};
-    const sf::Vector2<float> barPosition{viewCenter.x + padding.x - (viewSize.x / 2), viewCenter.y - padding.y - barOutterSize.y + viewSize.y / 2};
-
-    // This is the outside grey/black rectangle.
-    sf::RectangleShape outsideRect(barOutterSize);
-    outsideRect.setPosition(barPosition);
-    outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
-    outsideRect.setOutlineColor(sf::Color::Black);
-    outsideRect.setOutlineThickness(lineSize);
-    _gameWindow.draw(outsideRect);
-
-    // This is the inside red rectangle.
-    sf::RectangleShape insideRect(barInnerSize);
-    insideRect.setPosition(barPosition);
-    insideRect.setFillColor(sf::Color(255, 0, 0, 255));
-    _gameWindow.draw(insideRect);
-}
-
-void GameManager::drawEnemyHealth()
-{
-    for(int i=0; i<this->_wave.getEnemies(); i++)
-    {
-        if(this->_wave.getEnemy(i)->isAlive())
-        {
-            _gameWindow.draw(this->_wave.getHealthBarBorder(this->_wave.getEnemy(i)));
-            _gameWindow.draw(this->_wave.getHealthBar(this->_wave.getEnemy(i)));
-        }
-    }
-}
-
-void GameManager::drawRoundProgressHUD()
-{
-    float enemiesAlive = (float)this->_wave.getEnemiesAlive();
-    float totalEnemies = (float)this->_wave.getEnemies();
-    int currWave = this->_wave.getWave();
-
-    const int lineSize = 2;
-    const sf::Vector2<float> viewCenter = _gameWindow.getView().getCenter();
-    const sf::Vector2<float> &viewSize = _view.getSize();
-    const sf::Vector2<float> barOutterSize{100.f, 5.f};
-    const sf::Vector2<float> barInnerSize{barOutterSize.x * (enemiesAlive / totalEnemies), barOutterSize.y};
-    const sf::Vector2<int> padding{2 + lineSize, 2 + lineSize};
-    const sf::Vector2<float> barPosition{viewCenter.x - padding.x - barOutterSize.x / 2, viewCenter.y + padding.y + barOutterSize.y - viewSize.y / 2};
-
-    // This is the outside grey/black rectangle.
-    sf::RectangleShape outsideRect(barOutterSize);
-    outsideRect.setPosition(barPosition);
-    outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
-    outsideRect.setOutlineColor(sf::Color::Black);
-    outsideRect.setOutlineThickness(lineSize);
-    _gameWindow.draw(outsideRect);
-
-    // This is the inside purple rectangle.
-    sf::RectangleShape insideRect(barInnerSize);
-    insideRect.setPosition(barPosition);
-    insideRect.setFillColor(sf::Color(128, 0, 187, 255));
-    _gameWindow.draw(insideRect);
-
-    sf::Text text;
-    sf::Font font;
-
-    if (!font.loadFromFile("fonts/Helvetica.ttf"))
-    {
-        printf("ERROR: font can not be loaded!!");
-    }
-
-    // Current wave number text
-    text.setFont(font);
-    text.setString(std::to_string(currWave));
-    text.setCharacterSize(lineSize * 2 + barOutterSize.y);
-    text.setFillColor(sf::Color::White);
-    text.setOutlineColor(sf::Color::Black);
-    text.setOutlineThickness(1);
-
-    text.setPosition(sf::Vector2f{barPosition.x - padding.x - (text.getGlobalBounds().left + text.getGlobalBounds().width), barPosition.y + lineSize - (text.getGlobalBounds().top + text.getGlobalBounds().height) / 2});
-    _gameWindow.draw(text);
-}
-
 void GameManager::debugDraw()
 {
     for(int i = 0; i < (this->_debugLines.size()); i += 2)
@@ -502,18 +373,52 @@ bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, 
     // If the lines intersect, then the intersection point on the x-axis Ix has to be in between x1 and x2, and x3 and x4
     // If point Ix lies outside of either range, then it is not part of one segment, and then isn't on the intersection
     // We want to make sure this interval can exist
-    if(std::max(x1, x2) < std::min(x3, x4))
+    // For the smaller point, we need the max from either interval, but we want the smallest of those two maxes
+    // this will be the largest point on the lower interval, the next one will be the smallest point on the larger interval
+    if(std::min(std::max(x1, x2), std::max(x3, x4)) < std::max(std::min(x3, x4), std::min(x1, x2)))
     {
         // If the furthest point on line 1 doesn't even reach the min on line two, then this interval doesn't exist
         // Here we want to say they don't interesct
         return false;
     }
 
+    // If both lines are vertival, they only intersect if they're the same value
+    if(x1 == x2 && x3 == x4)
+    {
+        return x1 == x4;
+    }
+
+    // To avoid a divide by zero, check for same x values, we can also use an easier algorithm if this is the case
+    if(x1 == x2)
+    {
+        // All we need to do is see if the other line crosses the X point from the vertical line
+        // Get the slope
+        float slope = (y4 - y3) / (x4 - x3); 
+
+        // We can solve for the intercept, so let's find that
+        float intercept = y3 - slope * x3;
+
+        // Find the Y point
+        float intersectY = slope * x1 + intercept;
+
+        // Now we can see if Y lies in the Y range 
+        return intersectY < std::max(y1, y2) && intersectY > std::min(y1, y2);
+    }
+    else if(x3 == x4)
+    {
+        // This is the same idea as x1 == x2, just swap the values around
+        float slope = (y2 - y1) / (x2 - x1);
+        float intercept = y1 - slope * x1;
+        float intersectY = slope * x3 + intercept;
+         
+        return intersectY < std::max(y3, y4) && intersectY > std::min(y3, y4);
+    }
+
     // Now we want to calculate the slopes of both lines
     // If the two X values are the same, then set the slope to the maximum possible value
     // TODO: Maybe bad for performance to use the max number, idk how floating point math works
-    float slope1 = (x2 == x1) ? 10000 : (y2 - y1) / (x2 - x1);
-    float slope2 = (x4 == x3) ? 10000 : (y4 - y3) / (x4 - x3);
+    float slope1 = (y2 - y1) / (x2 - x1);
+    float slope2 = (y4 - y3) / (x4 - x3);
 
     // One thing to check here is if the lines are parallel, because if they are then they won't intersect, we check another line
     if(slope1 == slope2)

@@ -40,6 +40,13 @@ class Player : public Entity
         void dodgeInDirection(sf::Vector2<float> dodgeDir);
 
         /**
+         * @brief Spawns the player at a location
+         *
+         * @param spawnLocation The location to spawn the player at
+         */
+        void spawn(sf::Vector2<float> spawnLocation);
+
+        /**
          * @brief Tells the player it needs to be attacking 
          */
         void attack(Entity* toAttack);
