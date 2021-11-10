@@ -8,6 +8,11 @@ Player::Player() :
 {
     // Set default move state to None
     _currentMoveState = None;
+    _texture.loadFromFile("assets/textures/sprite_test.png");
+    _width = _texture.getSize().x / animationData.numCols;
+    _height = _texture.getSize().y / animationData.numRows;
+    _sprite.setTexture(_texture);
+    _sprite.setTextureRect({0, _height*8, _width, _height});
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
@@ -61,6 +66,38 @@ void Player::onUpdate(float deltaTime)
 
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
+
+    animationData.timeAccumulated += deltaTime;
+}
+
+void Player::onDraw()
+{
+    Entity::onDraw();
+    if (animationData.timeAccumulated >= getSecondsPerFrame())
+    {
+        animationData.timeAccumulated = 0;
+        animationData.animationFrame = (animationData.animationFrame + 1) % animationData.numWalkingFrames;
+    }
+    updateTextureRect();
+}
+
+void Player::updateTextureRect()
+{
+    sf::Vector2i topLeft = {animationData.animationFrame * _width, _height * 8};
+    if (_velocity.x < 0)
+    {
+        topLeft += {0, _height};
+    }
+        else if (_velocity.y > 0)
+    {
+        topLeft += {0, _height*2};
+    }
+    else if (_velocity.x > 0)
+    {
+        topLeft += {0, _height*3};
+    }
+
+    _sprite.setTextureRect({topLeft.x, topLeft.y, _width, _height});
 }
 
 float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime)
@@ -112,13 +149,13 @@ void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
     this->_currentMoveState = MoveState::Dodging;
 }
 
-float Player::getVectorMagnitude(sf::Vector2<float> vec)
+float Player::getVectorMagnitude(sf::Vector2<float> vec) const
 {
     // Get the magnitude using the magnitude formula
     return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
-sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
+sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec) const
 {
     // Get the unit vector using the above magnitude
     return vec / this->getVectorMagnitude(vec);
@@ -152,4 +189,11 @@ const sf::Vector2<float>& Player::getLastMoveDirection() const
 const float& Player::getAttackRange() const
 {
     return this->_attackRange;
+}
+
+float Player::getSecondsPerFrame() const
+{
+    const float maxFPS = 20;
+    float fps = getVectorMagnitude(_velocity) * maxFPS / _moveSpeed;
+    return 1/fps;
 }
