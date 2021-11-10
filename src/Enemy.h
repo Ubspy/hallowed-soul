@@ -66,7 +66,7 @@ class Enemy : public Entity
         /**
          * @brief basic AI structure, determines movement/attacks
          * 
-         * @param deltaTime time since last frame
+         * @param deltaTime time since last frame in seconds
          */
         void onUpdate(float deltaTime);
 
