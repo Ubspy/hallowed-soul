@@ -128,8 +128,6 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
 
 void Player::attack(Entity* toAttack)
 {
-    printf("lastAttackTime: %f\n", this->_lastAttackTime);
-
     if(this->_lastAttackTime >= this->_attackTime)
     {
         // TODO: Change this
