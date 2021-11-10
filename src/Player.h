@@ -86,6 +86,7 @@ class Player : public Entity
         const float _dodgeFriction = 6000;
         const float _attackRange = 250;
         const float _deadZone = 0.01;
+        const float _attackTime = 0.6;
 
         // TODO: Unsure if this is needed
         MoveState _currentMoveState;
@@ -93,6 +94,9 @@ class Player : public Entity
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
         sf::Vector2<float> _lastMoveVec;
+
+        // Current time since last attack
+        float _lastAttackTime;
 
         // Current direction player is dodging in, as well as the speed of the dodge
         sf::Vector2<float> _dodgeVec;

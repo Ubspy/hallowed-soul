@@ -4,11 +4,13 @@
 Player::Player() 
 {
     // Initialize movement vector to <0, 0>
-    _moveVec = sf::Vector2<float>(0, 0);
-    _dodgeVec = sf::Vector2<float>(0, 0);
+    this->_moveVec = sf::Vector2<float>(0, 0);
+    this->_dodgeVec = sf::Vector2<float>(0, 0);
     
+    this->_lastAttackTime = 0;
+
     // Set default move state to None
-    _currentMoveState = None;
+    this->_currentMoveState = None;
 
     // Set texture
     this->setTexture("assets/textures/test.png");
@@ -62,6 +64,9 @@ void Player::onUpdate(float deltaTime)
         // Set previous move vector for dodging
         this->_lastMoveVec = this->_moveVec;
     }
+
+    // Update time since last attack
+    this->_lastAttackTime += deltaTime;
 
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -123,8 +128,16 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
 
 void Player::attack(Entity* toAttack)
 {
-    // TODO: Change this
-    toAttack->doDamage(40);
+    printf("lastAttackTime: %f\n", this->_lastAttackTime);
+
+    if(this->_lastAttackTime >= this->_attackTime)
+    {
+        // TODO: Change this
+        toAttack->doDamage(40);
+
+        // Reset time since last attack
+        this->_lastAttackTime = 0;
+    }
 }
 
 void Player::counter()

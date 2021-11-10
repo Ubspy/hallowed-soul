@@ -5,7 +5,7 @@ void GameManager::drawRoundProgressHUD()
     float enemiesAlive = (float)this->_wave.getEnemiesAlive();
     float totalEnemies = (float)this->_wave.getEnemies();
     int currWave = this->_wave.getWave();
-
+    
     const int lineSize = 2;
     const sf::Vector2<float> viewCenter = _gameWindow.getView().getCenter();
     const sf::Vector2<float> &viewSize = _view.getSize();
