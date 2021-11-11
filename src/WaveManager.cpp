@@ -174,7 +174,7 @@ sf::Text WaveManager::getHitIndicator(Enemy* e)
     sf::Text text;
     //std::cout<<time.asSeconds()<<std::endl;
     // Current wave number text
-    const sf::Vector2<float> indicatorPosition{(e->getPosition().x)-45, (e->getPosition().y)-30};
+    const sf::Vector2<float> indicatorPosition{(e->getPosition().x)-30, (e->getPosition().y)-30};
     
     text.setString("40");
     text.setCharacterSize(12);

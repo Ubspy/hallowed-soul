@@ -56,9 +56,6 @@ class GameManager
 
         sf::Time _hitIndicatorTime;
 
-        //int num;
-
-        //sf::Clock gameClock;
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
@@ -78,7 +75,6 @@ class GameManager
 
         float _indicatorTotal;
 
-        //bool hitIndicator;
         std::vector<sf::Vertex> _debugLines;
 
         //void debugDraw();
