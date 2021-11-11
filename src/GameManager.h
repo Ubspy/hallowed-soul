@@ -53,8 +53,6 @@ class GameManager
 
         sf::Text _hitIndicator;
 
-        sf::Time _hitIndicatorTime;
-
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
