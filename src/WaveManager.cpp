@@ -185,3 +185,8 @@ const std::vector<Enemy*>& WaveManager::getEnemiesVec() const
 {
     return this->_enemies;
 }
+
+WaveManager::~WaveManager()
+{
+    endWave();
+}

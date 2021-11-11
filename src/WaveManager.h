@@ -22,6 +22,8 @@ class WaveManager
         /** WaveManager constructor */
         WaveManager();
 
+        ~WaveManager();
+
         /**
          * @brief establishes a player pointer that can be passed to the enemies
          * 
