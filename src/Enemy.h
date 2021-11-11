@@ -11,11 +11,13 @@
 class Enemy : public Entity
 {
     private:
-        int ammo;
+        int _ammo;
         float _atkTime;
         bool _attacking;
         Player* _player;
-        std::vector<Enemy*>* friends;
+        std::vector<Enemy*>* _friends;
+        float _speed;
+        float _stun;
         
     public:
         Enemy();
@@ -70,6 +72,13 @@ class Enemy : public Entity
          * @param deltaTime time since last frame in seconds
          */
         void onUpdate(float deltaTime);
+
+        /**
+         * @brief doDamage override to stun enemies
+         * 
+         * @param damage damage amount
+         */
+        void doDamage(int damage);
 
         /**
          * @brief does nothing, exists for pure virtual override

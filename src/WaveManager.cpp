@@ -7,9 +7,9 @@
 
 WaveManager::WaveManager()
 {
-    currentWave = 0;
-    enemyCount = 0;
-    aliveEnemyCount =0;
+    _currentWave = 0;
+    _enemyCount = 0;
+    _aliveEnemyCount =0;
 }
 
 void WaveManager::setPlayer(Player &play)
@@ -19,9 +19,9 @@ void WaveManager::setPlayer(Player &play)
 
 bool WaveManager::waveOver()
 {
-    for(int i=0; i<enemyCount; i++)
+    for(int i=0; i<_enemyCount; i++)
     {
-        if(enemies.at(i)->isAlive())
+        if(_enemies.at(i)->isAlive())
         {
             return(false);
         }
@@ -31,13 +31,13 @@ bool WaveManager::waveOver()
 
 void WaveManager::beginWave()
 {
-    currentWave++;
+    _currentWave++;
     // For now, waves will progress linearly for simple demonstration sake
-    enemyCount = currentWave;
-    aliveEnemyCount = currentWave;
+    _enemyCount = _currentWave;
+    _aliveEnemyCount = _currentWave;
     // Spawn enemies
     Enemy* temp = nullptr;
-    for(int i=0; i<enemyCount; i++)
+    for(int i=0; i<_enemyCount; i++)
     {
         temp = new Enemy();
         sf::Vector2<float> spawn;
@@ -55,8 +55,8 @@ void WaveManager::beginWave()
                 loop = false;
                 for(int j=0; j<i; j++)
                 {
-                    if(spawn.x-enemies.at(j)->getPosition().x<30&&spawn.x-enemies.at(j)->getPosition().x>-30
-                            &&spawn.y-enemies.at(j)->getPosition().y<30&&spawn.y-enemies.at(j)->getPosition().y>-30)
+                    if(spawn.x-_enemies.at(j)->getPosition().x<30&&spawn.x-_enemies.at(j)->getPosition().x>-30
+                            &&spawn.y-_enemies.at(j)->getPosition().y<30&&spawn.y-_enemies.at(j)->getPosition().y>-30)
                     {
                         loop = true;
                         break;
@@ -66,42 +66,42 @@ void WaveManager::beginWave()
         }while(loop);
         temp->spawn(spawn); 
         temp->setPlayer(_player);
-        temp->setFriends(enemies);
-        enemies.push_back(temp);
+        temp->setFriends(_enemies);
+        _enemies.push_back(temp);
     }
 }
 
 void WaveManager::endWave()
 {
     // Clear gamestate
-    while(enemies.size() > 0)
+    while(_enemies.size() > 0)
     {
-        delete enemies.at(enemies.size()-1);
-        enemies.pop_back();
+        delete _enemies.at(_enemies.size()-1);
+        _enemies.pop_back();
     }
 }
 
 int WaveManager::getWave()
 {
-    return(currentWave);
+    return(_currentWave);
 }
 
 int WaveManager::getEnemies()
 {
-    return(enemyCount);
+    return(_enemyCount);
 }
 
 int WaveManager::getEnemiesAlive()
 {
-    return(aliveEnemyCount);
+    return(_aliveEnemyCount);
 }
 
 int WaveManager::getEnemiesRemaining()
 {
     int alive = 0;
-    for(int i=0; i<enemyCount; i++)
+    for(int i=0; i<_enemyCount; i++)
     {
-        if(enemies.at(i)->isAlive())
+        if(_enemies.at(i)->isAlive())
         {
             alive++;
         }
@@ -119,25 +119,25 @@ void WaveManager::update(float deltaTime)
     }
 
     // Update all our enemy objects
-    for(int i=0; i<enemyCount; i++)
+    for(int i=0; i<_enemyCount; i++)
     {
-        if(enemies.at(i)->isAlive())
+        if(_enemies.at(i)->isAlive())
         {
-            enemies.at(i)->update(deltaTime);
+            _enemies.at(i)->update(deltaTime);
         }
     }
 
     // Update the alive enemy count
-    aliveEnemyCount = getEnemiesRemaining();
+    _aliveEnemyCount = getEnemiesRemaining();
 }
 
 void WaveManager::waveDraw()
 {
-    for(int i=0; i<enemyCount; i++)
+    for(int i=0; i<_enemyCount; i++)
     {
-        if(enemies.at(i)->isAlive())
+        if(_enemies.at(i)->isAlive())
         {
-            enemies.at(i)->onDraw();
+            _enemies.at(i)->onDraw();
         }
     }
 }
@@ -168,13 +168,30 @@ sf::RectangleShape WaveManager::getHealthBar(Enemy* e)
     return insideRect;
 }
 
+sf::Text WaveManager::getHitIndicator(Enemy* e)
+{
+    
+    sf::Text text;
+    //std::cout<<time.asSeconds()<<std::endl;
+    // Current wave number text
+    const sf::Vector2<float> indicatorPosition{(e->getPosition().x)-30, (e->getPosition().y)-30};
+    
+    text.setString("40");
+    text.setCharacterSize(12);
+    text.setFillColor(sf::Color::Red);
+    text.setOutlineColor(sf::Color::Black);
+    text.setOutlineThickness(1);
+    text.setPosition(indicatorPosition);
+    return text;
+}
+
 
 Enemy* WaveManager::getEnemy(int n)
 {
     // Blah blah not how blah blah no enemies blah blah
-    if(n<(int)enemies.size())
+    if(n<(int)_enemies.size())
     {
-        return(enemies.at(n));
+        return(_enemies.at(n));
     }
     // no clue how this is gonna work with enemies, god I wish we used rust
     //return(-1);
@@ -183,5 +200,10 @@ Enemy* WaveManager::getEnemy(int n)
 
 const std::vector<Enemy*>& WaveManager::getEnemiesVec() const
 {
-    return this->enemies;
+    return this->_enemies;
+}
+
+WaveManager::~WaveManager()
+{
+    endWave();
 }

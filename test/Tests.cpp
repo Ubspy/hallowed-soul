@@ -9,6 +9,7 @@
 
 #include "Tests.h"
 #include "../src/Player.h"
+#include "../src/GameManager.cpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -17,6 +18,7 @@ int Tests::testNum {0};
 void Tests::runTests()
 {
     testAndPrint("Player animations", testPlayerAnimations);
+    testAndPrint("Enemy health bar", testEnemyHealthBars);
 }
 
 void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
@@ -80,5 +82,25 @@ bool Tests::testPlayerAnimations()
     if (firstLeft == secondLeft)
         return false;
 
+    return true;
+}
+
+bool Tests::testEnemyHealthBars()
+{
+    WaveManager wave;
+    Enemy* e = new Enemy;
+    int x = wave.getHealthBar(e).getSize().x;
+    e->doDamage(20);
+    if(wave.getHealthBar(e).getSize().x < x)
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+bool Tests::testEnemyHitIndicators()
+{
     return true;
 }

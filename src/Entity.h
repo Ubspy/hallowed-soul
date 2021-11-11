@@ -90,7 +90,7 @@ class Entity
          *
          * @param damage The amount of damage to do
          */
-        void doDamage(int damage);
+        virtual void doDamage(int damage);
 
         /**
          * @brief Getter for is entity is alive
