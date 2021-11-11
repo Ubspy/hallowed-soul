@@ -8,7 +8,6 @@
 #include <stdexcept>
 #include <limits>
 #include "Player.h"
-#include "GameManager.h"
 #include "WaveManager.h"
 
 /** Enum representing the game state. */

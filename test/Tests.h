@@ -18,6 +18,8 @@ class Tests
     private:
         void testAndPrint(std::string name, bool (Tests::*test) ());
         bool testPlayerAnimations();
+        bool testEnemyHealthBars();
+        bool testEnemyHitIndicators();
         static int testNum;
 };
 
