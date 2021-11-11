@@ -88,7 +88,12 @@ class Player : public Entity
             const int numRows {21};
             const int numCols {13};
             const int numWalkingFrames {9};
+            const int upWalkRow {8};
+            const int leftWalkRow {9};
+            const int downWalkRow {10};
+            const int rightWalkRow {11};
             int animationFrame {0};
+            int currentRow {upWalkRow};
             float timeAccumulated {0};
         } animationData;
 

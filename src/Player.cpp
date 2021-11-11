@@ -12,7 +12,7 @@ Player::Player() :
     _width = _texture.getSize().x / animationData.numCols;
     _height = _texture.getSize().y / animationData.numRows;
     _sprite.setTexture(_texture);
-    _sprite.setTextureRect({0, _height*8, _width, _height});
+    _sprite.setTextureRect({0, _height*animationData.upWalkRow, _width, _height});
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
@@ -83,20 +83,15 @@ void Player::onDraw()
 
 void Player::updateTextureRect()
 {
-    sf::Vector2i topLeft = {animationData.animationFrame * _width, _height * 8};
-    if (_velocity.x < 0)
-    {
-        topLeft += {0, _height};
-    }
+    if (_velocity.y < 0)
+        animationData.currentRow = animationData.upWalkRow;
+    else if (_velocity.x < 0)
+        animationData.currentRow = animationData.leftWalkRow;
     else if (_velocity.y > 0)
-    {
-        topLeft += {0, _height*2};
-    }
+        animationData.currentRow = animationData.downWalkRow;
     else if (_velocity.x > 0)
-    {
-        topLeft += {0, _height*3};
-    }
-
+        animationData.currentRow = animationData.rightWalkRow;
+    sf::Vector2i topLeft {animationData.animationFrame * _width, animationData.currentRow * _height};
     _sprite.setTextureRect({topLeft.x, topLeft.y, _width, _height});
 }
 
