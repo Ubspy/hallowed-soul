@@ -22,6 +22,9 @@ GameManager::GameManager() :
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
     this->_wave.setPlayer(this->_player);
+    
+    this->_UIMangr.setData(this->_player, this->_gameWindow, this->_view);
+    
 
     this->_player.spawn(sf::Vector2<float>(1280.0 / 2.0, 720.0 / 2.0));
 }

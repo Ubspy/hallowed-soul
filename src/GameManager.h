@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "GameManager.h"
 #include "WaveManager.h"
+#include "UIManager.h"
 
 /** Enum representing the game state. */
 enum GameState
@@ -63,6 +64,8 @@ class GameManager
 
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
+
+        UIManager _UIMangr;
 
         std::vector<sf::Vertex> _debugLines;
 
