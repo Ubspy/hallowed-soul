@@ -145,7 +145,8 @@ void WaveManager::waveDraw()
 sf::RectangleShape WaveManager::getHealthBarBorder(Enemy* e)
 {
     const sf::Vector2<float> barOutterSize{50.f, 5.f};
-    const sf::Vector2<float> barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    const sf::Vector2<float> barPosition{(e->_position.x + (e->getWidth() / 2.0f)) - 23,
+        (e->_position.y + (e->getHeight() / 2.0f)) - 30};
     sf::RectangleShape outsideRect(barOutterSize);
     outsideRect.setPosition(barPosition);
     outsideRect.setFillColor(sf::Color(45, 45, 45, 255));
@@ -159,7 +160,8 @@ sf::RectangleShape WaveManager::getHealthBar(Enemy* e)
 {
     const sf::Vector2<float> barOutterSize{50.f, 5.f};
     const sf::Vector2<float> barInnerSize{barOutterSize.x * ((float)e->getHealth() / 100.0f), barOutterSize.y};
-    const sf::Vector2<float> barPosition{(e->_position.x)-23, (e->_position.y)-30};
+    const sf::Vector2<float> barPosition{(e->_position.x + (e->getWidth() / 2.0f)) - 23, 
+        (e->_position.y + (e->getHeight() / 2.0f)) - 30};
     sf::RectangleShape insideRect(barInnerSize);
     insideRect.setPosition(barPosition);
     insideRect.setFillColor(sf::Color(255, 0, 0, 255));

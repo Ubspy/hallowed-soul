@@ -6,13 +6,7 @@ Entity::Entity()
     // Initialize position and velocity to have a position of <0, 0>
     _position = sf::Vector2<float>(0, 0);
     _velocity = sf::Vector2<float>(0, 0);
-
-    // Load texture in from file
-    // TODO: Does this need to by dynamic?
-    _texture.loadFromFile("assets/textures/test.png");
-    _sprite.setTexture(_texture);
-    _sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
-
+ 
     // Initialize entity with 0 size, and default health of 100
     _width = 0;
     _height = 0;
@@ -90,6 +84,19 @@ void Entity::spawn(sf::Vector2<float> spawnLocation)
 const sf::Sprite& Entity::getSprite() const
 {
     return _sprite;
+}
+
+void Entity::setTexture(std::string path)
+{
+    // Load texture in from file
+    // TODO: Does this need to by dynamic?
+    _texture.loadFromFile(path);
+    _sprite.setTexture(_texture);
+    //_sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
+
+    // Set width and height from the sprite
+    this->_width = _texture.getSize().x;
+    this->_height = _texture.getSize().y;
 }
 
 void Entity::onDraw()

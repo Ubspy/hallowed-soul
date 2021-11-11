@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "VectorUtil.h"
 
 /** Enemy class */
 class Enemy : public Entity
