@@ -228,6 +228,7 @@ void GameManager::drawFrame()
     // TODO: Add other entities
 
     // Draw the HUD over most things
+    _UIMangr.onDraw();
     drawHealthHUD();
     drawEnemyHealth();
     drawRoundProgressHUD();

@@ -13,6 +13,8 @@ void UIManager::setData(Player &player, sf::RenderWindow &gameWindow, sf::View &
     _player = &player;
     _gameWindow = &gameWindow;
     _view = &view;
+
+    _healthBar.setData(_player, _gameWindow, _view);
 }
 
 void UIManager::onDraw()

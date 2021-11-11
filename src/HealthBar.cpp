@@ -6,11 +6,12 @@
 //     fl_health;
 // }
 
-// void HealthBar::setData(Player& player, sf::RenderWindow& gameWindow)
-// {
-//     _player = &player;
-//     _gameWindow = &gameWindow;
-// }
+void HealthBar::setData(Player* player, sf::RenderWindow* gameWindow, sf::View* view)
+{
+    _player = player;
+    _gameWindow = gameWindow;
+    _view = view;
+}
 
 
 void HealthBar::draw()
