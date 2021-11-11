@@ -73,6 +73,7 @@ void Player::onUpdate(float deltaTime)
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
 
+    // Accumulate time here for animation purposes
     animationData.timeAccumulated += deltaTime;
 }
 
