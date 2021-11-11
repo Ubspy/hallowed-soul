@@ -52,7 +52,7 @@ class GameManager
 
         Enemy* _hitEnemy;
 
-        sf::Text hitIndicator;
+        sf::Text _hitIndicator;
 
         sf::Time _hitIndicatorTime;
 
@@ -74,7 +74,9 @@ class GameManager
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
 
-        sf::Font font;
+        sf::Font _font;
+
+        float _indicatorTotal;
 
         //bool hitIndicator;
         std::vector<sf::Vertex> _debugLines;
@@ -121,7 +123,7 @@ class GameManager
          * @brief Called from main game loop,
          *  will render all of our objects and entities to the view
          */
-        void drawFrame();
+        void drawFrame(sf::Time frameTime);
 
         /**
          * @brief Called from drawFrame(),
@@ -149,5 +151,5 @@ class GameManager
          */
         void drawRoundProgressHUD();
 
-        void drawHitIndicator(Enemy* e);
+        void drawHitIndicator(Enemy* e, sf::Time frameTime);
 };

@@ -12,10 +12,12 @@ GameManager::GameManager() :
     // Initialize the view (camera) 
     _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
 {
-    if (!font.loadFromFile("fonts/Helvetica.ttf"))
+    if (!_font.loadFromFile("fonts/Helvetica.ttf"))
     {
         printf("ERROR: font can not be loaded!!");
     }
+
+    _indicatorTotal = 0;
 
     _hitEnemy = nullptr;
 
@@ -67,7 +69,7 @@ void GameManager::runGame()
         checkCollisions();
 
         // Finally we want to draw the frame
-        drawFrame();
+        drawFrame(frameTime);
 
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
@@ -179,11 +181,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
             if(hitEnemy != nullptr)
             {
                 this->_player.attack(hitEnemy);
-                _hitEnemy = hitEnemy;
-                //drawHitIndicator(hitEnemy);
-            }
-            else 
-            {
+                _indicatorTotal = 0;
                 _hitEnemy = hitEnemy;
                 //drawHitIndicator(hitEnemy);
             }
@@ -216,7 +214,7 @@ void GameManager::updateEntities(sf::Time frameTime)
     this->_wave.update(frameTime.asSeconds());
 }
 
-void GameManager::drawFrame()
+void GameManager::drawFrame(sf::Time frameTime)
 {
     // Clear current buffer
     _gameWindow.clear();
@@ -243,7 +241,7 @@ void GameManager::drawFrame()
 
     // Draw the HUD over most things
     drawHealthHUD();
-    drawHitIndicator(_hitEnemy);
+    drawHitIndicator(_hitEnemy, frameTime);
     drawEnemyHealth();
     drawRoundProgressHUD();
 
