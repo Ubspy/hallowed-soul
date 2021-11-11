@@ -2,7 +2,7 @@
 
 Enemy::Enemy()
 {
-    ammo = 0;
+    _ammo = 0;
     _position = sf::Vector2<float> (0,0);
     _velocity = sf::Vector2<float>(0, 0);
     _atkTime = 0;
@@ -13,7 +13,7 @@ Enemy::Enemy()
 
 int Enemy::getAmmo()
 {
-    return ammo;
+    return _ammo;
 }
 
 void Enemy::spawn(sf::Vector2<float> pos)
@@ -28,7 +28,7 @@ void Enemy::setPlayer(Player* playerRef)
 
 void Enemy::setFriends(std::vector<Enemy*>& friendRef)
 {
-    friends = &friendRef;
+    _friends = &friendRef;
 }
 
 void Enemy::onUpdate(float deltaTime)
@@ -51,25 +51,25 @@ void Enemy::onUpdate(float deltaTime)
     {
         this->_velocity = sf::Vector2<float>(this->_player->getPosition().x-this->_position.x,
                 this->_player->getPosition().y-this->_position.y);
-        for(int i=0; i<friends->size(); i++)
+        for(int i=0; i<_friends->size(); i++)
         {
-            if((_position.x-friends->at(i)->getPosition().x<35&&_position.x-friends->at(i)->getPosition().x>-35
-                    &&_position.y-friends->at(i)->getPosition().y<35&&_position.y-friends->at(i)->getPosition().y>-35)
-                    &&friends->at(i)!=this&&friends->at(i)->isAlive())
+            if((_position.x-_friends->at(i)->getPosition().x<35&&_position.x-_friends->at(i)->getPosition().x>-35
+                    &&_position.y-_friends->at(i)->getPosition().y<35&&_position.y-_friends->at(i)->getPosition().y>-35)
+                    &&_friends->at(i)!=this&&_friends->at(i)->isAlive())
             {
-                if(_position.x-friends->at(i)->getPosition().x<30&&_velocity.x>0)
+                if(_position.x-_friends->at(i)->getPosition().x<30&&_velocity.x>0)
                 {
                     _velocity.x = 0;
                 }
-                if(_position.x-friends->at(i)->getPosition().x>-30&&_velocity.x<0)
+                if(_position.x-_friends->at(i)->getPosition().x>-30&&_velocity.x<0)
                 {
                     _velocity.x = 0;
                 }
-                if(_position.y-friends->at(i)->getPosition().y<30&&_velocity.y>0)
+                if(_position.y-_friends->at(i)->getPosition().y<30&&_velocity.y>0)
                 {
                     _velocity.y = 0;
                 }
-                if(_position.y-friends->at(i)->getPosition().y>-30&&_velocity.y<0)
+                if(_position.y-_friends->at(i)->getPosition().y>-30&&_velocity.y<0)
                 {
                     _velocity.y = 0;
                 }

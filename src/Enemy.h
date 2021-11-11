@@ -11,11 +11,11 @@
 class Enemy : public Entity
 {
     private:
-        int ammo;
+        int _ammo;
         float _atkTime;
         bool _attacking;
         Player* _player;
-        std::vector<Enemy*>* friends;
+        std::vector<Enemy*>* _friends;
         
     public:
         Enemy();
