@@ -29,15 +29,9 @@ void GameManager::drawRoundProgressHUD()
     _gameWindow.draw(insideRect);
 
     sf::Text text;
-    sf::Font font;
-
-    if (!font.loadFromFile("fonts/Helvetica.ttf"))
-    {
-        printf("ERROR: font can not be loaded!!");
-    }
 
     // Current wave number text
-    text.setFont(font);
+    text.setFont(_font);
     text.setString(std::to_string(currWave));
     text.setCharacterSize(lineSize * 2 + barOutterSize.y);
     text.setFillColor(sf::Color::White);
@@ -123,6 +117,20 @@ void GameManager::drawEnemyHealth()
         {
             _gameWindow.draw(this->_wave.getHealthBarBorder(this->_wave.getEnemy(i)));
             _gameWindow.draw(this->_wave.getHealthBar(this->_wave.getEnemy(i)));
+        }
+    }
+}
+
+void GameManager::drawHitIndicator(Enemy* e, sf::Time frameTime)
+{
+    if(e!=nullptr)
+    {
+        _indicatorTotal = frameTime.asSeconds() + _indicatorTotal;
+        _hitIndicator = this->_wave.getHitIndicator(e);
+        _hitIndicator.setFont(_font);
+        if(e->isAlive() && _indicatorTotal <= 1)
+        {
+            _gameWindow.draw(_hitIndicator);
         }
     }
 }
