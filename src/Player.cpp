@@ -24,9 +24,11 @@ void Player::onUpdate(float deltaTime)
     // At this point, we want to slow down if we are not currently moving 
     // We want to individually check each movement axis to see if we need to slow them
     this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x,
-            this->_friction, deltaTime);
+            (VectorUtil::getVectorMagnitude(this->_velocity) > this->_moveSpeed) ? 
+            (this->_dodgeFriction * this->_friction) : this->_friction, deltaTime);
     this->_velocity.y = this->checkDeadMoveAxis(this->_velocity.y, this->_moveVec.y,
-            this->_friction, deltaTime);
+            (VectorUtil::getVectorMagnitude(this->_velocity) > this->_moveSpeed) ? 
+            (this->_dodgeFriction * this->_friction) : this->_friction, deltaTime);
 
     // If there is movement on both axes, then we want to do something special
     if(this->_moveVec.x != 0 && this->_moveVec.y != 0)
@@ -46,7 +48,7 @@ void Player::onUpdate(float deltaTime)
             deltaTime)) > this->_moveSpeed ? (this->_velocity.y < 0 ? -this->_moveSpeed :
             this->_moveSpeed) : this->_velocity.y + moveVecUnit.y * this->_friction * deltaTime;
     }  
-
+ 
     if(this->_dodgeVec.x != 0 || this->_dodgeVec.y != 0)
     {
         // TODO: There needs to be a better way to call this function
@@ -114,11 +116,17 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
-    // The first thing we want to do is set the dodge vector now
-    this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
+    // We don't want to dodge if the velocity is near zero
+    if(VectorUtil::getVectorMagnitude(this->_velocity) > this->_deadZone)
+    {
+        // The first thing we want to do is set the dodge vector now
+        // We need to get the dodge vector from the last frame since dodge is processed before
+        // the moveVec is set
+        this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
 
-    // When we dodge, we want to set the state of movement to dodging 
-    this->_currentMoveState = MoveState::Dodging;
+        // When we dodge, we want to set the state of movement to dodging 
+        this->_currentMoveState = MoveState::Dodging;
+    }
 }
 
 void Player::spawn(sf::Vector2<float> spawnLocation)
@@ -145,11 +153,7 @@ void Player::counter()
 
 bool Player::isDodging()
 {
-    if(_currentMoveState==Dodging)
-    {
-        return(true);
-    }
-    return(false);
+    return this->_currentMoveState == MoveState::Dodging;
 }
 
 const sf::Vector2<float>& Player::getLastMoveDirection() const
