@@ -76,7 +76,7 @@ class GameManager
 
         std::vector<sf::Vertex> _debugLines;
 
-        //void debugDraw();
+        void debugDraw();
 
         /**
          * @brief Called from main loop, turns all the user inputs into game instructions

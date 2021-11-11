@@ -7,7 +7,7 @@ Enemy::Enemy()
     _velocity = sf::Vector2<float>(0, 0);
     _atkTime = 0;
     _attacking = false;
-    _speed = (float)100;
+    _speed = (float)50;
     _stun = (float)0;
 
     this->setTexture("assets/textures/test.png");
