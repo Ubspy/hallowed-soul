@@ -1,13 +1,21 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player() : 
-    // Initialize movement vector to <0, 0>
-    _moveVec(sf::Vector2<float>(0, 0)),
-    _dodgeVec(sf::Vector2<float>(0, 0))
+Player::Player() 
 {
+    // Initialize movement vector to <0, 0>
+    this->_moveVec = sf::Vector2<float>(0, 0);
+    this->_dodgeVec = sf::Vector2<float>(0, 0);
+    
+    this->_lastAttackTime = 0;
+
     // Set default move state to None
     _currentMoveState = None;
+    _texture.loadFromFile("assets/textures/sprite_test.png");
+    _width = _texture.getSize().x / animationData.numCols;
+    _height = _texture.getSize().y / animationData.numRows;
+    _sprite.setTexture(_texture);
+    _sprite.setTextureRect({0, _height*animationData.upWalkRow, _width, _height});
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
@@ -27,7 +35,7 @@ void Player::onUpdate(float deltaTime)
     {
         // We want to get the magnitude of the moveVector to make sure we're not moving
         // more when moving diagonally vs laterally
-        sf::Vector2<float> moveVecUnit = this->getUnitVector(this->_moveVec);
+        sf::Vector2<float> moveVecUnit = VectorUtil::getUnitVector(this->_moveVec);  
 
         // Set the current velocity to the movement vector
         // We want to multiply by the private move speed var so we don't move at
@@ -59,8 +67,39 @@ void Player::onUpdate(float deltaTime)
         this->_lastMoveVec = this->_moveVec;
     }
 
+    // Update time since last attack
+    this->_lastAttackTime += deltaTime;
+
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
+
+    // Accumulate time here for animation purposes
+    animationData.timeAccumulated += deltaTime;
+}
+
+void Player::onDraw()
+{
+    Entity::onDraw();
+    if (animationData.timeAccumulated >= getSecondsPerFrame())
+    {
+        animationData.timeAccumulated = 0;
+        animationData.animationFrame = (animationData.animationFrame + 1) % animationData.numWalkingFrames;
+    }
+    updateTextureRect();
+}
+
+void Player::updateTextureRect()
+{
+    if (_velocity.y < 0)
+        animationData.currentRow = animationData.upWalkRow;
+    else if (_velocity.x < 0)
+        animationData.currentRow = animationData.leftWalkRow;
+    else if (_velocity.y > 0)
+        animationData.currentRow = animationData.downWalkRow;
+    else if (_velocity.x > 0)
+        animationData.currentRow = animationData.rightWalkRow;
+    sf::Vector2i topLeft {animationData.animationFrame * _width, animationData.currentRow * _height};
+    _sprite.setTextureRect({topLeft.x, topLeft.y, _width, _height});
 }
 
 float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime)
@@ -82,9 +121,9 @@ float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, f
         // I'm sorry, this is so fucking gross
         // TODO: Fix this mess
         return (abs(velAxis + moveAxis * this->_friction * deltaTime)) >
-            this->_moveSpeed / this->getVectorMagnitude(this->_moveVec) ?
+            this->_moveSpeed / VectorUtil::getVectorMagnitude(this->_moveVec) ?
             (velAxis < 0 ? -this->_moveSpeed : this->_moveSpeed) /
-            this->getVectorMagnitude(this->_moveVec) :
+            VectorUtil::getVectorMagnitude(this->_moveVec) :
             velAxis + moveAxis * this->_friction * deltaTime;
     }
 }
@@ -106,28 +145,39 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
     // The first thing we want to do is set the dodge vector now
-    this->_dodgeVec = this->getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
+    this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
 
     // When we dodge, we want to set the state of movement to dodging 
     this->_currentMoveState = MoveState::Dodging;
 }
 
-float Player::getVectorMagnitude(sf::Vector2<float> vec)
+float Player::getVectorMagnitude(sf::Vector2<float> vec) const
 {
     // Get the magnitude using the magnitude formula
     return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
-sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec)
+sf::Vector2<float> Player::getUnitVector(sf::Vector2<float> vec) const
 {
     // Get the unit vector using the above magnitude
     return vec / this->getVectorMagnitude(vec);
 }
 
+void Player::spawn(sf::Vector2<float> spawnLocation)
+{
+    this->_position = spawnLocation;
+}
+
 void Player::attack(Entity* toAttack)
 {
-    // TODO: Change this
-    toAttack->doDamage(40);
+    if(this->_lastAttackTime >= this->_attackTime)
+    {
+        // TODO: Change this
+        toAttack->doDamage(40);
+
+        // Reset time since last attack
+        this->_lastAttackTime = 0;
+    }
 }
 
 void Player::counter()
@@ -149,7 +199,17 @@ const sf::Vector2<float>& Player::getLastMoveDirection() const
     return this->_lastMoveVec;
 }
 
-const float& Player::getAttackRange() const
+float Player::getAttackRange() const
 {
-    return this->_attackRange;
+    // We want to return the attack range plus the distance from the center of the 
+    // player sprite to the edge, this is because if we ever change the size of the
+    // sprite the attack range should be adjusted accordingly
+    return this->_attackRange + this->_width / 2.0f;
+}
+
+float Player::getSecondsPerFrame() const
+{
+    const float maxFPS = 20;
+    float fps = getVectorMagnitude(_velocity) * maxFPS / _moveSpeed;
+    return 1/fps;
 }

@@ -39,7 +39,6 @@ class Entity
          */
         const sf::Vector2<float>& getVelocity() const;
 
-
         /**
          * @brief Getter for entity active sprite
          *
@@ -47,6 +46,12 @@ class Entity
          */
         const sf::Sprite& getSprite() const;
 
+        /**
+         * @brief Set the texture of this entity
+         *
+         * @param path The path of the texture
+         */
+        void setTexture(std::string path);
 
         /**
          * @brief Getter for entity width
@@ -121,7 +126,7 @@ class Entity
          * @brief Called from update, the overridable function for specific entities
          *  to change their members based off user input
          *
-         * @param deltaTime The time between this update and the last one
+         * @param deltaTime The time between this update and the last one in seconds
          */
         virtual void onUpdate(float deltaTime) = 0;
         
@@ -135,7 +140,7 @@ class Entity
         /** Vector for position in world coordinates.
          * 
          * Modify this to reposition the entity in the world.
-         */
+         */ 
         
         sf::Vector2<float> _position;
 

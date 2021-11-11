@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "Entity.h"
+#include "VectorUtil.h"
 
 /** Enum which holds what state the player is in. */
 enum MoveState
@@ -39,6 +40,13 @@ class Player : public Entity
         void dodgeInDirection(sf::Vector2<float> dodgeDir);
 
         /**
+         * @brief Spawns the player at a location
+         *
+         * @param spawnLocation The location to spawn the player at
+         */
+        void spawn(sf::Vector2<float> spawnLocation);
+
+        /**
          * @brief Tells the player it needs to be attacking 
          */
         void attack(Entity* toAttack);
@@ -68,7 +76,12 @@ class Player : public Entity
          * @return It returns a random number. Just kidding it's the constant attack range of
          *  the player
          */
-        const float& getAttackRange() const;
+        float getAttackRange() const;
+
+        /**
+         * Implementation of onDraw()
+         */
+        void onDraw();
 
     private:
         // Constants for player movement
@@ -76,8 +89,22 @@ class Player : public Entity
         const float _dodgeSpeed = 1100;
         const float _friction = 1600;
         const float _dodgeFriction = 6000;
-        const float _attackRange = 250;
+        const float _attackRange = 40;
         const float _deadZone = 0.01;
+        const float _attackTime = 0.6;
+
+        struct {
+            const int numRows {21};
+            const int numCols {13};
+            const int numWalkingFrames {9};
+            const int upWalkRow {8};
+            const int leftWalkRow {9};
+            const int downWalkRow {10};
+            const int rightWalkRow {11};
+            int animationFrame {0};
+            int currentRow {upWalkRow};
+            float timeAccumulated {0};
+        } animationData;
 
         // TODO: Unsure if this is needed
         MoveState _currentMoveState;
@@ -85,6 +112,9 @@ class Player : public Entity
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
         sf::Vector2<float> _lastMoveVec;
+
+        // Current time since last attack
+        float _lastAttackTime;
 
         // Current direction player is dodging in, as well as the speed of the dodge
         sf::Vector2<float> _dodgeVec;
@@ -124,7 +154,7 @@ class Player : public Entity
          *
          * @return The magnitude of the vector 
          */
-        float getVectorMagnitude(sf::Vector2<float> vec);
+        float getVectorMagnitude(sf::Vector2<float> vec) const;
 
         /**
          * @brief Get the unit vector of any vector
@@ -133,5 +163,11 @@ class Player : public Entity
          *
          * @return The unit vector 
          */
-        sf::Vector2<float> getUnitVector(sf::Vector2<float> vec);
+        sf::Vector2<float> getUnitVector(sf::Vector2<float> vec) const;
+
+        /** Helper function to update the sprite rectangle */
+        void updateTextureRect();
+
+        /** Compute seconds per frame based on velocity */
+        float getSecondsPerFrame() const;
 };
