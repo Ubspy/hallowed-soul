@@ -54,6 +54,8 @@ class GameManager
 
         sf::Text hitIndicator;
 
+        sf::Time _hitIndicatorTime;
+
         //int num;
 
         //sf::Clock gameClock;

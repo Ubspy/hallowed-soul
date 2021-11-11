@@ -126,3 +126,29 @@ void GameManager::drawEnemyHealth()
         }
     }
 }
+
+void GameManager::drawHitIndicator(Enemy* e)
+{
+    //sf::Clock gameClock;
+    //sf::Time time = gameClock.restart();
+    
+    //std::cout<<frameTime.asSeconds()<<std::endl;
+
+    if(e!=nullptr)
+    {
+        hitIndicator = this->_wave.getHitIndicator(e);
+        hitIndicator.setFont(font);
+        if(e->isAlive())
+        {
+            _gameWindow.draw(hitIndicator);
+        }
+        //_hitEnemy = nullptr;
+    }
+    else
+    {
+        //text.setFillColor(sf::Color::Transparent);
+        //text.setOutlineColor(sf::Color::Transparent);
+    }
+    
+    //hitIndicator
+}
