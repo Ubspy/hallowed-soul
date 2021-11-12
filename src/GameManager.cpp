@@ -23,7 +23,7 @@ GameManager::GameManager() :
     _gameWindow.setView(_view);
     this->_wave.setPlayer(this->_player);
     
-    this->_UIMangr.setData(this->_player, this->_gameWindow, this->_view);
+    this->_UIManager.setData(_player, _wave, _gameWindow, _view);
     
 
     this->_player.spawn(sf::Vector2<float>(1280.0 / 2.0, 720.0 / 2.0));
@@ -228,10 +228,9 @@ void GameManager::drawFrame()
     // TODO: Add other entities
 
     // Draw the HUD over most things
-    _UIMangr.onDraw();
-    drawHealthHUD();
+    
     drawEnemyHealth();
-    drawRoundProgressHUD();
+    _UIManager.onDraw();
 
     #if DEBUG
         this->debugDraw();

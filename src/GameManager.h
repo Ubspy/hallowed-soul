@@ -65,7 +65,7 @@ class GameManager
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
 
-        UIManager _UIMangr;
+        UIManager _UIManager;
 
         std::vector<sf::Vertex> _debugLines;
 
@@ -124,18 +124,6 @@ class GameManager
          *  Temporary function to draw a basic background of our map
          */
         void drawMap();
-    
-        /**
-         * @brief Called from drawFrame(),
-         *  Draw the players health heads up display
-         */
-        void drawHealthHUD();
 
         void drawEnemyHealth();
-
-        /**
-         * @brief Called from drawFrame(),
-         *  Draw a heads up display on the current round information
-         */
-        void drawRoundProgressHUD();
 };
