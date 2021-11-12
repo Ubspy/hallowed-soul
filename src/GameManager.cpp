@@ -1,4 +1,7 @@
 #include "GameManager.h"
+#include <cmath>
+#include <stdexcept>
+#include <iostream>
 
 bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
@@ -9,6 +12,15 @@ GameManager::GameManager() :
     // Initialize the view (camera) 
     _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
 {
+    if (!_font.loadFromFile("fonts/Helvetica.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
+    _indicatorTotal = 0;
+
+    _hitEnemy = nullptr;
+
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
     _currentState = GameState::playing;
@@ -60,7 +72,7 @@ void GameManager::runGame()
         checkCollisions();
 
         // Finally we want to draw the frame
-        drawFrame();
+        drawFrame(frameTime);
 
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
@@ -166,12 +178,15 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::LShift:
         {
-            Entity* hitEnemy = this->rayCast(this->_player,
+            Enemy* hitEnemy = this->rayCast(this->_player,
                     this->_player.getLastMoveDirection() * this->_player.getAttackRange());
 
             if(hitEnemy != nullptr)
             {
                 this->_player.attack(hitEnemy);
+                _indicatorTotal = 0;
+                _hitEnemy = hitEnemy;
+                //drawHitIndicator(hitEnemy);
             }
         }
         default:
@@ -202,7 +217,7 @@ void GameManager::updateEntities(sf::Time frameTime)
     this->_wave.update(frameTime.asSeconds());
 }
 
-void GameManager::drawFrame()
+void GameManager::drawFrame(sf::Time frameTime)
 {
     // Clear current buffer
     _gameWindow.clear();
@@ -228,7 +243,7 @@ void GameManager::drawFrame()
     // TODO: Add other entities
 
     // Draw the HUD over most things
-    
+    drawHitIndicator(_hitEnemy, frameTime);
     drawEnemyHealth();
     _UIManager.onDraw();
 
@@ -252,7 +267,7 @@ void GameManager::debugDraw()
     }
 }
 
-Entity* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
+Enemy* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {
     // TODO: Add other entities
     std::vector<Enemy*> enemies = this->_wave.getEnemiesVec();  

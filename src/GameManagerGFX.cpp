@@ -53,3 +53,17 @@ void GameManager::drawEnemyHealth()
         }
     }
 }
+
+void GameManager::drawHitIndicator(Enemy* e, sf::Time frameTime)
+{
+    if(e!=nullptr)
+    {
+        _indicatorTotal = frameTime.asSeconds() + _indicatorTotal;
+        _hitIndicator = this->_wave.getHitIndicator(e);
+        _hitIndicator.setFont(_font);
+        if(e->isAlive() && _indicatorTotal <= 1)
+        {
+            _gameWindow.draw(_hitIndicator);
+        }
+    }
+}

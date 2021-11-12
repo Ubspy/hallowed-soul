@@ -8,7 +8,6 @@
 #include <stdexcept>
 #include <limits>
 #include "Player.h"
-#include "GameManager.h"
 #include "WaveManager.h"
 #include "UIManager.h"
 
@@ -47,9 +46,14 @@ class GameManager
          */
         void runGame();
 
-        Entity* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
+        Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
+
+        Enemy* _hitEnemy;
+
+        sf::Text _hitIndicator;
+
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
@@ -66,6 +70,10 @@ class GameManager
         WaveManager _wave;
 
         UIManager _UIManager;
+
+        sf::Font _font;
+
+        float _indicatorTotal;
 
         std::vector<sf::Vertex> _debugLines;
 
@@ -111,7 +119,7 @@ class GameManager
          * @brief Called from main game loop,
          *  will render all of our objects and entities to the view
          */
-        void drawFrame();
+        void drawFrame(sf::Time frameTime);
 
         /**
          * @brief Called from drawFrame(),
@@ -126,4 +134,6 @@ class GameManager
         void drawMap();
 
         void drawEnemyHealth();
+
+        void drawHitIndicator(Enemy* e, sf::Time frameTime);
 };
