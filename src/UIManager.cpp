@@ -19,8 +19,8 @@ void UIManager::setData(Player &player, WaveManager &wave, sf::RenderWindow &gam
     _waveBar.setData(_wave, _gameWindow, _view);
 }
 
-void UIManager::onDraw()
+void UIManager::onDraw(sf::Time frameTime)
 {
     _healthBar.draw();
-    _waveBar.draw();
+    _waveBar.draw(frameTime);
 }

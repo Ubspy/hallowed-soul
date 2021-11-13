@@ -5,16 +5,31 @@ void WaveBar::setData(WaveManager* wave, sf::RenderWindow* gameWindow, sf::View*
     _wave = wave;
     _gameWindow = gameWindow;
     _view = view;
+    _newWaveMatcher = wave->getWave();
 }
 
 
-void WaveBar::draw()
+void WaveBar::draw(sf::Time frameTime)
 {
+    
     float enemiesAlive = _wave->getEnemiesAlive();
     float totalEnemies = _wave->getEnemies();
     int currWave = _wave->getWave();
-    
-    const int lineSize = 2;
+
+    // Handle if a new wave started or we are already drawing a wave notification, if so draw the notification again.
+    if (currWave > _newWaveMatcher)
+    {
+        _timeElapsed = 0;
+        _isDrawingNotif = true;
+        _newWaveMatcher = currWave; // maybe remove this and update mem var when anim is done (doing so removes else block)
+        drawWaveNotification(frameTime);
+    }
+    else if (_isDrawingNotif)
+    {
+        drawWaveNotification(frameTime);
+    }
+
+    const int lineSize = 2; // make this a constant?
     const sf::Vector2<float> viewCenter = _gameWindow->getView().getCenter();
     const sf::Vector2<float> &viewSize = _view->getSize();
     const sf::Vector2<float> barOutterSize{100.f, 5.f};
@@ -70,17 +85,52 @@ void WaveBar::draw()
     _gameWindow->draw(waveText);
 
 
-    sf::Text waveText1;
-    // Current wave number text
-    waveText1.setFont(font);
-    
-    waveText1.setStyle(sf::Text::Regular);
-    waveText1.setString("Wave " + std::to_string(currWave));
-    waveText1.setCharacterSize(64);
-    waveText1.setFillColor(sf::Color::White);
-    waveText1.setOutlineColor(sf::Color::Black);
-    waveText1.setOutlineThickness(3);
+}
 
-    waveText1.setPosition(sf::Vector2f{viewCenter.x - (waveText1.getGlobalBounds().left + waveText1.getGlobalBounds().width) / 2, viewCenter.y - (waveText1.getGlobalBounds().top + waveText1.getGlobalBounds().height) / 2});
-    _gameWindow->draw(waveText1);
+void WaveBar::drawWaveNotification(sf::Time frameTime)
+{
+    // TODO: remove font vars to one place?
+    _timeElapsed += frameTime.asSeconds();
+
+    const sf::Vector2<float> viewCenter = _gameWindow->getView().getCenter();
+    const sf::Vector2<float> &viewSize = _view->getSize();
+
+    sf::Font font;
+    sf::Text waveText;
+
+    if (!font.loadFromFile("fonts/Helvetica.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
+    // Current wave number text
+    waveText.setFont(font);
+
+    waveText.setString("Wave " + std::to_string(_wave->getWave()));
+    waveText.setCharacterSize(64);
+    waveText.setOutlineThickness(3);
+    // Set position to the center of the screen
+    waveText.setPosition(sf::Vector2f{viewCenter.x - (waveText.getGlobalBounds().left + waveText.getGlobalBounds().width) / 2,
+                                      viewCenter.y - (waveText.getGlobalBounds().top + waveText.getGlobalBounds().height) / 2});
+    
+
+    // Show wave notifaction for 1 second, then fade away for an additional second.
+    if (_timeElapsed < 1)
+    {
+        waveText.setFillColor(sf::Color::White);
+        waveText.setOutlineColor(sf::Color::Black);
+    }
+    else if (_timeElapsed < 2)
+    {
+        float dif = 2 - _timeElapsed;
+        waveText.setFillColor(sf::Color(255, 255, 255, dif * 255)); // White with adjusted alpha
+        waveText.setOutlineColor(sf::Color(0, 0, 0, dif * 255)); // Black with adjusted alpha
+    }
+    else
+    {
+        _isDrawingNotif = false;
+        return;
+    }
+
+    _gameWindow->draw(waveText);
 }

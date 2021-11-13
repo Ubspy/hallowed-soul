@@ -245,7 +245,7 @@ void GameManager::drawFrame(sf::Time frameTime)
     // Draw the HUD over most things
     drawHitIndicator(_hitEnemy, frameTime);
     drawEnemyHealth();
-    _UIManager.onDraw();
+    _UIManager.onDraw(frameTime);
 
     #if DEBUG
         this->debugDraw();

@@ -35,7 +35,7 @@ class UIManager
         /**
          * Implementation of onDraw()
          */
-        void onDraw();
+        void onDraw(sf::Time frameTime);
 
     private:
 
