@@ -109,9 +109,9 @@ void WaveBar::drawWaveNotification(sf::Time frameTime)
     waveText.setOutlineThickness(3);
 
     // Show wave notifaction for 1 second, then fade away for an additional second.
-    if (_timeElapsed < 1)
+    if (_timeElapsed <= 1)
     {
-        waveText.setCharacterSize(_timeElapsed * 54 + 10);
+        waveText.setCharacterSize((_timeElapsed * 54) + 10);
         waveText.setPosition(sf::Vector2f{viewCenter.x - (waveText.getGlobalBounds().left + waveText.getGlobalBounds().width) / 2,
                                           _timeElapsed * (viewCenter.y - (waveText.getGlobalBounds().top + waveText.getGlobalBounds().height) / 2)});
         waveText.setFillColor(sf::Color::White);
