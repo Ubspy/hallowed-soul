@@ -63,7 +63,6 @@ void WaveBar::draw(sf::Time frameTime)
     fractionText.setFont(font);
     fractionText.setString(std::to_string((int)enemiesAlive)+"/"+std::to_string((int)totalEnemies));
     fractionText.setCharacterSize(lineSize * 2 + barOutterSize.y);
-    // fractionText.setCharacterSize(800);
     fractionText.setFillColor(sf::Color::White);
     fractionText.setOutlineColor(sf::Color::Black);
     fractionText.setOutlineThickness(1);
@@ -105,24 +104,25 @@ void WaveBar::drawWaveNotification(sf::Time frameTime)
 
     // Current wave number text
     waveText.setFont(font);
-
     waveText.setString("Wave " + std::to_string(_wave->getWave()));
     waveText.setCharacterSize(64);
     waveText.setOutlineThickness(3);
-    // Set position to the center of the screen
-    waveText.setPosition(sf::Vector2f{viewCenter.x - (waveText.getGlobalBounds().left + waveText.getGlobalBounds().width) / 2,
-                                      viewCenter.y - (waveText.getGlobalBounds().top + waveText.getGlobalBounds().height) / 2});
-    
 
     // Show wave notifaction for 1 second, then fade away for an additional second.
     if (_timeElapsed < 1)
     {
+        waveText.setCharacterSize(_timeElapsed * 54 + 10);
+        waveText.setPosition(sf::Vector2f{viewCenter.x - (waveText.getGlobalBounds().left + waveText.getGlobalBounds().width) / 2,
+                                          _timeElapsed * (viewCenter.y - (waveText.getGlobalBounds().top + waveText.getGlobalBounds().height) / 2)});
         waveText.setFillColor(sf::Color::White);
         waveText.setOutlineColor(sf::Color::Black);
     }
     else if (_timeElapsed < 2)
     {
         float dif = 2 - _timeElapsed;
+        // Set position to the center of the screen by
+        waveText.setPosition(sf::Vector2f{viewCenter.x - (waveText.getGlobalBounds().left + waveText.getGlobalBounds().width) / 2,
+                                         viewCenter.y - (waveText.getGlobalBounds().top + waveText.getGlobalBounds().height) / 2});
         waveText.setFillColor(sf::Color(255, 255, 255, dif * 255)); // White with adjusted alpha
         waveText.setOutlineColor(sf::Color(0, 0, 0, dif * 255)); // Black with adjusted alpha
     }
