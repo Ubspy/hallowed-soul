@@ -12,15 +12,18 @@
 class WaveManager
 {
     private:
-        int currentWave;
-        int enemyCount;
-        int aliveEnemyCount;
-        std::vector<Enemy*> enemies;
+        int _currentWave;
+        int _enemyCount;
+        int _aliveEnemyCount;
+        std::vector<Enemy*> _enemies;
         Player* _player;
 
     public:
         /** WaveManager constructor */
         WaveManager();
+
+        ~WaveManager();
+        sf::Text getHitIndicator(Enemy* e);
 
         /**
          * @brief establishes a player pointer that can be passed to the enemies

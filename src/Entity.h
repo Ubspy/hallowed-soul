@@ -90,7 +90,7 @@ class Entity
          *
          * @param damage The amount of damage to do
          */
-        void doDamage(int damage);
+        virtual void doDamage(int damage);
 
         /**
          * @brief Getter for is entity is alive
@@ -126,7 +126,7 @@ class Entity
          * @brief Called from update, the overridable function for specific entities
          *  to change their members based off user input
          *
-         * @param deltaTime The time between this update and the last one
+         * @param deltaTime The time between this update and the last one in seconds
          */
         virtual void onUpdate(float deltaTime) = 0;
         
