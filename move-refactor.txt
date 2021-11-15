@@ -1,0 +1,12 @@
+First the velocity is slowed by a friction force,
+both axes are independantly slowed.
+
+This is done by decreasing the magnitude of velocity by `friction * delaTime` each frame.
+We also need to check if the velocity of the player is larger than move speed of the player.
+This will only happen if we're dodging, and we need to slow down accordingly.
+
+If we are giving movement input, we want to accelerate in that direction.
+We want to set the moveVec to the unit vector, we don't want diagonal movement to be faster
+than purely lateral movement.
+
+We only want to accelerate is the velocity hasn't reached the movement velocity.
