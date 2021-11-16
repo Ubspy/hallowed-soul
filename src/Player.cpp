@@ -12,7 +12,7 @@ Player::Player()
 
     // Set default move state to None
     _currentMoveState = None;
-    _texture.loadFromFile("assets/textures/sprite_test.png");
+    _texture.loadFromFile("assets/textures/player.png");
     _width = _texture.getSize().x / animationData.numCols;
     _height = _texture.getSize().y / animationData.numRows;
     _sprite.setTexture(_texture);
@@ -78,7 +78,7 @@ void Player::onUpdate(float deltaTime)
 
 void Player::onDraw()
 {
-    
+
 }
 
 
