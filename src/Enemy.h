@@ -74,6 +74,11 @@ class Enemy : public Entity
         void onUpdate(float deltaTime);
 
         /**
+         * Implementation of onDraw()
+         */
+        void onDraw();
+
+        /**
          * @brief doDamage override to stun enemies
          * 
          * @param damage damage amount

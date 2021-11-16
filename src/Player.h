@@ -122,5 +122,4 @@ class Player : public Entity
          * @return The new value for the velocity after slow down 
          */
         float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
-
 };

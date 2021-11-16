@@ -70,11 +70,15 @@ void Entity::onDrawBase()
         animationData.timeAccumulated = 0;
         animationData.currentFrame.x = (animationData.currentFrame.x + 1) % animationData.numWalkingFrames;
     }
-    setWalkingFrame();
     onDraw();
     updateTextureRect();
     // Default behavior is to just set the sprite's position I guess
     _sprite.setPosition(_position);
+}
+
+void Entity::onDraw()
+{
+    setWalkingFrame();
 }
 
 void Entity::doDamage(int damage)

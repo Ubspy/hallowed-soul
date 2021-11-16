@@ -72,7 +72,7 @@ void Player::onUpdate(float deltaTime)
 
 void Player::onDraw()
 {
-
+    Entity::onDraw();
 }
 
 

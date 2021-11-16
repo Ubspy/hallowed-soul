@@ -134,7 +134,7 @@ class Entity
          * @brief Called from draw, change the active sprite to draw to the scene, and 
          *  set up current sprite for rendering 
          */
-        virtual void onDraw() {}
+        virtual void onDraw();
         
         /**
          * @brief Called from the game manager after a collision with another entity

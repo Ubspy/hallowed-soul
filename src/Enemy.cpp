@@ -88,6 +88,11 @@ void Enemy::onUpdate(float deltaTime)
     }
 }
 
+void Enemy::onDraw()
+{
+    Entity::onDraw();
+}
+
 void Enemy::doDamage(int damage)
 {
     _health -= damage;
