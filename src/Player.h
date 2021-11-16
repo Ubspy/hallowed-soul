@@ -64,6 +64,20 @@ class Player : public Entity
         bool isDodging();
 
         /**
+         * @brief checks if player is red
+         * 
+         * @return true if red
+         */
+        bool isRed();
+
+        /**
+         * @brief override for entity's doDamage
+         * 
+         * @param damage damage amount
+         */
+        void doDamage(int damage);
+
+        /**
          * @brief Gets the last direction the player moved in (for attacking)
          *
          * @return Hmmmm, I wonder? Maybe the last direction the player moved in?? 
@@ -117,6 +131,10 @@ class Player : public Entity
 
         // Current time since last attack
         float _lastAttackTime;
+
+        // tracking red glow
+        float _redTime;
+        bool _isRed;
 
         // Current direction player is dodging in, as well as the speed of the dodge
         sf::Vector2<float> _dodgeVec;

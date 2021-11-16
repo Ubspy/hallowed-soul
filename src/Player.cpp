@@ -16,11 +16,21 @@ Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec)
     _height = _texture.getSize().y / animationData.numRows;
     _sprite.setTexture(_texture);
     _sprite.setTextureRect({0, _height*animationData.upWalkRow, _width, _height});
+
+    _isRed = false;
+    _redTime = 0;
 }
 
 // Pure virtual function from the Entity class
 void Player::onUpdate(float deltaTime)
 {
+    // updating red at the start
+    _redTime -= deltaTime;
+    if(_redTime <= 0)
+    {
+        _isRed = false;
+    }
+
     // At this point, we want to slow down if we are not currently moving 
     // We want to individually check each movement axis to see if we need to slow them
     this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x,
@@ -209,6 +219,18 @@ void Player::counter()
 bool Player::isDodging()
 {
     return this->_currentMoveState == MoveState::Dodging;
+}
+
+bool Player::isRed()
+{
+    return _isRed;
+}
+
+void Player::doDamage(int damage)
+{
+    this->_health -= damage;
+    _redTime = 0.5;
+    _isRed = true;
 }
 
 const sf::Vector2<float>& Player::getLastMoveDirection() const

@@ -130,6 +130,12 @@ class GameManager
          *  Temporary function to draw a basic background of our map
          */
         void drawMap();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw a red glow
+         */
+        void drawRed();
     
         /**
          * @brief Called from drawFrame(),

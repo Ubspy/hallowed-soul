@@ -259,6 +259,11 @@ void GameManager::drawFrame(sf::Time frameTime)
     drawEnemyHealth();
     drawRoundProgressHUD();
 
+    if(_player.isRed())
+    {
+        drawRed();
+    }
+    
     #if DEBUG
         this->debugDraw();
     #endif
