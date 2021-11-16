@@ -18,10 +18,15 @@
  * set _position or _velocity in onUpdate() to define the movement behavior of your Entity.
  */
 
+enum EntityType
+{
+    PLAYER, ENEMY
+};
+
 class Entity
 {
     public:
-        Entity();
+        Entity(std::vector<Entity*> *entityVec);
 
         /// Getters and Setters
         /**
@@ -31,6 +36,7 @@ class Entity
          */
         const sf::Vector2<float>& getPosition() const;
 
+        sf::Vector2<float> getCetnerPosition() const;
         
         /**
          * @brief Getter for entity velocity
@@ -137,19 +143,16 @@ class Entity
          */
         virtual void onCollision(Entity &hitEntity) = 0;  
 
+        virtual EntityType getEntityType() = 0;
+
         /** Vector for position in world coordinates.
          * 
          * Modify this to reposition the entity in the world.
          */ 
-        
         sf::Vector2<float> _position;
 
     protected:
 
-        /** Vector for velocity. 
-         * 
-         * Modify this to give the entity a new velocity.
-         */
         // Vectors for position and velocity
         sf::Vector2<float> _velocity;
 
@@ -197,4 +200,11 @@ class Entity
          */
         // TODO: Sprite array?
         sf::Sprite _sprite;
+
+        // This is going to be the list of all entities in the game, we need this for ray casting
+        std::vector<Entity*> *_entityVec;
+
+        Entity* rayCast(const sf::Vector2<float> &ray);
+        bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3,
+                float x4, float y4);
 };

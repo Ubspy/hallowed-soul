@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player() 
+Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec)
 {
     // Initialize movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -17,8 +17,6 @@ Player::Player()
     _sprite.setTexture(_texture);
     _sprite.setTextureRect({0, _height*animationData.upWalkRow, _width, _height});
 }
-
-// TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
 
 // Pure virtual function from the Entity class
 void Player::onUpdate(float deltaTime)
@@ -88,6 +86,11 @@ void Player::onDraw()
         animationData.animationFrame = (animationData.animationFrame + 1) % animationData.numWalkingFrames;
     }
     updateTextureRect();
+}
+
+EntityType Player::getEntityType()
+{
+    return EntityType::PLAYER;
 }
 
 void Player::updateTextureRect()
@@ -176,12 +179,22 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
     this->_position = spawnLocation;
 }
 
-void Player::attack(Entity* toAttack)
+void Player::attack()
 {
-    if(this->_lastAttackTime >= this->_attackTime)
+    Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->_attackRange);
+
+    if(hitEntity == nullptr)
     {
-        // TODO: Change this
-        toAttack->doDamage(40);
+        printf("NULLPTR\n");
+    }
+    else if(hitEntity->getEntityType() == EntityType::ENEMY)
+    {
+        printf("HITHITHIT\n");
+    }
+
+    if(this->_lastAttackTime >= this->_attackTime && hitEntity != nullptr)
+    {
+        hitEntity->doDamage(40);
 
         // Reset time since last attack
         this->_lastAttackTime = 0;

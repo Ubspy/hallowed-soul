@@ -1,6 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy()
+// TODO: Fix this, pass an actual pointer
+Enemy::Enemy(std::vector<Entity*> *entityVec) : Entity(entityVec)
 {
     _ammo = 0;
     _position = sf::Vector2<float> (0,0);
@@ -39,14 +40,30 @@ void Enemy::onUpdate(float deltaTime)
             &&_position.y-_player->getPosition().y<30&&_position.y-_player->getPosition().y>-30))
             ||_attacking)
     {
+        // If it's the first time the enemy is within range,
+        // get the player position to attack in
+        if(!this->_attacking)
+        {
+            this->_attackDir = VectorUtil::getUnitVector(this->_player->getCetnerPosition()
+                    - this->getCetnerPosition());
+        }
+
         _attacking = true;
         _velocity = sf::Vector2<float> (0,0);
         _atkTime += deltaTime;
-        if(_atkTime >= 0.25)
+
+        if(_atkTime >= 1.25)
         {
             _attacking = false;
             _atkTime = 0;
-            _player->doDamage(10);
+            // _player->doDamage(10);
+            
+            Entity* hitEntity = this->rayCast(this->_attackDir * this->_attackRange);
+
+            if(hitEntity != nullptr && hitEntity->getEntityType() == PLAYER)
+            {
+                hitEntity->doDamage(10);
+            }
         }
     }
     else
@@ -95,6 +112,11 @@ void Enemy::doDamage(int damage)
     _health -= damage;
     _attacking = false;
     _stun = 0.5;
+}
+
+EntityType Enemy::getEntityType()
+{
+    return EntityType::ENEMY; 
 }
 
 Enemy::~Enemy()

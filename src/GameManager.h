@@ -45,9 +45,10 @@ class GameManager
          */
         void runGame();
 
-        Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
+        // Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
+        std::vector<Entity*> _entityVec;
 
         Enemy* _hitEnemy;
 
