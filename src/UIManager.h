@@ -13,9 +13,7 @@
  */
 class UIManager
 {
-    public:
-        UIManager();
-        
+    public:        
         Player* _player;
         WaveManager* _wave;
         sf::RenderWindow* _gameWindow;

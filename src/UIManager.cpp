@@ -2,12 +2,6 @@
 #include <cmath>
 #include "GameManager.h"
 
-UIManager::UIManager() 
-{
-
-    printf("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\n\n\n");
-}
-
 void UIManager::setData(Player &player, WaveManager &wave, sf::RenderWindow &gameWindow, sf::View &view)
 {
     _player = &player;
