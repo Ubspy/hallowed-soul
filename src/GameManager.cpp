@@ -80,6 +80,8 @@ void GameManager::runGame()
         // Finally we want to draw the frame
         drawFrame(frameTime);
 
+        //printf("FPS: %f\n", 1/frameTime.asSeconds());
+
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
         {

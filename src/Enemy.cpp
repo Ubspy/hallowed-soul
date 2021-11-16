@@ -36,16 +36,19 @@ void Enemy::setFriends(std::vector<Enemy*>& friendRef)
 
 void Enemy::onUpdate(float deltaTime)
 {
-    if(((_position.x-_player->getPosition().x<30&&_position.x-_player->getPosition().x>-30
-            &&_position.y-_player->getPosition().y<30&&_position.y-_player->getPosition().y>-30))
-            ||_attacking)
+    this->_velocity = sf::Vector2<float>(this->_player->getPosition().x-this->_position.x,
+            this->_player->getPosition().y-this->_position.y);
+    this->_velocity = VectorUtil::getUnitVector(this->_velocity); 
+    
+    Entity* hitEntity = this->rayCast(this->_velocity * this->_attackRange);
+
+    if(hitEntity==_player||_attacking)
     {
         // If it's the first time the enemy is within range,
         // get the player position to attack in
         if(!this->_attacking)
         {
-            this->_attackDir = VectorUtil::getUnitVector(this->_player->getCetnerPosition()
-                    - this->getCetnerPosition());
+            this->_attackDir = _velocity * _attackRange;
         }
 
         _attacking = true;
@@ -58,9 +61,9 @@ void Enemy::onUpdate(float deltaTime)
             _atkTime = 0;
             // _player->doDamage(10);
             
-            Entity* hitEntity = this->rayCast(this->_attackDir * this->_attackRange);
+            Entity* hitEntity = this->rayCast(this->_attackDir);
 
-            if(hitEntity != nullptr && hitEntity->getEntityType() == PLAYER)
+            if(hitEntity == _player)
             {
                 hitEntity->doDamage(10);
             }
@@ -68,40 +71,99 @@ void Enemy::onUpdate(float deltaTime)
     }
     else
     {
-        this->_velocity = sf::Vector2<float>(this->_player->getPosition().x-this->_position.x,
-                this->_player->getPosition().y-this->_position.y);
         if(_stun > (float)0)
         {
             _stun -= deltaTime;
             _velocity = sf::Vector2<float>(0,0);
         }
-        for(int i=0; i<(int)_friends->size(); i++)
+        
+        // begin the great if-ening
+        // time to answer the age old question: can raycasting deliver more accurate collisions?
+        // HOLY FUCKING LAG
+        // so the lag issue was solved by removing debug printf statements in entity.cpp. Great Success!
+        Entity* ahead = rayCast(sf::Vector2<float>(31,-30));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
         {
-            if((_position.x-_friends->at(i)->getPosition().x<35&&_position.x-_friends->at(i)->getPosition().x>-35
-                    &&_position.y-_friends->at(i)->getPosition().y<35&&_position.y-_friends->at(i)->getPosition().y>-35)
-                    &&_friends->at(i)!=this&&_friends->at(i)->isAlive())
+            if(_velocity.x>0)
             {
-                if(_position.x-_friends->at(i)->getPosition().x<30&&_velocity.x>0)
-                {
-                    _velocity.x = 0;
-                }
-                if(_position.x-_friends->at(i)->getPosition().x>-30&&_velocity.x<0)
-                {
-                    _velocity.x = 0;
-                }
-                if(_position.y-_friends->at(i)->getPosition().y<30&&_velocity.y>0)
-                {
-                    _velocity.y = 0;
-                }
-                if(_position.y-_friends->at(i)->getPosition().y>-30&&_velocity.y<0)
-                {
-                    _velocity.y = 0;
-                }
-            }
+                _velocity.x=0;
+                if(_velocity.y>0){_velocity.y=1;}
+                if(_velocity.y<0){_velocity.y=-1;}
+            }   
         }
+        ahead = rayCast(sf::Vector2<float>(31,30));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.x>0)
+            {
+                _velocity.x=0;
+                if(_velocity.y>0){_velocity.y=1;}
+                if(_velocity.y<0){_velocity.y=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(30,31));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.y>0)
+            {
+                _velocity.y=0;
+                if(_velocity.x>0){_velocity.x=1;}
+                if(_velocity.x<0){_velocity.x=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(-30,31));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.y>0)
+            {
+                _velocity.y=0;
+                if(_velocity.x>0){_velocity.x=1;}
+                if(_velocity.x<0){_velocity.x=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(-31,30));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.x<0)
+            {
+                _velocity.x=0;
+                if(_velocity.y>0){_velocity.y=1;}
+                if(_velocity.y<0){_velocity.y=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(-31,-30));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.x<0)
+            {
+                _velocity.x=0;
+                if(_velocity.y>0){_velocity.y=1;}
+                if(_velocity.y<0){_velocity.y=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(-30,-31));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.y<0)
+            {
+                _velocity.y=0;
+                if(_velocity.x>0){_velocity.x=1;}
+                if(_velocity.x<0){_velocity.x=-1;}
+            } 
+        }
+        ahead = rayCast(sf::Vector2<float>(30,-31));
+        if(ahead != nullptr && ahead->getEntityType() == EntityType::ENEMY)
+        {
+            if(_velocity.y<0)
+            {
+                _velocity.y=0;
+                if(_velocity.x>0){_velocity.x=1;}
+                if(_velocity.x<0){_velocity.x=-1;}
+            } 
+        }
+
         if(_velocity!=sf::Vector2<float> (0,0))
         {
-            this->_velocity = VectorUtil::getUnitVector(this->_velocity); 
             this->_velocity *= _speed;
         }
     }

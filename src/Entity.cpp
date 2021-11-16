@@ -144,12 +144,12 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
     {
         Entity* currentEntity = this->_entityVec->at(i);
 
-        printf("%i\n", i); 
+        //printf("%i\n", i); 
 
         // Skip entity if it's the same as this one
         if(this == currentEntity)
         {
-            printf("SAME ENTITY\n");
+            //printf("SAME ENTITY\n");
             continue;
         }
 
@@ -157,11 +157,11 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
         if(!currentEntity->isAlive())
             continue;
     
-        printf("Source: x: %f, y: %f\n", sourceCenter.x, sourceCenter.y);
-        printf("Player: x: %f, y: %f, w: %i, h: %i\n",
-                currentEntity->getPosition().x, currentEntity->getPosition().y,
-                currentEntity->getWidth(), currentEntity->getHeight());
-        printf("Ray: x: %f, y: %f\n", ray.x, ray.y);
+        //printf("Source: x: %f, y: %f\n", sourceCenter.x, sourceCenter.y);
+        //printf("Player: x: %f, y: %f, w: %i, h: %i\n",
+        //        currentEntity->getPosition().x, currentEntity->getPosition().y,
+        //       currentEntity->getWidth(), currentEntity->getHeight());
+        //printf("Ray: x: %f, y: %f\n", ray.x, ray.y);
 
         // There are four lines to check for intersection here, so we need to check all of them
         // First is the left-most line
