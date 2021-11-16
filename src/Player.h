@@ -134,21 +134,4 @@ class Player : public Entity
          */
         float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
 
-        /**
-         * @brief Get the magnitude of a vector
-         *
-         * @param vec The vector to get the magnitude of
-         *
-         * @return The magnitude of the vector 
-         */
-        float getVectorMagnitude(sf::Vector2<float> vec) const;
-
-        /**
-         * @brief Get the unit vector of any vector
-         *
-         * @param vec The vector to get the unit of
-         *
-         * @return The unit vector 
-         */
-        sf::Vector2<float> getUnitVector(sf::Vector2<float> vec) const;
 };
