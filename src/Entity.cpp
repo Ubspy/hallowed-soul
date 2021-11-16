@@ -64,6 +64,10 @@ void Entity::update(float deltaTime)
 
     // After the update, we want to update the entity's position based off of it's velocity
     this->_position += this->_velocity * deltaTime;
+    if(_position.x<0){_position.x=0;}
+    if(_position.x>1450){_position.x=1450;}
+    if(_position.y<0){_position.y=0;}
+    if(_position.y>1050){_position.y=1050;}
 
     // The below '/' was added by Diesel, he's a good boy
     // Finally, we draw the entity  /
