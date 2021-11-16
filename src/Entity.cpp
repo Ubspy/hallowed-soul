@@ -129,13 +129,13 @@ void Entity::updateTextureRect()
 
 void Entity::setWalkingFrame()
 {
-    if (_velocity.y < 0)
+    if (_velocity.y < 0 && -_velocity.y > std::abs(_velocity.x))
         animationData.currentFrame.y = animationData.upWalkRow;
-    else if (_velocity.x < 0)
+    else if (_velocity.x < 0 && -_velocity.x > std::abs(_velocity.y))
         animationData.currentFrame.y = animationData.leftWalkRow;
-    else if (_velocity.y > 0)
+    else if (_velocity.y > 0 && _velocity.y > std::abs(_velocity.x))
         animationData.currentFrame.y = animationData.downWalkRow;
-    else if (_velocity.x > 0)
+    else if (_velocity.x > 0 && _velocity.x > std::abs(_velocity.y))
         animationData.currentFrame.y = animationData.rightWalkRow;
 }
 
