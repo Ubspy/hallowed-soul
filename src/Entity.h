@@ -141,7 +141,13 @@ class Entity
          *
          * @param hitEntity The other entity this one collider with
          */
-        virtual void onCollision(Entity &hitEntity) = 0;  
+        virtual void onCollision(Entity &hitEntity) = 0; 
+
+        /**
+         * @brief Quick fix for setting the entity into an attacking state.
+         * 
+         */
+        void setAttackState();
 
         /** Vector for position in world coordinates.
          * 
@@ -152,14 +158,16 @@ class Entity
 
     protected:
 
-        /** Enum which holds what state the player is in. */
+        /** Enum which holds what state the entity is in. */
         enum MoveState
         {
-            /** The player is moving. */
+            /** The entity is moving. */
             Moving,
-            /** The player is dodging. */
+            /** The entity is dodging. */
             Dodging,
-            /** The player is attacking. */
+            /** An attack was just triggered */
+            AttackTriggered,
+            /** The entity is attacking. */
             Attacking
         } _currentMoveState;
 
@@ -215,11 +223,24 @@ class Entity
         // TODO: Sprite array?
         sf::Sprite _sprite;
 
+        /** Sets the sprite direction */
+        void setSpriteDirection();
+
         /** Sets the walking frame, general for entities that can walk. */
         void setWalkingFrame();
 
+        /** Sets the attacking frame, general for entities that can attack. */
+        void setAttackingFrame();
+
         /* A helper struct to store data that has to do with animation */
         struct {
+            enum Direction
+            {
+                Up,
+                Left,
+                Down,
+                Right,
+            } direction;
             const int numRows {21};
             const int numCols {13};
             const int numWalkingFrames {9};
@@ -227,6 +248,11 @@ class Entity
             const int leftWalkRow {9};
             const int downWalkRow {10};
             const int rightWalkRow {11};
+            const int numAttackingFrames {6};
+            const int upAttackRow {12};
+            const int leftAttackRow {13};
+            const int downAttackRow {14};
+            const int rightAttackRow {15};
             sf::Vector2i currentFrame {0, rightWalkRow};
             float timeAccumulated {0};
         } animationData;

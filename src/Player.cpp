@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "VectorUtil.h"
 #include <cmath>
+#include <iostream>
 
-Player::Player() : Entity()
+Player::Player() : Entity(), _currentMoveState {Moving}
 {
     // Initialize movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -10,6 +11,7 @@ Player::Player() : Entity()
     
     this->_lastAttackTime = 0;
     setTexture("assets/textures/player.png");
+
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
@@ -72,7 +74,30 @@ void Player::onUpdate(float deltaTime)
 
 void Player::onDraw()
 {
-    Entity::onDraw();
+    switch (_currentMoveState)
+    {
+        case MoveState::Moving:
+        {
+            std::cout << "Current state: Moving\n";
+            break;
+        }
+        case MoveState::Attacking:
+        {
+            std::cout << "Current state: Attacking\n";
+            break;
+        }
+        case MoveState::AttackTriggered:
+        {
+            std::cout << "Current state: AttackTriggered\n";
+            break;
+        }
+        case MoveState::Dodging:
+        {
+            std::cout << "Current state: Dodging\n";
+            break;
+        }
+    }
+    std::cout << "row: " << animationData.currentFrame.y << " col: " << animationData.currentFrame.x << "\n";
 }
 
 
@@ -114,7 +139,7 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
     this->_moveVec += moveDir;
 
     // We also want to tell the player it was given input, as to now slow its input down
-    this->_currentMoveState = MoveState::Moving;
+    // this->_currentMoveState = MoveState::Moving;
 }
 
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
@@ -128,7 +153,7 @@ void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
         this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
 
         // When we dodge, we want to set the state of movement to dodging 
-        this->_currentMoveState = MoveState::Dodging;
+        // this->_currentMoveState = MoveState::Dodging;
     }
 }
 

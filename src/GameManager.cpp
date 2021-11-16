@@ -175,6 +175,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::LShift:
         {
+            _player.setAttackState();
             Enemy* hitEnemy = this->rayCast(this->_player,
                     this->_player.getLastMoveDirection() * this->_player.getAttackRange());
 

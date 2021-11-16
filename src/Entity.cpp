@@ -1,8 +1,9 @@
 #include "Entity.h"
 #include "GameManager.h"
 #include "VectorUtil.h"
+#include <iostream>
 
-Entity::Entity()
+Entity::Entity() : _currentMoveState {Moving}
 {
     // Initialize position and velocity to have a position of <0, 0>
     _position = sf::Vector2<float>(0, 0);
@@ -15,8 +16,6 @@ Entity::Entity()
 
     // Entity starts as alive
     this->_isAlive = true;
-
-    _currentMoveState = Moving;
 }
 
 const sf::Vector2<float>& Entity::getPosition() const
@@ -68,7 +67,37 @@ void Entity::onDrawBase()
     if (animationData.timeAccumulated >= getSecondsPerFrame())
     {
         animationData.timeAccumulated = 0;
-        animationData.currentFrame.x = (animationData.currentFrame.x + 1) % animationData.numWalkingFrames;
+        animationData.currentFrame.x++;
+        if (_currentMoveState == Moving)
+            animationData.currentFrame.x %= animationData.numWalkingFrames;
+        else if (_currentMoveState == AttackTriggered)
+        {
+            animationData.currentFrame.x = 0;
+            _currentMoveState = Attacking;
+        }
+        else if (_currentMoveState == Attacking)
+        {
+            if (animationData.currentFrame.x == animationData.numAttackingFrames)
+            {
+                animationData.currentFrame.x = 0;
+                _currentMoveState = Moving;
+            }
+        }
+    }
+    setSpriteDirection();
+    switch (_currentMoveState)
+    {
+        case Moving:
+        {
+            setWalkingFrame();
+            break;
+        }
+        case Attacking:
+        {
+            setAttackingFrame();
+            break;
+        }
+        default: ;
     }
     onDraw();
     updateTextureRect();
@@ -78,7 +107,6 @@ void Entity::onDrawBase()
 
 void Entity::onDraw()
 {
-    setWalkingFrame();
 }
 
 void Entity::doDamage(int damage)
@@ -122,9 +150,26 @@ void Entity::setTexture(std::string path)
 
 float Entity::getSecondsPerFrame() const
 {
-    const float framesPerPixelTraveled = 0.1;
-    float fps = VectorUtil::getVectorMagnitude(_velocity) * framesPerPixelTraveled;
-    return 1/fps;
+    switch (_currentMoveState)
+    {
+        case Moving:
+        {
+            const float framesPerPixelTraveled = 0.1;
+            float fps = VectorUtil::getVectorMagnitude(_velocity) * framesPerPixelTraveled;
+            return 1/fps;
+            break;
+        }
+        case Attacking:
+        {
+            return 0.05;
+            break;
+        }
+        default:
+        {
+            return 0.1;
+            break;
+        }
+    }
 }
 
 void Entity::updateTextureRect()
@@ -133,16 +178,45 @@ void Entity::updateTextureRect()
     _sprite.setTextureRect({topLeft.x, topLeft.y, _width, _height});
 }
 
-void Entity::setWalkingFrame()
+void Entity::setSpriteDirection()
 {
     if (_velocity.y < 0 && -_velocity.y > std::abs(_velocity.x))
-        animationData.currentFrame.y = animationData.upWalkRow;
+        animationData.direction = animationData.Direction::Up;
     else if (_velocity.x < 0 && -_velocity.x > std::abs(_velocity.y))
-        animationData.currentFrame.y = animationData.leftWalkRow;
+        animationData.direction = animationData.Direction::Left;
     else if (_velocity.y > 0 && _velocity.y > std::abs(_velocity.x))
-        animationData.currentFrame.y = animationData.downWalkRow;
+        animationData.direction = animationData.Direction::Down;
     else if (_velocity.x > 0 && _velocity.x > std::abs(_velocity.y))
+        animationData.direction = animationData.Direction::Right;
+}
+
+void Entity::setWalkingFrame()
+{
+    if (animationData.direction == animationData.Direction::Up)
+        animationData.currentFrame.y = animationData.upWalkRow;
+    else if (animationData.direction == animationData.Direction::Left)
+        animationData.currentFrame.y = animationData.leftWalkRow;
+    else if (animationData.direction == animationData.Direction::Down)
+        animationData.currentFrame.y = animationData.downWalkRow;
+    else if (animationData.direction == animationData.Direction::Right)
         animationData.currentFrame.y = animationData.rightWalkRow;
+}
+
+void Entity::setAttackingFrame()
+{
+    if (animationData.direction == animationData.Direction::Up)
+        animationData.currentFrame.y = animationData.upAttackRow;
+    else if (animationData.direction == animationData.Direction::Left)
+        animationData.currentFrame.y = animationData.leftAttackRow;
+    else if (animationData.direction == animationData.Direction::Down)
+        animationData.currentFrame.y = animationData.downAttackRow;
+    else if (animationData.direction == animationData.Direction::Right)
+        animationData.currentFrame.y = animationData.rightAttackRow;
+}
+
+void Entity::setAttackState()
+{
+    _currentMoveState = AttackTriggered;
 }
 
 void Entity::onCollision(Entity &hitEntity)
