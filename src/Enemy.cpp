@@ -10,7 +10,7 @@ Enemy::Enemy()
     _speed = (float)50;
     _stun = (float)0;
 
-    this->setTexture("assets/textures/test.png");
+    setTexture("assets/textures/skeleton.png");
 }
 
 int Enemy::getAmmo()

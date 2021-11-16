@@ -12,10 +12,7 @@ Player::Player()
 
     // Set default move state to None
     _currentMoveState = None;
-    _texture.loadFromFile("assets/textures/player.png");
-    _width = _texture.getSize().x / animationData.numCols;
-    _height = _texture.getSize().y / animationData.numRows;
-    _sprite.setTexture(_texture);
+    setTexture("assets/textures/player.png");
 }
 
 // TODO: Dodging and then moving in a different direction causes it to zip around at mach 6

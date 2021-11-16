@@ -109,8 +109,9 @@ void Entity::setTexture(std::string path)
     //_sprite.setOrigin((int)(_texture.getSize().x / 2), (int)(_texture.getSize().y / 2));
 
     // Set width and height from the sprite
-    this->_width = _texture.getSize().x;
-    this->_height = _texture.getSize().y;
+    _width = _texture.getSize().x / animationData.numCols;
+    _height = _texture.getSize().y / animationData.numRows;
+    _sprite.setTextureRect({animationData.currentFrame.x * _width, animationData.currentFrame.y * _height, _width, _height});
 }
 
 float Entity::getSecondsPerFrame() const
