@@ -152,6 +152,17 @@ class Entity
 
     protected:
 
+        /** Enum which holds what state the player is in. */
+        enum MoveState
+        {
+            /** The player is moving. */
+            Moving,
+            /** The player is dodging. */
+            Dodging,
+            /** The player is attacking. */
+            Attacking
+        } _currentMoveState;
+
         /** Vector for velocity. 
          * 
          * Modify this to give the entity a new velocity.

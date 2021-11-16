@@ -1,10 +1,8 @@
 #include "Enemy.h"
 
-Enemy::Enemy()
+Enemy::Enemy() : Entity()
 {
     _ammo = 0;
-    _position = sf::Vector2<float> (0,0);
-    _velocity = sf::Vector2<float>(0, 0);
     _atkTime = 0;
     _attacking = false;
     _speed = (float)50;

@@ -4,17 +4,6 @@
 #include "Entity.h"
 #include "VectorUtil.h"
 
-/** Enum which holds what state the player is in. */
-enum MoveState
-{
-    /** The player is moving. */
-    Moving,
-    /** The player is dodging. */
-    Dodging,
-    /** The player is standing still. */
-    None
-};
-
 /** Class for the player.
  * 
  * The Player is an Entity which is controlled by the player and responds to keyboard input.

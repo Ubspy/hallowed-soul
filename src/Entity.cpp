@@ -15,6 +15,8 @@ Entity::Entity()
 
     // Entity starts as alive
     this->_isAlive = true;
+
+    _currentMoveState = Moving;
 }
 
 const sf::Vector2<float>& Entity::getPosition() const

@@ -2,16 +2,13 @@
 #include "VectorUtil.h"
 #include <cmath>
 
-Player::Player() 
+Player::Player() : Entity()
 {
     // Initialize movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
     this->_dodgeVec = sf::Vector2<float>(0, 0);
     
     this->_lastAttackTime = 0;
-
-    // Set default move state to None
-    _currentMoveState = None;
     setTexture("assets/textures/player.png");
 }
 
