@@ -6,7 +6,6 @@
 class WaveBar
 {
     public:
-        float _health;
         WaveManager* _wave;
         sf::RenderWindow* _gameWindow;
         sf::View* _view;

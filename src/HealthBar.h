@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include "Player.h"
-// #include "UIManager.h"
 
 class HealthBar
 {
@@ -11,6 +10,10 @@ class HealthBar
         sf::RenderWindow* _gameWindow;
         sf::View* _view;
 
+        /**
+         * @brief Called from UIManager's own setData().
+         *  Set pointers needed to get health information.
+         */
         void setData(Player* player, sf::RenderWindow* gameWindow, sf::View* view);
 
         /**

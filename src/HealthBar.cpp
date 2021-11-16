@@ -1,11 +1,5 @@
 #include "HealthBar.h"
 
-
-// HealthBar::HealthBar()
-// {
-//     fl_health;
-// }
-
 void HealthBar::setData(Player* player, sf::RenderWindow* gameWindow, sf::View* view)
 {
     _player = player;
@@ -13,11 +7,9 @@ void HealthBar::setData(Player* player, sf::RenderWindow* gameWindow, sf::View* 
     _view = view;
 }
 
-
 void HealthBar::draw()
 {
-    
-
+    // TODO: make it less ugly
     const int lineSize = 2;
     const sf::Vector2<float> viewCenter = _gameWindow->getView().getCenter();
     const sf::Vector2<float> &viewSize = _view->getSize();

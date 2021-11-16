@@ -8,10 +8,9 @@ void WaveBar::setData(WaveManager* wave, sf::RenderWindow* gameWindow, sf::View*
     _newWaveMatcher = wave->getWave();
 }
 
-
 void WaveBar::draw(sf::Time frameTime)
 {
-    
+    // TODO: make this less ugly.
     float enemiesAlive = _wave->getEnemiesAlive();
     float totalEnemies = _wave->getEnemies();
     int currWave = _wave->getWave();
@@ -21,7 +20,7 @@ void WaveBar::draw(sf::Time frameTime)
     {
         _timeElapsed = 0;
         _isDrawingNotif = true;
-        _newWaveMatcher = currWave; // maybe remove this and update mem var when anim is done (doing so removes else block)
+        _newWaveMatcher = currWave;
         drawWaveNotification(frameTime);
     }
     else if (_isDrawingNotif)
