@@ -15,12 +15,13 @@ class WaveManager
         int _currentWave;
         int _enemyCount;
         int _aliveEnemyCount;
+        std::vector<Entity*> *_entityVec;
         std::vector<Enemy*> _enemies;
         Player* _player;
 
     public:
         /** WaveManager constructor */
-        WaveManager();
+        WaveManager(std::vector<Entity*> *entityVec);
 
         ~WaveManager();
         sf::Text getHitIndicator(Enemy* e);

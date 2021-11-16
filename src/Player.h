@@ -22,7 +22,7 @@ enum MoveState
 class Player : public Entity
 {
     public:
-        Player();
+        Player(std::vector<Entity*> *entityVec);
 
         /**
          * @brief Tells the player which direction it needs to be moving 
@@ -49,7 +49,7 @@ class Player : public Entity
         /**
          * @brief Tells the player it needs to be attacking 
          */
-        void attack(Entity* toAttack);
+        void attack();
 
         /**
          * @brief Tells the player it needs to be countering
@@ -82,6 +82,8 @@ class Player : public Entity
          * Implementation of onDraw()
          */
         void onDraw();
+
+        EntityType getEntityType();
 
     private:
         // Constants for player movement
