@@ -245,15 +245,15 @@ void GameManager::drawFrame(sf::Time frameTime)
     drawEnemyHealth();
     drawRoundProgressHUD();
 
-    /*#if DEBUG
+    #if DEBUG
         this->debugDraw();
-    #endif*/
+    #endif
 
     // Finally, display the window
     _gameWindow.display();    
 }
 
-/*void GameManager::debugDraw()
+void GameManager::debugDraw()
 {
     for(int i = 0; i < (this->_debugLines.size()); i += 2)
     {
@@ -263,13 +263,7 @@ void GameManager::drawFrame(sf::Time frameTime)
 
         this->_gameWindow.draw(currentLine, 2, sf::Lines);
     }
-    if (playerLocation.y + viewSize.y / 2 > mapSize.y) // If camera view is extends past bottom side of the map.
-    {
-        view.setCenter(sf::Vector2f{view.getCenter().x, mapSize.y - (viewSize.y / 2)});
-    }
-
-    _gameWindow.setView(view);
-}*/
+}
 
 Enemy* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {

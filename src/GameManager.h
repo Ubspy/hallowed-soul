@@ -53,8 +53,6 @@ class GameManager
 
         sf::Text _hitIndicator;
 
-        sf::Time _hitIndicatorTime;
-
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
@@ -76,7 +74,7 @@ class GameManager
 
         std::vector<sf::Vertex> _debugLines;
 
-        //void debugDraw();
+        void debugDraw();
 
         /**
          * @brief Called from main loop, turns all the user inputs into game instructions

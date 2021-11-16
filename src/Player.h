@@ -85,7 +85,7 @@ class Player : public Entity
 
     private:
         // Constants for player movement
-        const float _moveSpeed = 350;
+        const float _moveSpeed = 200;
         const float _dodgeSpeed = 1100;
         const float _friction = 1600;
         const float _dodgeFriction = 6000;
