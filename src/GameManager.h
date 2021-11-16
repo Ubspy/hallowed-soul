@@ -127,12 +127,6 @@ class GameManager
          */
         void updateViewLocked();
 
-        /**
-         * @brief Called from drawFrame(),
-         *  Temporary function to draw a basic background of our map
-         */
-        void drawMap();
-
         void drawEnemyHealth();
 
         void drawHitIndicator(Enemy* e, sf::Time frameTime);

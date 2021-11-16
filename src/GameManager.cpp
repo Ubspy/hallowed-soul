@@ -226,7 +226,7 @@ void GameManager::drawFrame(sf::Time frameTime)
     updateViewLocked();
 
     // Draw the temporary background before anything else
-    drawMap();
+    _UIManager.drawMap();
 
     // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
     // and calling the game window draw function

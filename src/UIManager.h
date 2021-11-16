@@ -22,8 +22,6 @@ class UIManager
         sf::View* _view;
         HealthBar _healthBar;
         WaveBar _waveBar;
-   
-
 
         /**
          * @brief establishes a player pointer that can be passed to the enemies
@@ -36,6 +34,12 @@ class UIManager
          * Implementation of onDraw()
          */
         void onDraw(sf::Time frameTime);
+
+        /**
+         * @brief Called from drawFrame(),
+         *  This will draw the map as well as the tutorial sprite.
+         */
+        void drawMap();
 
     private:
 
