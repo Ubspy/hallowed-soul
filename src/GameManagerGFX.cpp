@@ -84,6 +84,18 @@ void GameManager::drawMap()
     this->_gameWindow.draw(sprite);
 }
 
+void GameManager::drawRed()
+{
+    sf::Texture texture;
+    texture.loadFromFile("assets/textures/red.png");
+    texture.setRepeated(true);
+
+    sf::IntRect rectSourceSprite(0, 0, 1500, 1125);
+    sf::Sprite sprite(texture, rectSourceSprite);
+
+    this->_gameWindow.draw(sprite);
+}
+
 void GameManager::drawHealthHUD()
 {
     const int lineSize = 2;

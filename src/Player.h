@@ -11,7 +11,7 @@
 class Player : public Entity
 {
     public:
-        Player();
+        Player(std::vector<Entity*> *entityVec);
 
         /**
          * @brief Tells the player which direction it needs to be moving 
@@ -38,7 +38,7 @@ class Player : public Entity
         /**
          * @brief Tells the player it needs to be attacking 
          */
-        void attack(Entity* toAttack);
+        void attack();
 
         /**
          * @brief Tells the player it needs to be countering
@@ -51,6 +51,20 @@ class Player : public Entity
          * @return true if dodging
          */
         bool isDodging();
+
+        /**
+         * @brief checks if player is red
+         * 
+         * @return true if red
+         */
+        bool isRed();
+
+        /**
+         * @brief override for entity's doDamage
+         * 
+         * @param damage damage amount
+         */
+        void doDamage(int damage);
 
         /**
          * @brief Gets the last direction the player moved in (for attacking)
@@ -72,6 +86,8 @@ class Player : public Entity
          */
         void onDraw();
 
+        EntityType getEntityType();
+
     private:
         // Constants for player movement
         const float _moveSpeed = 200;
@@ -82,15 +98,16 @@ class Player : public Entity
         const float _deadZone = 0.01;
         const float _attackTime = 0.6;
 
-        // TODO: Unsure if this is needed
-        MoveState _currentMoveState;
-
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
         sf::Vector2<float> _lastMoveVec;
 
         // Current time since last attack
         float _lastAttackTime;
+
+        // tracking red glow
+        float _redTime;
+        bool _isRed;
 
         // Current direction player is dodging in, as well as the speed of the dodge
         sf::Vector2<float> _dodgeVec;

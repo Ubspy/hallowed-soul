@@ -45,9 +45,10 @@ class GameManager
          */
         void runGame();
 
-        Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
+        // Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
+        std::vector<Entity*> _entityVec;
 
         Enemy* _hitEnemy;
 
@@ -129,6 +130,12 @@ class GameManager
          *  Temporary function to draw a basic background of our map
          */
         void drawMap();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw a red glow
+         */
+        void drawRed();
     
         /**
          * @brief Called from drawFrame(),

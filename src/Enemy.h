@@ -18,9 +18,12 @@ class Enemy : public Entity
         std::vector<Enemy*>* _friends;
         float _speed;
         float _stun;
+
+        const float _attackRange = 30; 
+        sf::Vector2<float> _attackDir;
         
     public:
-        Enemy();
+        Enemy(std::vector<Entity*> *entityVec);
 
         /**
          * @brief changes enemy health amount
@@ -89,6 +92,8 @@ class Enemy : public Entity
          * @brief does nothing, exists for pure virtual override
          */
         void onCollision(Entity &hitEntity) {}
+
+        EntityType getEntityType();
 
         ~Enemy();
 };

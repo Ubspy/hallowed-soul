@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-Player::Player() : Entity(), _currentMoveState {Moving}
+Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec)
 {
     // Initialize movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -12,13 +12,22 @@ Player::Player() : Entity(), _currentMoveState {Moving}
     this->_lastAttackTime = 0;
     setTexture("assets/textures/player.png");
 
-}
+    _isRed = false;
+    _redTime = 0;
 
-// TODO: Dodging and then moving in a different direction causes it to zip around at mach 6
+    srand(time(0));
+}
 
 // Pure virtual function from the Entity class
 void Player::onUpdate(float deltaTime)
 {
+    // updating red at the start
+    _redTime -= deltaTime;
+    if(_redTime <= 0)
+    {
+        _isRed = false;
+    }
+
     // At this point, we want to slow down if we are not currently moving 
     // We want to individually check each movement axis to see if we need to slow them
     this->_velocity.x = this->checkDeadMoveAxis(this->_velocity.x, this->_moveVec.x,
@@ -100,7 +109,10 @@ void Player::onDraw()
     std::cout << "row: " << animationData.currentFrame.y << " col: " << animationData.currentFrame.x << "\n";
 }
 
-
+EntityType Player::getEntityType()
+{
+    return EntityType::PLAYER;
+}
 
 float Player::checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime)
 {
@@ -162,12 +174,23 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
     this->_position = spawnLocation;
 }
 
-void Player::attack(Entity* toAttack)
+void Player::attack()
 {
-    if(this->_lastAttackTime >= this->_attackTime)
+    _currentMoveState = Attacking;
+    Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->_attackRange);
+
+    if(hitEntity == nullptr)
     {
-        // TODO: Change this
-        toAttack->doDamage(40);
+        printf("NULLPTR\n");
+    }
+    else if(hitEntity->getEntityType() == EntityType::ENEMY)
+    {
+        printf("HITHITHIT\n");
+    }
+
+    if(this->_lastAttackTime >= this->_attackTime && hitEntity != nullptr)
+    {
+        hitEntity->doDamage((rand()%12)+(rand()%12)+12);
 
         // Reset time since last attack
         this->_lastAttackTime = 0;
@@ -182,6 +205,18 @@ void Player::counter()
 bool Player::isDodging()
 {
     return this->_currentMoveState == MoveState::Dodging;
+}
+
+bool Player::isRed()
+{
+    return _isRed;
+}
+
+void Player::doDamage(int damage)
+{
+    this->_health -= damage;
+    _redTime = 0.5;
+    _isRed = true;
 }
 
 const sf::Vector2<float>& Player::getLastMoveDirection() const
