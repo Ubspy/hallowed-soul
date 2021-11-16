@@ -19,6 +19,8 @@ Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec)
 
     _isRed = false;
     _redTime = 0;
+
+    srand(time(0));
 }
 
 // Pure virtual function from the Entity class
@@ -204,7 +206,7 @@ void Player::attack()
 
     if(this->_lastAttackTime >= this->_attackTime && hitEntity != nullptr)
     {
-        hitEntity->doDamage(40);
+        hitEntity->doDamage((rand()%12)+(rand()%12)+12);
 
         // Reset time since last attack
         this->_lastAttackTime = 0;

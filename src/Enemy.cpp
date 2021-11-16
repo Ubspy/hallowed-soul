@@ -10,6 +10,7 @@ Enemy::Enemy(std::vector<Entity*> *entityVec) : Entity(entityVec)
     _attacking = false;
     _speed = (float)50;
     _stun = (float)0;
+    srand(time(0));
 
     this->setTexture("assets/textures/test.png");
 }
@@ -65,7 +66,7 @@ void Enemy::onUpdate(float deltaTime)
 
             if(hitEntity == _player)
             {
-                hitEntity->doDamage(10);
+                hitEntity->doDamage((rand()%6)+(rand()%6)+3);
             }
         }
     }
