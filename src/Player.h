@@ -93,19 +93,6 @@ class Player : public Entity
         const float _deadZone = 0.01;
         const float _attackTime = 0.6;
 
-        struct {
-            const int numRows {21};
-            const int numCols {13};
-            const int numWalkingFrames {9};
-            const int upWalkRow {8};
-            const int leftWalkRow {9};
-            const int downWalkRow {10};
-            const int rightWalkRow {11};
-            int animationFrame {0};
-            int currentRow {upWalkRow};
-            float timeAccumulated {0};
-        } animationData;
-
         // TODO: Unsure if this is needed
         MoveState _currentMoveState;
 
@@ -164,10 +151,4 @@ class Player : public Entity
          * @return The unit vector 
          */
         sf::Vector2<float> getUnitVector(sf::Vector2<float> vec) const;
-
-        /** Helper function to update the sprite rectangle */
-        void updateTextureRect();
-
-        /** Compute seconds per frame based on velocity */
-        float getSecondsPerFrame() const;
 };

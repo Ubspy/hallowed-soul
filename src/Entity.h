@@ -114,11 +114,11 @@ class Entity
          */
         virtual void kill();
 
-        /**
-         * @brief Called from update, change the active sprite to draw to the scene, and 
-         *  set up current sprite for rendering 
+        /** Called from GameManager to draw the entity.
+         * 
+         * Calls subclass implementation of onDraw().
          */
-        virtual void onDraw();
+        void onDrawBase();
 
         /// Interface methods that must be overridden 
         
@@ -129,6 +129,12 @@ class Entity
          * @param deltaTime The time between this update and the last one in seconds
          */
         virtual void onUpdate(float deltaTime) = 0;
+
+        /**
+         * @brief Called from draw, change the active sprite to draw to the scene, and 
+         *  set up current sprite for rendering 
+         */
+        virtual void onDraw() {}
         
         /**
          * @brief Called from the game manager after a collision with another entity
@@ -197,4 +203,26 @@ class Entity
          */
         // TODO: Sprite array?
         sf::Sprite _sprite;
+
+        /** Sets the walking frame, general for entities that can walk. */
+        void setWalkingFrame();
+
+        /* A helper struct to store data that has to do with animation */
+        struct {
+            const int numRows {21};
+            const int numCols {13};
+            const int numWalkingFrames {9};
+            const int upWalkRow {8};
+            const int leftWalkRow {9};
+            const int downWalkRow {10};
+            const int rightWalkRow {11};
+            sf::Vector2i currentFrame {0, rightWalkRow};
+            float timeAccumulated {0};
+        } animationData;
+
+        /** Helper function to update the sprite rectangle */
+        void updateTextureRect();
+
+        /** Compute seconds per frame based on velocity */
+        float getSecondsPerFrame() const;
 };

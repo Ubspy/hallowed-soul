@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "GameManager.h"
+#include "VectorUtil.h"
 
 Entity::Entity()
 {
@@ -56,9 +57,22 @@ void Entity::update(float deltaTime)
     // After the update, we want to update the entity's position based off of it's velocity
     this->_position += this->_velocity * deltaTime;
 
-    // The below '/' was added by Diesel, he's a good boy
-    // Finally, we draw the entity  /
-    this->onDraw();
+    // Accumulate time here for animation purposes
+    animationData.timeAccumulated += deltaTime;
+}
+
+void Entity::onDrawBase()
+{
+    if (animationData.timeAccumulated >= getSecondsPerFrame())
+    {
+        animationData.timeAccumulated = 0;
+        animationData.currentFrame.x = (animationData.currentFrame.x + 1) % animationData.numWalkingFrames;
+    }
+    setWalkingFrame();
+    onDraw();
+    updateTextureRect();
+    // Default behavior is to just set the sprite's position I guess
+    _sprite.setPosition(_position);
 }
 
 void Entity::doDamage(int damage)
@@ -99,10 +113,29 @@ void Entity::setTexture(std::string path)
     this->_height = _texture.getSize().y;
 }
 
-void Entity::onDraw()
+float Entity::getSecondsPerFrame() const
 {
-    // Default behavior is to just set the sprite's position I guess
-    _sprite.setPosition(_position);
+    const float framesPerPixelTraveled = 0.1;
+    float fps = VectorUtil::getVectorMagnitude(_velocity) * framesPerPixelTraveled;
+    return 1/fps;
+}
+
+void Entity::updateTextureRect()
+{
+    sf::Vector2i topLeft {animationData.currentFrame.x * _width, animationData.currentFrame.y * _height};
+    _sprite.setTextureRect({topLeft.x, topLeft.y, _width, _height});
+}
+
+void Entity::setWalkingFrame()
+{
+    if (_velocity.y < 0)
+        animationData.currentFrame.y = animationData.upWalkRow;
+    else if (_velocity.x < 0)
+        animationData.currentFrame.y = animationData.leftWalkRow;
+    else if (_velocity.y > 0)
+        animationData.currentFrame.y = animationData.downWalkRow;
+    else if (_velocity.x > 0)
+        animationData.currentFrame.y = animationData.rightWalkRow;
 }
 
 void Entity::onCollision(Entity &hitEntity)

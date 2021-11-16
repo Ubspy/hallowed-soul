@@ -225,9 +225,9 @@ void GameManager::drawFrame(sf::Time frameTime)
     // Draw the temporary background before anything else
     drawMap();
 
-    // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
+    // Drawing an entity has two steps: calling the draw method to update the entity's sprite
     // and calling the game window draw function
-    this->_player.onDraw();
+    this->_player.onDrawBase();
     this->_wave.waveDraw();
     this->_gameWindow.draw(this->_player.getSprite());
     for(int i=0; i<this->_wave.getEnemies(); i++)
