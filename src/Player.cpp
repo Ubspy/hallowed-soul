@@ -176,7 +176,7 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
 
 void Player::attack()
 {
-    _currentMoveState = Attacking;
+    _currentMoveState = AttackTriggered;
     Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->_attackRange);
 
     if(hitEntity == nullptr)
