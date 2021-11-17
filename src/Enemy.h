@@ -19,7 +19,7 @@ class Enemy : public Entity
         float _speed;
         float _stun;
 
-        const float _attackRange = 30; 
+        const float _attackRange = 50; 
         sf::Vector2<float> _attackDir;
         
     public:

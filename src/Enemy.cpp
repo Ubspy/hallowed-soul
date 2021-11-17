@@ -34,26 +34,35 @@ void Enemy::setFriends(std::vector<Enemy*>& friendRef)
 
 void Enemy::onUpdate(float deltaTime)
 {
-    this->_velocity = sf::Vector2<float>(this->_player->getPosition().x-this->_position.x,
-            this->_player->getPosition().y-this->_position.y);
-    this->_velocity = VectorUtil::getUnitVector(this->_velocity); 
-    
-    Entity* hitEntity = this->rayCast(this->_velocity * this->_attackRange);
+    sf::Vector2<float> playerDisplacement(this->_player->getPosition().x +
+            this->_player->getWidth() - (this->_position.x + this->_width),
+            this->_player->getPosition().y + this->_player->getHeight() - 
+            (this->_position.y + this->_height));
 
-    if(hitEntity==_player||_attacking)
+    if(VectorUtil::getVectorMagnitude(playerDisplacement) >= 50)
     {
+        this->_velocity = VectorUtil::getUnitVector(playerDisplacement);
+    }
+    else
+    {
+        this->_velocity = sf::Vector2<float>(0, 0);
+        
         // If it's the first time the enemy is within range,
         // get the player position to attack in
-        if(!this->_attacking)
-        {
-            this->_attackDir = _velocity * _attackRange;
-        }
+        this->_attackDir = VectorUtil::getUnitVector(playerDisplacement) * _attackRange;
+        this->_attacking = true;
+    }
+    
+    // Entity* hitEntity = this->rayCast(this->_velocity * this->_attackRange);
 
+    if(_attacking)
+    {
         _attacking = true;
         _velocity = sf::Vector2<float> (0,0);
         _atkTime += deltaTime;
 
-        if(_atkTime >= 1.25)
+        // TODO: Scale this with save
+        if(_atkTime >= 0.65)
         {
             _attacking = false;
             _atkTime = 0;

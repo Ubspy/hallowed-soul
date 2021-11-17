@@ -36,8 +36,6 @@ class Entity
          */
         const sf::Vector2<float>& getPosition() const;
 
-        sf::Vector2<float> getCetnerPosition() const;
-        
         /**
          * @brief Getter for entity velocity
          *

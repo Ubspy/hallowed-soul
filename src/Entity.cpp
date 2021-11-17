@@ -26,12 +26,6 @@ const sf::Vector2<float>& Entity::getPosition() const
     return this->_position;
 }
 
-sf::Vector2<float> Entity::getCetnerPosition() const
-{
-    return sf::Vector2<float>(this->_position.x + this->_width,
-            this->_position.y + this->_height);
-}
-
 const sf::Vector2<float>& Entity::getVelocity() const
 {
     return this->_velocity;
