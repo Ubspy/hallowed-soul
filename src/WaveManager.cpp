@@ -153,7 +153,7 @@ void WaveManager::waveDraw()
     {
         if(_enemies.at(i)->isAlive())
         {
-            _enemies.at(i)->onDraw();
+            _enemies.at(i)->onDrawBase();
         }
     }
 }

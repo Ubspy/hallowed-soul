@@ -9,6 +9,7 @@
 #include <limits>
 #include "Player.h"
 #include "WaveManager.h"
+#include "UIManager.h"
 
 /** Enum representing the game state. */
 enum GameState
@@ -69,6 +70,8 @@ class GameManager
         /** The WaveManager, which owns all Enemies. */
         WaveManager _wave;
 
+        UIManager _UIManager;
+
         sf::Font _font;
 
         float _indicatorTotal;
@@ -127,23 +130,11 @@ class GameManager
 
         /**
          * @brief Called from drawFrame(),
-         *  Temporary function to draw a basic background of our map
+         *  Draw a red glow
          */
-        void drawMap();
-    
-        /**
-         * @brief Called from drawFrame(),
-         *  Draw the players health heads up display
-         */
-        void drawHealthHUD();
+        void drawRed();
 
         void drawEnemyHealth();
-
-        /**
-         * @brief Called from drawFrame(),
-         *  Draw a heads up display on the current round information
-         */
-        void drawRoundProgressHUD();
 
         void drawHitIndicator(Enemy* e, sf::Time frameTime);
 };

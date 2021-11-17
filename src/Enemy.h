@@ -19,7 +19,7 @@ class Enemy : public Entity
         float _speed;
         float _stun;
 
-        const float _attackRange = 40; 
+        const float _attackRange = 30; 
         sf::Vector2<float> _attackDir;
         
     public:
@@ -75,6 +75,11 @@ class Enemy : public Entity
          * @param deltaTime time since last frame in seconds
          */
         void onUpdate(float deltaTime);
+
+        /**
+         * Implementation of onDraw()
+         */
+        void onDraw();
 
         /**
          * @brief doDamage override to stun enemies

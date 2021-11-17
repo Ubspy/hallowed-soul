@@ -64,7 +64,7 @@ bool Tests::testPlayerAnimations()
         return false;
 
     // Move down
-    p.moveInDirection({0, 1});
+    p.moveInDirection({1, 0});
     p.update(0.1);
     p.onDraw();
     if (p.getSprite().getTextureRect().top != downWalkRow * p.getHeight())
