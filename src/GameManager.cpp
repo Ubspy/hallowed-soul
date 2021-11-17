@@ -36,7 +36,10 @@ GameManager::GameManager() :
     // but will take up the full size of the RenderWindow. Therefore,
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
+
     this->_wave.setPlayer(this->_player);
+    
+    this->_UIManager.setData(_player, _wave, _gameWindow, _view);
     
     this->_entityVec.push_back(&_player);
 
@@ -237,7 +240,7 @@ void GameManager::drawFrame(sf::Time frameTime)
     updateViewLocked();
 
     // Draw the temporary background before anything else
-    drawMap();
+    _UIManager.drawMap();
 
     // Drawing an entity has two steps: calling the draw method to update the entity's sprite
     // and calling the game window draw function
@@ -254,10 +257,9 @@ void GameManager::drawFrame(sf::Time frameTime)
     // TODO: Add other entities
 
     // Draw the HUD over most things
-    drawHealthHUD();
     drawHitIndicator(_hitEnemy, frameTime);
     drawEnemyHealth();
-    drawRoundProgressHUD();
+    _UIManager.onDraw(frameTime);
 
     if(_player.isRed())
     {
