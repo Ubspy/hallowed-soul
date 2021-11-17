@@ -3,14 +3,17 @@
 #include <stdexcept>
 #include <iostream>
 
-bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+// bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
 GameManager::GameManager() : 
     // First thing we want to do is create a window
     // TODO: Name and size subject to change
     _gameWindow {sf::VideoMode(1280, 720), "Hallowed Soul"}, 
     // Initialize the view (camera) 
-    _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)}
+    _view {sf::FloatRect(0.0, 0.0, 1280.0 / 2.0, 720.0 / 2.0)},
+    _entityVec(),
+    _player {&_entityVec},
+    _wave {&_entityVec}
 {
     if (!_font.loadFromFile("fonts/Helvetica.ttf"))
     {
@@ -33,10 +36,12 @@ GameManager::GameManager() :
     // but will take up the full size of the RenderWindow. Therefore,
     // this should zoom in on the gameWindow.
     _gameWindow.setView(_view);
+
     this->_wave.setPlayer(this->_player);
     
     this->_UIManager.setData(_player, _wave, _gameWindow, _view);
     
+    this->_entityVec.push_back(&_player);
 
     this->_player.spawn(sf::Vector2<float>(1280.0 / 2.0, 720.0 / 2.0));
 }
@@ -46,7 +51,11 @@ void GameManager::runGame()
     // Game clock for tracking time
     sf::Clock gameClock;
 
+    printf("BEFORE BEGIN WAVE\n");
+
     this->_wave.beginWave();
+
+    printf("AFTER BEGIN WAVE\n");
 
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
@@ -73,6 +82,8 @@ void GameManager::runGame()
 
         // Finally we want to draw the frame
         drawFrame(frameTime);
+
+        //printf("FPS: %f\n", 1/frameTime.asSeconds());
 
         // We also want to check if the game state is exit, if it is then we break
         if(_currentState == GameState::exiting)
@@ -178,6 +189,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::LShift:
         {
+            /*
             Enemy* hitEnemy = this->rayCast(this->_player,
                     this->_player.getLastMoveDirection() * this->_player.getAttackRange());
 
@@ -187,7 +199,9 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
                 _indicatorTotal = 0;
                 _hitEnemy = hitEnemy;
                 //drawHitIndicator(hitEnemy);
-            }
+            } */
+
+            this->_player.attack();
         }
         default:
             // Do nothing
@@ -228,9 +242,9 @@ void GameManager::drawFrame(sf::Time frameTime)
     // Draw the temporary background before anything else
     _UIManager.drawMap();
 
-    // Drawing an entity has two steps: calling the onDraw method to update the entity's sprite
+    // Drawing an entity has two steps: calling the draw method to update the entity's sprite
     // and calling the game window draw function
-    this->_player.onDraw();
+    this->_player.onDrawBase();
     this->_wave.waveDraw();
     this->_gameWindow.draw(this->_player.getSprite());
     for(int i=0; i<this->_wave.getEnemies(); i++)
@@ -247,6 +261,11 @@ void GameManager::drawFrame(sf::Time frameTime)
     drawEnemyHealth();
     _UIManager.onDraw(frameTime);
 
+    if(_player.isRed())
+    {
+        drawRed();
+    }
+    
     #if DEBUG
         this->debugDraw();
     #endif
@@ -267,6 +286,7 @@ void GameManager::debugDraw()
     }
 }
 
+/*
 Enemy* GameManager::rayCast(Entity &source, const sf::Vector2<float> &ray)
 {
     // TODO: Add other entities
@@ -459,4 +479,4 @@ bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, 
     // If our intersectX is out of these ranges, there is no intersection on the limited segments
     // If not, then there is an intersection
     return !(intersectX < std::min({x1, x2, x3, x4}) || intersectX > std::max({x1, x2, x3, x4}));
-}
+} */

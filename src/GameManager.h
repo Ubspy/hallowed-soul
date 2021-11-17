@@ -46,9 +46,10 @@ class GameManager
          */
         void runGame();
 
-        Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
+        // Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
     private:
+        std::vector<Entity*> _entityVec;
 
         Enemy* _hitEnemy;
 
@@ -126,6 +127,12 @@ class GameManager
          *  will move the current view based off of the player's location
          */
         void updateViewLocked();
+
+        /**
+         * @brief Called from drawFrame(),
+         *  Draw a red glow
+         */
+        void drawRed();
 
         void drawEnemyHealth();
 

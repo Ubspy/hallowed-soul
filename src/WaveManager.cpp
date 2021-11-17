@@ -5,11 +5,12 @@
 #include "WaveManager.h"
 #include "Enemy.h"
 
-WaveManager::WaveManager()
+WaveManager::WaveManager(std::vector<Entity*> *entityVec)
 {
     _currentWave = 0;
     _enemyCount = 0;
     _aliveEnemyCount =0;
+    _entityVec = entityVec;
 }
 
 void WaveManager::setPlayer(Player &play)
@@ -37,9 +38,10 @@ void WaveManager::beginWave()
     _aliveEnemyCount = _currentWave;
     // Spawn enemies
     Enemy* temp = nullptr;
+
     for(int i=0; i<_enemyCount; i++)
     {
-        temp = new Enemy();
+        temp = new Enemy(this->_entityVec);
         sf::Vector2<float> spawn;
         bool loop;
         srand(time(0));
@@ -68,6 +70,10 @@ void WaveManager::beginWave()
         temp->setPlayer(_player);
         temp->setFriends(_enemies);
         _enemies.push_back(temp);
+
+        printf("%i \n", (int) _entityVec->size());
+
+        _entityVec->push_back(temp);
     }
 }
 
@@ -78,6 +84,17 @@ void WaveManager::endWave()
     {
         delete _enemies.at(_enemies.size()-1);
         _enemies.pop_back();
+    }
+
+    for(int i = 0; i < _entityVec->size(); i++)
+    {
+        int erased = 0;
+
+        if(_entityVec->at(i) == nullptr)
+        {
+            this->_entityVec->erase(this->_entityVec->begin() + i + erased);
+            erased++;
+        }
     }
 }
 
@@ -137,7 +154,7 @@ void WaveManager::waveDraw()
     {
         if(_enemies.at(i)->isAlive())
         {
-            _enemies.at(i)->onDraw();
+            _enemies.at(i)->onDrawBase();
         }
     }
 }

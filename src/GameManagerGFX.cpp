@@ -30,6 +30,18 @@ void GameManager::updateViewLocked()
     _gameWindow.setView(view);
 }
 
+void GameManager::drawRed()
+{
+    sf::Texture texture;
+    texture.loadFromFile("assets/textures/red.png");
+    texture.setRepeated(true);
+
+    sf::IntRect rectSourceSprite(0, 0, 1500, 1125);
+    sf::Sprite sprite(texture, rectSourceSprite);
+
+    this->_gameWindow.draw(sprite);
+}
+
 void GameManager::drawEnemyHealth()
 {
     for(int i=0; i<this->_wave.getEnemies(); i++)

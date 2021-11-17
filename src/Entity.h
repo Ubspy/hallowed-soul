@@ -18,10 +18,15 @@
  * set _position or _velocity in onUpdate() to define the movement behavior of your Entity.
  */
 
+enum EntityType
+{
+    PLAYER, ENEMY
+};
+
 class Entity
 {
     public:
-        Entity();
+        Entity(std::vector<Entity*> *entityVec);
 
         /// Getters and Setters
         /**
@@ -31,6 +36,7 @@ class Entity
          */
         const sf::Vector2<float>& getPosition() const;
 
+        sf::Vector2<float> getCetnerPosition() const;
         
         /**
          * @brief Getter for entity velocity
@@ -114,11 +120,11 @@ class Entity
          */
         virtual void kill();
 
-        /**
-         * @brief Called from update, change the active sprite to draw to the scene, and 
-         *  set up current sprite for rendering 
+        /** Called from GameManager to draw the entity.
+         * 
+         * Calls subclass implementation of onDraw().
          */
-        virtual void onDraw();
+        void onDrawBase();
 
         /// Interface methods that must be overridden 
         
@@ -129,22 +135,48 @@ class Entity
          * @param deltaTime The time between this update and the last one in seconds
          */
         virtual void onUpdate(float deltaTime) = 0;
+
+        /**
+         * @brief Called from draw, change the active sprite to draw to the scene, and 
+         *  set up current sprite for rendering 
+         */
+        virtual void onDraw();
         
         /**
          * @brief Called from the game manager after a collision with another entity
          *
          * @param hitEntity The other entity this one collider with
          */
-        virtual void onCollision(Entity &hitEntity) = 0;  
+        virtual void onCollision(Entity &hitEntity) = 0; 
+
+        /**
+         * @brief Quick fix for setting the entity into an attacking state.
+         * 
+         */
+        void setAttackState();
+
+        virtual EntityType getEntityType() = 0;
 
         /** Vector for position in world coordinates.
          * 
          * Modify this to reposition the entity in the world.
          */ 
-        
         sf::Vector2<float> _position;
 
     protected:
+
+        /** Enum which holds what state the entity is in. */
+        enum MoveState
+        {
+            /** The entity is moving. */
+            Moving,
+            /** The entity is dodging. */
+            Dodging,
+            /** An attack was just triggered */
+            AttackTriggered,
+            /** The entity is attacking. */
+            Attacking
+        } _currentMoveState;
 
         /** Vector for velocity. 
          * 
@@ -197,4 +229,50 @@ class Entity
          */
         // TODO: Sprite array?
         sf::Sprite _sprite;
+
+        /** Sets the sprite direction */
+        void setSpriteDirection();
+
+        /** Sets the walking frame, general for entities that can walk. */
+        void setWalkingFrame();
+
+        /** Sets the attacking frame, general for entities that can attack. */
+        void setAttackingFrame();
+
+        /* A helper struct to store data that has to do with animation */
+        struct {
+            enum Direction
+            {
+                Up,
+                Left,
+                Down,
+                Right,
+            } direction;
+            const int numRows {21};
+            const int numCols {13};
+            const int numWalkingFrames {9};
+            const int upWalkRow {8};
+            const int leftWalkRow {9};
+            const int downWalkRow {10};
+            const int rightWalkRow {11};
+            const int numAttackingFrames {6};
+            const int upAttackRow {12};
+            const int leftAttackRow {13};
+            const int downAttackRow {14};
+            const int rightAttackRow {15};
+            sf::Vector2i currentFrame {0, rightWalkRow};
+            float timeAccumulated {0};
+        } animationData;
+
+        /** Helper function to update the sprite rectangle */
+        void updateTextureRect();
+
+        /** Compute seconds per frame based on velocity */
+        float getSecondsPerFrame() const;
+        // This is going to be the list of all entities in the game, we need this for ray casting
+        std::vector<Entity*> *_entityVec;
+
+        Entity* rayCast(const sf::Vector2<float> &ray);
+        bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3,
+                float x4, float y4);
 };
