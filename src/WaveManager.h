@@ -1,5 +1,6 @@
 #pragma once
 
+#include <type_traits>
 #include <vector>
 #include "Enemy.h"
 #include "Player.h"
@@ -18,6 +19,12 @@ class WaveManager
         std::vector<Entity*> *_entityVec;
         std::vector<Enemy*> _enemies;
         Player* _player;
+
+        template<typename Base, typename T>
+        inline bool instanceof(const T*)
+        {
+            return std::is_base_of<Base, T>::value;
+        }
 
     public:
         /** WaveManager constructor */

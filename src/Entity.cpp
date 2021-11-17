@@ -80,14 +80,14 @@ bool Entity::isAlive()
     return this->_isAlive;
 }
 
+void Entity::spawn(sf::Vector2<float> spawnLocation)
+{
+    //this->_position = spawnLocation;
+}
+
 void Entity::kill()
 {
     _isAlive = false;
-}
-
-void Entity::spawn(sf::Vector2<float> spawnLocation)
-{
-
 }
 
 const sf::Sprite& Entity::getSprite() const
@@ -125,31 +125,13 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
     sf::Vector2<float> sourceCenter(this->_position.x + this->_width / 2.0,
         this->_position.y + this->_height / 2.0);
 
-/*
-#if DEBUG
-    // Draw the ray cast line if DEBUG mode is on 
-    sf::Vertex line[2];
-
-    line[0].position = sourceCenter;
-    line[0].color = sf::Color::Blue;
-    line[1].position = sourceCenter + ray;
-    line[1].color = sf::Color::Blue;
-
-    this->_debugLines.push_back(line[0]);
-    this->_debugLines.push_back(line[1]);
-#endif
-*/
-
     for(int i = 0; i < this->_entityVec->size(); i++)
     {
         Entity* currentEntity = this->_entityVec->at(i);
 
-        printf("%i\n", i); 
-
         // Skip entity if it's the same as this one
         if(this == currentEntity)
         {
-            printf("SAME ENTITY\n");
             continue;
         }
 
@@ -157,33 +139,12 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
         if(!currentEntity->isAlive())
             continue;
     
-        printf("Source: x: %f, y: %f\n", sourceCenter.x, sourceCenter.y);
-        printf("Player: x: %f, y: %f, w: %i, h: %i\n",
-                currentEntity->getPosition().x, currentEntity->getPosition().y,
-                currentEntity->getWidth(), currentEntity->getHeight());
-        printf("Ray: x: %f, y: %f\n", ray.x, ray.y);
-
         // There are four lines to check for intersection here, so we need to check all of them
         // First is the left-most line
         if(linesIntersect(sourceCenter.x, sourceCenter.y, (sourceCenter.x + ray.x), (sourceCenter.y + ray.y),
                     currentEntity->getPosition().x, (currentEntity->getPosition().y + currentEntity->getHeight()),
                     currentEntity->getPosition().x, currentEntity->getPosition().y))
         {
-            /*
-            #if DEBUG
-                 sf::Vertex line[2];
-
-                 line[0].position = sf::Vector2<float>(currentEntity->getPosition().x,
-                         currentEntity->getPosition().y + currentEntity->getHeight());
-                 line[0].color = sf::Color::Red;
-                 line[1].position = currentEntity->getPosition();
-                 line[1].color = sf::Color::Red;
-
-                this->_debugLines.push_back(line[0]);
-                this->_debugLines.push_back(line[1]);
-            #endif
-            */
-
             return currentEntity;
         }
 
@@ -192,22 +153,7 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
                     currentEntity->getPosition().x, currentEntity->getPosition().y,
                     (currentEntity->getPosition().x + currentEntity->getWidth()), currentEntity->getPosition().y))
         {
-            /*
-            #if DEBUG
-                sf::Vertex line[2];
-
-                line[0].position = currentEntity->getPosition();
-                line[0].color = sf::Color::Red;
-                line[1].position = sf::Vector2<float>(currentEntity->getPosition().x + currentEntity->getWidth(),
-                         currentEntity->getPosition().y);
-                line[1].color = sf::Color::Red;
-
-                this->_debugLines.push_back(line[0]);
-                this->_debugLines.push_back(line[1]);
-            #endif
-            */
-
-            return currentEntity;
+           return currentEntity;
         }
 
         // Then check the right-most line
@@ -215,22 +161,6 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
                     (currentEntity->getPosition().x + currentEntity->getWidth()), currentEntity->getPosition().y,
                     (currentEntity->getPosition().x + currentEntity->getWidth()), (currentEntity->getPosition().y + currentEntity->getHeight())))
         {
-            /*
-            #if DEBUG
-                sf::Vertex line[2];
-
-                line[0].position = sf::Vector2<float>(currentEntity->getPosition().x + currentEntity->getWidth(),
-                         currentEntity->getPosition().y); 
-                line[0].color = sf::Color::Red;
-                line[1].position = sf::Vector2<float>(currentEntity->getPosition().x + currentEntity->getWidth(),
-                         currentEntity->getPosition().y + currentEntity->getHeight());
-                line[1].color = sf::Color::Red;
-
-                this->_debugLines.push_back(line[0]);
-                this->_debugLines.push_back(line[1]);
-            #endif
-            */
-
             return currentEntity;
         }
         
@@ -239,22 +169,6 @@ Entity* Entity::rayCast(const sf::Vector2<float> &ray)
                     currentEntity->getPosition().x, (currentEntity->getPosition().y + currentEntity->getHeight()),
                     (currentEntity->getPosition().x + currentEntity->getWidth()), (currentEntity->getPosition().y + currentEntity->getHeight())))
         {
-            /*
-            #if DEBUG
-                sf::Vertex line[2];
-
-                line[0].position = sf::Vector2<float>(currentEntity->getPosition().x,
-                         currentEntity->getPosition().y + currentEntity->getHeight()); 
-                line[0].color = sf::Color::Red;
-                line[1].position = sf::Vector2<float>(currentEntity->getPosition().x + currentEntity->getWidth(),
-                         currentEntity->getPosition().y + currentEntity->getHeight());
-                line[1].color = sf::Color::Red;
-
-                this->_debugLines.push_back(line[0]);
-                this->_debugLines.push_back(line[1]);
-            #endif
-            */
-
             return currentEntity;
         }
     }

@@ -90,14 +90,7 @@ class Entity
          * @param deltaTime the time between this update and the previous update
          */
         void update(float deltaTime);
-
-        /**
-         * @brief Will tell this entity to lower it's health
-         *
-         * @param damage The amount of damage to do
-         */
-        virtual void doDamage(int damage);
-
+ 
         /**
          * @brief Getter for is entity is alive
          *
@@ -115,6 +108,13 @@ class Entity
         virtual void spawn(sf::Vector2<float> spawnLocation);
 
         /**
+         * @brief Will tell this entity to lower it's health
+         *
+         * @param damage The amount of damage to do
+         */
+        virtual void doDamage(int damage);
+
+        /**
          * @brief Kills the entity, stops it from being rendered on the scene
          *  and affecting collisions
          */
@@ -128,6 +128,8 @@ class Entity
 
         /// Interface methods that must be overridden 
         
+        virtual EntityType getEntityType() = 0;
+
         /**
          * @brief Called from update, the overridable function for specific entities
          *  to change their members based off user input
@@ -142,8 +144,6 @@ class Entity
          * @param hitEntity The other entity this one collider with
          */
         virtual void onCollision(Entity &hitEntity) = 0;  
-
-        virtual EntityType getEntityType() = 0;
 
         /** Vector for position in world coordinates.
          * 

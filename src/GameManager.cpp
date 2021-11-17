@@ -48,11 +48,7 @@ void GameManager::runGame()
     // Game clock for tracking time
     sf::Clock gameClock;
 
-    printf("BEFORE BEGIN WAVE\n");
-
     this->_wave.beginWave();
-
-    printf("AFTER BEGIN WAVE\n");
 
     // Keep going while the window is open
     while(this->_gameWindow.isOpen())
@@ -171,7 +167,7 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
                 {
                     if(this->_wave.getEnemy(i)->isAlive())
                     {
-                        this->_wave.getEnemy(i)->kill();
+                        this->_wave.getEnemy(i)->doDamage(100);
                         break;
                     }
                 }

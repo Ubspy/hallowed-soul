@@ -71,8 +71,6 @@ void WaveManager::beginWave()
         temp->setFriends(_enemies);
         _enemies.push_back(temp);
 
-        printf("%i \n", (int) _entityVec->size());
-
         _entityVec->push_back(temp);
     }
 }
@@ -86,13 +84,14 @@ void WaveManager::endWave()
         _enemies.pop_back();
     }
 
-    for(int i = 0; i < _entityVec->size(); i++)
-    {
-        int erased = 0;
+    int erased = 0;
 
-        if(_entityVec->at(i) == nullptr)
+    // Erases the entity from the vector of entities if the entity is dead
+    for(int i = 0; i < _entityVec->size() + erased; i++)
+    {
+        if(this->_entityVec->at(i - erased)->getHealth() <= 0)
         {
-            this->_entityVec->erase(this->_entityVec->begin() + i + erased);
+            this->_entityVec->erase(this->_entityVec->begin() + i - erased);
             erased++;
         }
     }

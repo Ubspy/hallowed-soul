@@ -181,16 +181,7 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
 
 void Player::attack()
 {
-    Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->_attackRange);
-
-    if(hitEntity == nullptr)
-    {
-        printf("NULLPTR\n");
-    }
-    else if(hitEntity->getEntityType() == EntityType::ENEMY)
-    {
-        printf("HITHITHIT\n");
-    }
+    Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->getAttackRange());
 
     if(this->_lastAttackTime >= this->_attackTime && hitEntity != nullptr)
     {
