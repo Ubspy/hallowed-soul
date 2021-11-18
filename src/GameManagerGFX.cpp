@@ -71,6 +71,12 @@ void GameManager::drawHitIndicator(Enemy* e, sf::Time frameTime)
 void GameManager::drawStartScreen()
 {
     _gameWindow.clear();
+    sf::Text highScore;
+    highScore = getHighScoreText();
+    highScore.setCharacterSize(90);
+    highScore.setPosition(340, 450);
+    highScore.setOutlineThickness(8);
+    highScore.setOutlineColor(sf::Color::Black);
     
     sf::Texture texture;
     texture.loadFromFile("assets/textures/start.png");
@@ -81,6 +87,7 @@ void GameManager::drawStartScreen()
 
     _gameWindow.draw(sprite);
     _gameWindow.draw(getTitle());
+    _gameWindow.draw(highScore);
     _gameWindow.draw(getStartText());
     _gameWindow.display();
 }
@@ -109,4 +116,102 @@ sf::Text GameManager::getStartText()
     title.setOutlineThickness(5);
     title.setPosition(290,600);
     return title;
+}
+
+sf::Text GameManager::getHighScoreText()
+{
+    sf::Text text;
+    text.setString("High score: " + std::to_string(getHighScore()));
+    text.setFont(_font);
+    return text;
+}
+
+sf::Text GameManager::getGameOverText()
+{
+    sf::Text text;
+    text.setString("GAME OVER");
+    text.setFont(_deathFont);
+    text.setCharacterSize(80);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(190,0);
+    
+    return text;
+}
+
+void GameManager::drawDeathScreen(double time)
+{
+    int rounded = round(time);
+    _gameWindow.setView(_view);
+    _gameWindow.clear(sf::Color::Black);
+    sf::Text gameOver = getGameOverText();
+    sf::Text yourScore;
+    sf::Text highScore = getHighScoreText();
+    sf::Text newHighScore;
+    sf::Text instructions;
+    yourScore.setString("Your score: " + std::to_string(_wave.getWave()));
+    newHighScore.setString("New High Score!!!");
+    instructions.setString("<Press SPACE to exit>");
+    yourScore.setFont(_font);
+    newHighScore.setFont(_font);
+    instructions.setFont(_font);
+    yourScore.setCharacterSize(30);
+    highScore.setCharacterSize(30);
+    newHighScore.setCharacterSize(30);
+    instructions.setCharacterSize(30);
+    yourScore.setPosition(222,160);
+    highScore.setPosition(225,200);
+    newHighScore.setPosition(195,240);
+    instructions.setPosition(165,300);
+    if(time<=8.5)
+    {
+        gameOver.setFillColor(sf::Color(255,255,255,time*30));
+        yourScore.setFillColor(sf::Color::Black);
+        highScore.setFillColor(sf::Color::Black);
+        newHighScore.setFillColor(sf::Color::Black);
+    }
+    if((time>=2) && (time<=10.5))
+    {
+        yourScore.setFillColor(sf::Color(255,255,255,(time-2)*30));
+        highScore.setFillColor(sf::Color::Black);
+        newHighScore.setFillColor(sf::Color::Black);
+    }
+    if((time>=4)&&(time<=12.5))
+    {
+        highScore.setFillColor(sf::Color(255,255,255,(time-4)*30));
+        newHighScore.setFillColor(sf::Color::Black);
+    }
+    if((time>=6) && (time<=14.5) &&(_wave.getWave() >= getHighScore()))
+    {
+        if((rounded % 2) ==0)
+        {
+            newHighScore.setFillColor(sf::Color(255,0,0,(time-6)*30));
+        }
+        else
+        {
+            newHighScore.setFillColor(sf::Color::Black);
+        }
+    }
+    if((time>14.5) && (_wave.getWave() > getHighScore()))
+    {
+        if((rounded % 2) == 0)
+        {
+            newHighScore.setFillColor(sf::Color::Red);
+        }
+        else
+        {
+            newHighScore.setFillColor(sf::Color::Black);
+        }
+    }
+    if(_wave.getWave() <= getHighScore())
+    {
+        newHighScore.setFillColor(sf::Color::Black);
+    }
+    instructions.setFillColor(sf::Color::White);
+    _gameWindow.draw(gameOver);
+    _gameWindow.draw(yourScore);
+    _gameWindow.draw(highScore);
+    _gameWindow.draw(newHighScore);
+    _gameWindow.draw(instructions);
+    
+    _gameWindow.display();
 }
