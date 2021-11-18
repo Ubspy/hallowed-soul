@@ -9,6 +9,7 @@
 
 #include "Tests.h"
 #include "../src/Player.h"
+#include "../src/Enemy.h"
 #include "../src/GameManager.cpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -17,8 +18,12 @@ int Tests::testNum {0};
 
 void Tests::runTests()
 {
+    srand(time(0));
     testAndPrint("Player walk animations", testPlayerWalkAnimations);
     testAndPrint("Enemy health bar", testEnemyHealthBars);
+    testAndPrint("Enemies are alive", testEnemyAlive);
+    testAndPrint("Enemies die", testEnemyDead);
+    testAndPrint("Enemies spawn in correct position", testEnemySpawn);
 }
 
 void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
@@ -183,4 +188,34 @@ bool Tests::testEntityDeath()
     testPlayer.kill();
 
     return !testPlayer.isAlive();
+}
+
+bool Tests::testEnemyAlive()
+{
+    Enemy test = Enemy(nullptr);
+    return test.isAlive();
+}
+
+bool Tests::testEnemyDead()
+{
+    Enemy test = Enemy(nullptr);
+    test.kill();
+    return !test.isAlive();
+}
+
+bool Tests::testEnemySpawn()
+{
+    Enemy test = Enemy(nullptr);
+    sf::Vector2<float> pos = sf::Vector2<float>(rand()%2000,rand()%2000);
+    test.spawn(pos);
+    return test.getPosition()==pos;
+}
+
+bool Tests::testEnemySpawn()
+{
+    Enemy test = Enemy(nullptr);
+    int startHP = test.getHealth();
+    int damage = rand()%100;
+    test.doDamage(damage);
+    return test.getHealth()==startHP-damage;
 }
