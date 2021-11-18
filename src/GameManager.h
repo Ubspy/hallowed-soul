@@ -41,10 +41,7 @@ class GameManager
          */
         GameManager();
 
-        /**
-         * @brief Run the main game loop 
-         */
-        void runGame();
+        void displayStartScreen();
 
         // Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
 
@@ -57,6 +54,10 @@ class GameManager
 
         /** The window we are displaying in */
         sf::RenderWindow _gameWindow;
+
+        sf::RenderWindow _startScreen;
+
+        int _enemyDamage;
 
         /** The view, or "camera" that we are using to display the world. */
         sf::View _view;
@@ -74,9 +75,16 @@ class GameManager
 
         sf::Font _font;
 
+        sf::Font _titleFont;
+
         float _indicatorTotal;
 
         std::vector<sf::Vertex> _debugLines;
+
+        /**
+         * @brief Run the main game loop 
+         */
+        void runGame();
 
         void debugDraw();
 
@@ -137,4 +145,12 @@ class GameManager
         void drawEnemyHealth();
 
         void drawHitIndicator(Enemy* e, sf::Time frameTime);
+
+        void drawStartScreen();
+
+        sf::Text getTitle();
+
+        sf::Text getStartText();
+
+        void startScreenHandleInput();
 };

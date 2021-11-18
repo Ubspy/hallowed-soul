@@ -20,22 +20,24 @@ GameManager::GameManager() :
         printf("ERROR: font can not be loaded!!");
     }
 
+    if (!_titleFont.loadFromFile("fonts/Title.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
     _indicatorTotal = 0;
+
+    _enemyDamage = 0;
 
     _hitEnemy = nullptr;
 
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
-    _currentState = GameState::playing;
+    _currentState = GameState::menu;
 
     // This defines where our viewport is set to start
     // TODO: We will probably be spawning the player in the start of the map
     _view.setViewport({0.0f, 0.0f, 1.0f, 1.0f});
-
-    // The view will display the top quarter of the map (_gameWindow),
-    // but will take up the full size of the RenderWindow. Therefore,
-    // this should zoom in on the gameWindow.
-    _gameWindow.setView(_view);
 
     this->_wave.setPlayer(this->_player);
     
@@ -46,8 +48,57 @@ GameManager::GameManager() :
     this->_player.spawn(sf::Vector2<float>(1280.0 / 2.0, 720.0 / 2.0));
 }
 
+void GameManager::displayStartScreen()
+{
+    while(_currentState == GameState::menu)
+    {
+        startScreenHandleInput();
+
+        drawStartScreen();
+
+        if(_currentState == GameState::playing)
+        {
+            runGame();
+        }
+        
+    }
+}
+
+void GameManager::startScreenHandleInput()
+{
+    sf::Event currentEvent;
+
+    while(_gameWindow.pollEvent(currentEvent))
+    {
+        switch(currentEvent.type)
+        {
+            case sf::Event::KeyPressed:
+            {
+                this->handleKeyboardEvent(currentEvent);
+                break;
+            }
+            case sf::Event::Closed:
+            {
+                this->_currentState = GameState::exiting;
+                break;
+            }
+            default: // Otherwise just do nothing
+                break;
+        }
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        _currentState = GameState::playing;
+    }
+}
+
 void GameManager::runGame()
 {
+    // The view will display the top quarter of the map (_gameWindow),
+    // but will take up the full size of the RenderWindow. Therefore,
+    // this should zoom in on the gameWindow.
+    _gameWindow.setView(_view);
+
     // Game clock for tracking time
     sf::Clock gameClock;
 

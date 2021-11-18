@@ -67,3 +67,46 @@ void GameManager::drawHitIndicator(Enemy* e, sf::Time frameTime)
         }
     }
 }
+
+void GameManager::drawStartScreen()
+{
+    _gameWindow.clear();
+    
+    sf::Texture texture;
+    texture.loadFromFile("assets/textures/start.png");
+    texture.setRepeated(true);
+
+    sf::IntRect rectSourceSprite(150, 225, 1500, 1125);
+    sf::Sprite sprite(texture, rectSourceSprite);
+
+    _gameWindow.draw(sprite);
+    _gameWindow.draw(getTitle());
+    _gameWindow.draw(getStartText());
+    _gameWindow.display();
+}
+
+sf::Text GameManager::getTitle()
+{
+    sf::Text title;
+    title.setString("HALLOWED SOUL");
+    title.setFont(_titleFont);
+    title.setCharacterSize(150);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(5);
+    title.setPosition(210,-10);
+    return title;
+}
+
+sf::Text GameManager::getStartText()
+{
+    sf::Text title;
+    title.setString("<Press SPACE to Start>");
+    title.setFont(_font);
+    title.setCharacterSize(60);
+    title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(5);
+    title.setPosition(290,600);
+    return title;
+}
