@@ -7,9 +7,10 @@
  * 
  */
 
+#include <string>
 #include "Tests.h"
 #include "../src/Player.h"
-#include "../src/GameManager.cpp"
+#include "../src/Enemy.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -17,8 +18,13 @@ int Tests::testNum {0};
 
 void Tests::runTests()
 {
-    testAndPrint("Player animations", testPlayerAnimations);
-    testAndPrint("Enemy health bar", testEnemyHealthBars);
+    srand(time(0));
+    // testAndPrint("Player walk animations", testPlayerWalkAnimations);
+    // testAndPrint("Enemy health bar", testEnemyHealthBars);
+    // testAndPrint("Enemies are alive", testEnemyAlive);
+    // testAndPrint("Enemies die", testEnemyDead);
+    // testAndPrint("Enemies spawn in correct position", testEnemySpawn);
+    printf("test");
 }
 
 void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
@@ -35,10 +41,10 @@ void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
     std::cout << '\n';
 }
 
-bool Tests::testPlayerAnimations()
+bool Tests::testPlayerWalkAnimations()
 {
     // Create a player
-    Player p;
+    Player p(nullptr);
     // Constants about which direction player is in
     const int upWalkRow {8};
     const int leftWalkRow {9};
@@ -51,7 +57,7 @@ bool Tests::testPlayerAnimations()
     // Move it up
     p.moveInDirection({0, -1});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     // Assert that the walking up sprite is selected
     if (p.getSprite().getTextureRect().top != upWalkRow * p.getHeight())
         return false;
@@ -59,21 +65,21 @@ bool Tests::testPlayerAnimations()
     // Move left
     p.moveInDirection({-1, 0});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != leftWalkRow * p.getHeight())
         return false;
 
     // Move down
     p.moveInDirection({1, 0});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != downWalkRow * p.getHeight())
         return false;
 
     // Move right
     p.moveInDirection({0, 1});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != rightWalkRow * p.getHeight())
         return false;
 
@@ -85,10 +91,59 @@ bool Tests::testPlayerAnimations()
     return true;
 }
 
+bool Tests::testPlayerAttackAnimations()
+{
+    Player p(nullptr);
+        // Constants about which direction player is in
+    const int upAttackRow {12};
+    const int leftAttackRow {13};
+    const int downAttackRow {14};
+    const int rightAttackRow {15};
+
+    // Get current animation frame
+    int firstLeft = p.getSprite().getTextureRect().left;
+
+    // Move it up
+    p.moveInDirection({0, -1});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    // Assert that the attacking up sprite is selected
+    if (p.getSprite().getTextureRect().top != upAttackRow * p.getHeight())
+        return false;
+    
+    // Move left
+    p.moveInDirection({-1, 0});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != leftAttackRow * p.getHeight())
+        return false;
+
+    // Move down
+    p.moveInDirection({1, 0});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != downAttackRow * p.getHeight())
+        return false;
+
+    // Move right
+    p.moveInDirection({0, 1});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != rightAttackRow * p.getHeight())
+        return false;
+
+
+    return true;
+}
+
 bool Tests::testEnemyHealthBars()
 {
-    WaveManager wave;
-    Enemy* e = new Enemy;
+    WaveManager wave(nullptr);
+    Enemy* e = new Enemy(nullptr);
     int x = wave.getHealthBar(e).getSize().x;
     e->doDamage(20);
     if(wave.getHealthBar(e).getSize().x < x)
@@ -159,6 +214,7 @@ bool Tests::testEntityDeath()
     return !testPlayer.isAlive();
 }
 
+<<<<<<< HEAD
 bool Tests::raycastInRange()
 {
     std::vector<Entity*> entityVec;
@@ -204,4 +260,34 @@ bool Tests::testVectorMagnitude()
 {
     sf::Vector2<float> toTest = sf::Vector2<float>(2.0f, 2.0f);
     return VectorUtil::getVectorMagnitude(VectorUtil::getUnitVector(toTest)) == 1.0f;
+}
+
+bool Tests::testEnemyAlive()
+{
+    Enemy test = Enemy(nullptr);
+    return test.isAlive();
+}
+
+bool Tests::testEnemyDead()
+{
+    Enemy test = Enemy(nullptr);
+    test.kill();
+    return !test.isAlive();
+}
+
+bool Tests::testEnemySpawn()
+{
+    Enemy test = Enemy(nullptr);
+    sf::Vector2<float> pos = sf::Vector2<float>(rand()%2000,rand()%2000);
+    test.spawn(pos);
+    return test.getPosition()==pos;
+}
+
+bool Tests::testEnemyDamage()
+{
+    Enemy test = Enemy(nullptr);
+    int startHP = test.getHealth();
+    int damage = rand()%100;
+    test.doDamage(damage);
+    return test.getHealth()==startHP-damage;
 }

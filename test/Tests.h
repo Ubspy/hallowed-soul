@@ -9,6 +9,8 @@
 
 #pragma once
 
+
+
 class Tests
 {
     public:
@@ -16,7 +18,8 @@ class Tests
 
     private:
         void testAndPrint(std::string name, bool (Tests::*test) ());
-        bool testPlayerAnimations();
+        bool testPlayerWalkAnimations();
+        bool testPlayerAttackAnimations();
         bool testEnemyHealthBars();
         bool testEnemyHitIndicators();
 
@@ -30,6 +33,19 @@ class Tests
 
         bool testUnitVector();
         bool testVectorMagnitude();
+
+
+        // Test if enemies are alive when created
+        bool testEnemyAlive();
+
+        // Test if enemies die when killed
+        bool testEnemyDead();
+
+        // Test if enemies spawn in the specified position
+        bool testEnemySpawn();
+
+        // Test if enemies take damage
+        bool testEnemyDamage();
 
         static int testNum;
 };

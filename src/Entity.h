@@ -23,10 +23,37 @@ enum EntityType
     PLAYER, ENEMY
 };
 
+/* A helper struct to store data that has to do with animation */
+struct AnimationData{
+    enum Direction
+    {
+        Up,
+        Left,
+        Down,
+        Right,
+    } direction;
+    int numRows;
+    int numCols;
+    int numWalkingFrames;
+    int upWalkRow;
+    int leftWalkRow;
+    int downWalkRow;
+    int rightWalkRow;
+    int numAttackingFrames;
+    int upAttackRow;
+    int leftAttackRow;
+    int downAttackRow;
+    int rightAttackRow;
+    sf::Vector2i currentFrame;
+    float timeAccumulated;
+};
+
 class Entity
 {
     public:
         Entity(std::vector<Entity*> *entityVec);
+
+        Entity(std::vector<Entity*> *entityVec, AnimationData animationData);
 
         /// Getters and Setters
         /**
@@ -240,29 +267,7 @@ class Entity
         void setAttackingFrame();
 
         /* A helper struct to store data that has to do with animation */
-        struct {
-            enum Direction
-            {
-                Up,
-                Left,
-                Down,
-                Right,
-            } direction;
-            const int numRows {21};
-            const int numCols {13};
-            const int numWalkingFrames {9};
-            const int upWalkRow {8};
-            const int leftWalkRow {9};
-            const int downWalkRow {10};
-            const int rightWalkRow {11};
-            const int numAttackingFrames {6};
-            const int upAttackRow {12};
-            const int leftAttackRow {13};
-            const int downAttackRow {14};
-            const int rightAttackRow {15};
-            sf::Vector2i currentFrame {0, rightWalkRow};
-            float timeAccumulated {0};
-        } animationData;
+        AnimationData animationData;
 
         /** Helper function to update the sprite rectangle */
         void updateTextureRect();

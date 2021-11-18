@@ -33,3 +33,6 @@
 
 # Tag file
 tags
+
+# Game-generated high score file
+highscore.txt
