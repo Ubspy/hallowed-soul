@@ -223,10 +223,12 @@ void GameManager::runGame()
             // If new high score
             if (_wave.getWave() > getHighScore())
             {
+                // Set the high score for other modules to reference
+                _highScore = _wave.getWave();
                 // Open a file and record high score
                 std::ofstream of("highscore.txt");
                 if (of.is_open())
-                    of << _wave.getWave();
+                    of << getHighScore();
                 else
                     std::cout << "Error: couldn't write to high score file\n";
             }
