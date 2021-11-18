@@ -17,7 +17,7 @@ int Tests::testNum {0};
 
 void Tests::runTests()
 {
-    testAndPrint("Player animations", testPlayerAnimations);
+    testAndPrint("Player walk animations", testPlayerWalkAnimations);
     testAndPrint("Enemy health bar", testEnemyHealthBars);
 }
 
@@ -35,10 +35,10 @@ void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
     std::cout << '\n';
 }
 
-bool Tests::testPlayerAnimations()
+bool Tests::testPlayerWalkAnimations()
 {
     // Create a player
-    Player p;
+    Player p(nullptr);
     // Constants about which direction player is in
     const int upWalkRow {8};
     const int leftWalkRow {9};
@@ -51,7 +51,7 @@ bool Tests::testPlayerAnimations()
     // Move it up
     p.moveInDirection({0, -1});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     // Assert that the walking up sprite is selected
     if (p.getSprite().getTextureRect().top != upWalkRow * p.getHeight())
         return false;
@@ -59,21 +59,21 @@ bool Tests::testPlayerAnimations()
     // Move left
     p.moveInDirection({-1, 0});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != leftWalkRow * p.getHeight())
         return false;
 
     // Move down
     p.moveInDirection({1, 0});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != downWalkRow * p.getHeight())
         return false;
 
     // Move right
     p.moveInDirection({0, 1});
     p.update(0.1);
-    p.onDraw();
+    p.onDrawBase();
     if (p.getSprite().getTextureRect().top != rightWalkRow * p.getHeight())
         return false;
 
@@ -81,6 +81,55 @@ bool Tests::testPlayerAnimations()
     int secondLeft = p.getSprite().getTextureRect().left;
     if (firstLeft == secondLeft)
         return false;
+
+    return true;
+}
+
+bool Tests::testPlayerAttackAnimations()
+{
+    Player p(nullptr);
+        // Constants about which direction player is in
+    const int upAttackRow {12};
+    const int leftAttackRow {13};
+    const int downAttackRow {14};
+    const int rightAttackRow {15};
+
+    // Get current animation frame
+    int firstLeft = p.getSprite().getTextureRect().left;
+
+    // Move it up
+    p.moveInDirection({0, -1});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    // Assert that the attacking up sprite is selected
+    if (p.getSprite().getTextureRect().top != upAttackRow * p.getHeight())
+        return false;
+    
+    // Move left
+    p.moveInDirection({-1, 0});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != leftAttackRow * p.getHeight())
+        return false;
+
+    // Move down
+    p.moveInDirection({1, 0});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != downAttackRow * p.getHeight())
+        return false;
+
+    // Move right
+    p.moveInDirection({0, 1});
+    p.attack();
+    p.update(0.1);
+    p.onDrawBase();
+    if (p.getSprite().getTextureRect().top != rightAttackRow * p.getHeight())
+        return false;
+
 
     return true;
 }
