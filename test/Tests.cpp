@@ -7,9 +7,10 @@
  * 
  */
 
+#include <string>
 #include "Tests.h"
 #include "../src/Player.h"
-#include "../src/GameManager.cpp"
+#include "../src/WaveManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -17,8 +18,9 @@ int Tests::testNum {0};
 
 void Tests::runTests()
 {
-    testAndPrint("Player walk animations", testPlayerWalkAnimations);
-    testAndPrint("Enemy health bar", testEnemyHealthBars);
+    // testAndPrint("Player walk animations", testPlayerWalkAnimations);
+    // testAndPrint("Enemy health bar", testEnemyHealthBars);
+    printf("hi");
 }
 
 void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
