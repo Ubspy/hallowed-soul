@@ -3,7 +3,29 @@
 #include "VectorUtil.h"
 #include <iostream>
 
-Entity::Entity(std::vector<Entity*> *entityVec) : _currentMoveState {Moving}
+Entity::Entity(std::vector<Entity*> *entityVec) : Entity(entityVec, 
+    {
+        .direction=AnimationData::Direction::Left,
+        .numRows=21,
+        .numCols=13,
+        .numWalkingFrames=9,
+        .upWalkRow=8,
+        .leftWalkRow=9,
+        .downWalkRow=10,
+        .rightWalkRow=11,
+        .numAttackingFrames=6,
+        .upAttackRow=12,
+        .leftAttackRow=13,
+        .downAttackRow=14,
+        .rightAttackRow=15,
+        .currentFrame {0, 11},
+        .timeAccumulated=0
+    }
+) {}
+
+Entity::Entity(std::vector<Entity*> *entityVec, AnimationData animationData) :
+    _currentMoveState {Moving},
+    animationData {animationData}
 {
     // Initialize position and velocity to have a position of <0, 0>
     _position = sf::Vector2<float>(0, 0);

@@ -1,6 +1,23 @@
 #include "Enemy.h"
 
-Enemy::Enemy(std::vector<Entity*> *entityVec) : Entity(entityVec)
+Enemy::Enemy(std::vector<Entity*> *entityVec) : Entity(entityVec, 
+    {
+        .direction=AnimationData::Direction::Right,
+        .numRows=5,
+        .numCols=8,
+        .numWalkingFrames=4,
+        .upWalkRow=1,
+        .leftWalkRow=1,
+        .downWalkRow=1,
+        .rightWalkRow=1,
+        .numAttackingFrames=3,
+        .upAttackRow=2,
+        .leftAttackRow=2,
+        .downAttackRow=2,
+        .rightAttackRow=2,
+        .currentFrame {0, 1},
+        .timeAccumulated=0,
+})
 {
     _ammo = 0;
     _atkTime = 0;
@@ -9,7 +26,7 @@ Enemy::Enemy(std::vector<Entity*> *entityVec) : Entity(entityVec)
     _stun = (float)0;
     srand(time(0));
 
-    setTexture("assets/textures/skeleton.png");
+    setTexture("assets/textures/Skelly-Boy.png");
 }
 
 int Enemy::getAmmo()
