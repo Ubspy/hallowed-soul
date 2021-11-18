@@ -214,7 +214,6 @@ bool Tests::testEntityDeath()
     return !testPlayer.isAlive();
 }
 
-<<<<<<< HEAD
 bool Tests::raycastInRange()
 {
     std::vector<Entity*> entityVec;
