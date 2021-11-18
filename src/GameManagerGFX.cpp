@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include <cmath>
 
 void GameManager::updateViewLocked()
 {
@@ -145,10 +146,12 @@ void GameManager::drawDeathScreen(double time)
     _gameWindow.clear(sf::Color::Black);
     sf::Text gameOver = getGameOverText();
     sf::Text yourScore;
-    sf::Text highScore = getHighScoreText();
+    sf::Text highScore;
     sf::Text newHighScore;
     sf::Text instructions;
     yourScore.setString("Your score: " + std::to_string(_wave.getWave()));
+    highScore.setString("High score: " + std::to_string(std::max(_wave.getWave(), getHighScore())));
+    highScore.setFont(_font);
     newHighScore.setString("New High Score!!!");
     instructions.setString("<Press SPACE to exit>");
     yourScore.setFont(_font);

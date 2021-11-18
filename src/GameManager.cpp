@@ -41,16 +41,16 @@ GameManager::GameManager() :
     if (highScoreFile.is_open())
     {
         highScoreFile >> _highScore;
-        if (highScoreFile.fail()) {
-            std::cout << "Couldn't read high score. Will overwrite highscore.txt.\n";
+        if (highScoreFile.fail())
+        {
+            std::cout << "Error: Couldn't read high score. Will overwrite highscore.txt.\n";
             highScoreFile.clear();
-            _highScore = 1;
+            _highScore = 0;
         }
     }
     else
     {
-        std::cout<<"FILE NOT OPEN\n";
-        _highScore = 1;
+        std::cout << "Error: Couldn't read high score. Will overwrite highscore.txt.\n";
     }
 
     // Set default game state
@@ -212,6 +212,7 @@ void GameManager::runGame()
         {
             // Clear enemy objects
             this->_wave.endWave();
+            updateHighScoreFile();
             displayDeathScreen();
             break;
         }
@@ -219,20 +220,7 @@ void GameManager::runGame()
         {
             // Clear enemy objects
             this->_wave.endWave();
-
-            // If new high score
-            if (_wave.getWave() > getHighScore())
-            {
-                // Set the high score for other modules to reference
-                _highScore = _wave.getWave();
-                // Open a file and record high score
-                std::ofstream of("highscore.txt");
-                if (of.is_open())
-                    of << getHighScore();
-                else
-                    std::cout << "Error: couldn't write to high score file\n";
-            }
-
+            updateHighScoreFile();
             _gameWindow.close();
             break;
         }
@@ -432,6 +420,21 @@ void GameManager::debugDraw()
 int GameManager::getHighScore()
 {
     return _highScore;
+}
+
+void GameManager::updateHighScoreFile()
+{
+
+    // If new high score
+    if (_wave.getWave() > getHighScore())
+    {
+        // Open a file and record high score
+        std::ofstream of("highscore.txt");
+        if (of.is_open())
+            of << _wave.getWave();
+        if (!of.is_open() || of.fail())
+            std::cout << "Error: couldn't write to high score file\n";
+    }
 }
 
 /*

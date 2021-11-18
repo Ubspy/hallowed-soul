@@ -175,4 +175,14 @@ class GameManager
 
         sf::Text getHighScoreText();
 
+        /**
+         * @brief Helper function that updates the high score file when game is over
+         * 
+         * @pre Game is over or player is exiting game
+         * 
+         * @post new high score is written to highscore.txt
+         * 
+         */
+        void updateHighScoreFile();
+
 };
