@@ -11,6 +11,7 @@
 #include "Tests.h"
 #include "../src/Player.h"
 #include "../src/Enemy.h"
+#include "../src/WaveManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -19,18 +20,18 @@ int Tests::testNum {0};
 void Tests::runTests()
 {
     srand(time(0));
-    // testAndPrint("Player walk animations", testPlayerWalkAnimations);
-    // testAndPrint("Enemy health bar", testEnemyHealthBars);
-    // testAndPrint("Enemies are alive", testEnemyAlive);
-    // testAndPrint("Enemies die", testEnemyDead);
-    // testAndPrint("Enemies spawn in correct position", testEnemySpawn);
-    printf("test");
+    testAndPrint("Player walk animations", testPlayerWalkAnimations());
+    //testAndPrint("Enemy health bar", testEnemyHealthBars());
+    testAndPrint("Enemies are alive", testEnemyAlive());
+    testAndPrint("Enemies die", testEnemyDead());
+    testAndPrint("Enemies spawn in correct position", testEnemySpawn());
+    printf("test\n");
 }
 
-void Tests::testAndPrint(std::string name, bool (Tests::*test) ())
+void Tests::testAndPrint(std::string name, bool result)
 {
     std::cout << "Test " << testNum++ << ": " << name << ": ";
-    if ((this->*test)())
+    if (result)
     {
         std::cout << "PASSED";
     }
@@ -143,15 +144,18 @@ bool Tests::testPlayerAttackAnimations()
 bool Tests::testEnemyHealthBars()
 {
     WaveManager wave(nullptr);
+    wave.beginWave();
     Enemy* e = new Enemy(nullptr);
     int x = wave.getHealthBar(e).getSize().x;
     e->doDamage(20);
     if(wave.getHealthBar(e).getSize().x < x)
     {
+        delete e;
         return true;
     }
     else 
     {
+        delete e;
         return false;
     }
 }

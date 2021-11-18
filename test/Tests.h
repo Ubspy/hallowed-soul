@@ -17,7 +17,7 @@ class Tests
         void runTests();
 
     private:
-        void testAndPrint(std::string name, bool (Tests::*test) ());
+        void testAndPrint(std::string name, bool result);
         bool testPlayerWalkAnimations();
         bool testPlayerAttackAnimations();
         bool testEnemyHealthBars();
