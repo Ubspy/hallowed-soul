@@ -168,8 +168,21 @@ bool Tests::testEntityMovement()
     sf::Vector2<float> prevPos = testPlayer.getPosition();
 
     testPlayer.moveInDirection(sf::Vector2<float>(0, 1));
+    testPlayer.update(0.01);
 
     return testPlayer.getPosition() != prevPos;
+}
+
+bool Tests::testEntityVelocity()
+{
+    Player testPlayer = Player(nullptr);
+
+    sf::Vector2<float> prevPos = testPlayer.getPosition();
+
+    testPlayer.moveInDirection(sf::Vector2<float>(0, 1));
+
+    return testPlayer.getVelocity() != sf::Vector2<float>(0.0f, 0.0f);
+
 }
 
 bool Tests::testEntityDamage()
@@ -183,12 +196,70 @@ bool Tests::testEntityDamage()
     return testPlayer.getHealth() < prevHealth;
 }
 
+bool Tests::testEntitySpawn()
+{
+    sf::Vector2<float> spawnLoc = sf::Vector2<float>(56.0f, 340.0f);
+
+    Player testPlayer = Player(nullptr);
+    testPlayer.spawn(spawnLoc);
+
+    return testPlayer.getPosition() == spawnLoc;
+}
+
 bool Tests::testEntityDeath()
 {
     Player testPlayer = Player(nullptr);
     testPlayer.kill();
 
     return !testPlayer.isAlive();
+}
+
+<<<<<<< HEAD
+bool Tests::raycastInRange()
+{
+    std::vector<Entity*> entityVec;
+
+    Player testPlayer1 = Player(&entityVec);
+    Player testPlayer2 = Player(&entityVec);
+
+    entityVec.push_back(&testPlayer1);
+    entityVec.push_back(&testPlayer2);
+
+    testPlayer1.spawn(sf::Vector2<float>(0, 0));
+    testPlayer2.spawn(sf::Vector2<float>(100, 100));
+    Entity* hit = testPlayer1.rayCast(sf::Vector2<float>(145, 145));
+
+    return hit != nullptr;
+}
+
+bool Tests::raycastOutOfRange()
+{
+    std::vector<Entity*> entityVec;
+
+    Player testPlayer1 = Player(&entityVec);
+    Player testPlayer2 = Player(&entityVec);
+
+    entityVec.push_back(&testPlayer1);
+    entityVec.push_back(&testPlayer2);
+
+    testPlayer1.spawn(sf::Vector2<float>(0, 0));
+    testPlayer2.spawn(sf::Vector2<float>(200, 200));
+    Entity* hit = testPlayer1.rayCast(sf::Vector2<float>(145, 145));
+
+    return hit == nullptr;
+}
+
+bool Tests::testUnitVector()
+{
+    // TODO: May not work idk
+    sf::Vector2<float> toTest = sf::Vector2<float>(2.0f, 2.0f);
+    return VectorUtil::getVectorMagnitude(toTest) == std::sqrt(8);
+}
+
+bool Tests::testVectorMagnitude()
+{
+    sf::Vector2<float> toTest = sf::Vector2<float>(2.0f, 2.0f);
+    return VectorUtil::getVectorMagnitude(VectorUtil::getUnitVector(toTest)) == 1.0f;
 }
 
 bool Tests::testEnemyAlive()

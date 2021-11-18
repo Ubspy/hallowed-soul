@@ -176,6 +176,8 @@ class Entity
          */
         virtual void onCollision(Entity &hitEntity) = 0; 
 
+        Entity* rayCast(const sf::Vector2<float> &ray);
+
         /**
          * @brief Quick fix for setting the entity into an attacking state.
          * 
@@ -275,7 +277,6 @@ class Entity
         // This is going to be the list of all entities in the game, we need this for ray casting
         std::vector<Entity*> *_entityVec;
 
-        Entity* rayCast(const sf::Vector2<float> &ray);
         bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3,
                 float x4, float y4);
 };

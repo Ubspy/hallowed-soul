@@ -77,6 +77,8 @@ class GameManager
 
         sf::Font _titleFont;
 
+        sf::Font _deathFont;
+
         float _indicatorTotal;
 
         std::vector<sf::Vertex> _debugLines;
@@ -162,4 +164,15 @@ class GameManager
          * @return int The player's high score from a previous game
          */
         int getHighScore();
+
+        void displayDeathScreen();
+
+        sf::Text getGameOverText();
+
+        void drawDeathScreen(double time);
+
+        void deathScreenHandleInput();
+
+        sf::Text getHighScoreText();
+
 };

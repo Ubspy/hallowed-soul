@@ -26,6 +26,11 @@ GameManager::GameManager() :
         printf("ERROR: font can not be loaded!!");
     }
 
+    if (!_deathFont.loadFromFile("fonts/DeathText.ttf"))
+    {
+        printf("ERROR: font can not be loaded!!");
+    }
+
     _indicatorTotal = 0;
 
     _enemyDamage = 0;
@@ -44,6 +49,7 @@ GameManager::GameManager() :
     }
     else
     {
+        std::cout<<"FILE NOT OPEN\n";
         _highScore = 1;
     }
 
@@ -76,7 +82,32 @@ void GameManager::displayStartScreen()
         {
             runGame();
         }
-        
+        if(_currentState == GameState::exiting)
+        {
+            _gameWindow.close();
+            break;
+        }
+    }
+}
+
+void GameManager::displayDeathScreen()
+{
+    sf::Clock gameClock;
+    double i = 0;
+    while(1)
+    {
+        sf::Time frameTime = gameClock.restart();
+        i = i + frameTime.asSeconds();
+
+        deathScreenHandleInput();
+
+        drawDeathScreen(i);
+
+        if(_currentState == GameState::exiting)
+        {
+            _gameWindow.close();
+            break;
+        }
     }
 }
 
@@ -105,6 +136,34 @@ void GameManager::startScreenHandleInput()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         _currentState = GameState::playing;
+    }
+}
+
+void GameManager::deathScreenHandleInput()
+{
+    sf::Event currentEvent;
+
+    while(_gameWindow.pollEvent(currentEvent))
+    {
+        switch(currentEvent.type)
+        {
+            case sf::Event::KeyPressed:
+            {
+                this->handleKeyboardEvent(currentEvent);
+                break;
+            }
+            case sf::Event::Closed:
+            {
+                this->_currentState = GameState::exiting;
+                break;
+            }
+            default: // Otherwise just do nothing
+                break;
+        }
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        _currentState = GameState::exiting;
     }
 }
 
@@ -137,7 +196,7 @@ void GameManager::runGame()
         if(!this->_player.isAlive())
         {
             printf("YOU DIED!!!!!\n");
-            this->_currentState = GameState::exiting;
+            this->_currentState = GameState::gameOver;
         }
 
         // Next step is to check the collisions on all of our entities
@@ -149,6 +208,13 @@ void GameManager::runGame()
         //printf("FPS: %f\n", 1/frameTime.asSeconds());
 
         // We also want to check if the game state is exit, if it is then we break
+        if(_currentState == GameState::gameOver)
+        {
+            // Clear enemy objects
+            this->_wave.endWave();
+            displayDeathScreen();
+            break;
+        }
         if(_currentState == GameState::exiting)
         {
             // Clear enemy objects

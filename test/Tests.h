@@ -24,8 +24,15 @@ class Tests
         bool testEnemyHitIndicators();
 
         bool testEntityMovement();
+        bool testEntityVelocity();
         bool testEntityDamage();
+        bool testEntitySpawn();
         bool testEntityDeath();
+        bool raycastInRange();
+        bool raycastOutOfRange();
+
+        bool testUnitVector();
+        bool testVectorMagnitude();
 
 
         // Test if enemies are alive when created
