@@ -136,8 +136,8 @@ bool Tests::testPlayerAttackAnimations()
 
 bool Tests::testEnemyHealthBars()
 {
-    WaveManager wave;
-    Enemy* e = new Enemy;
+    WaveManager wave(nullptr);
+    Enemy* e = new Enemy(nullptr);
     int x = wave.getHealthBar(e).getSize().x;
     e->doDamage(20);
     if(wave.getHealthBar(e).getSize().x < x)
