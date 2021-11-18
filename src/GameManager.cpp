@@ -36,6 +36,11 @@ GameManager::GameManager() :
     if (highScoreFile.is_open())
     {
         highScoreFile >> _highScore;
+        if (highScoreFile.fail()) {
+            std::cout << "Couldn't read high score. Will overwrite highscore.txt.\n";
+            highScoreFile.clear();
+            _highScore = 1;
+        }
     }
     else
     {
