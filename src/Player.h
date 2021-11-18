@@ -97,13 +97,14 @@ class Player : public Entity
         const float _attackRange = 40;
         const float _deadZone = 0.01;
         const float _attackTime = 0.6;
+        const float _dodgeTime = 0.6;
 
         // Current direction to move in based off given user input
         sf::Vector2<float> _moveVec;
         sf::Vector2<float> _lastMoveVec;
 
         // Current time since last attack
-        float _lastAttackTime;
+        float _lastAttackTime, _lastDodgeTime;
 
         // tracking red glow
         float _redTime;

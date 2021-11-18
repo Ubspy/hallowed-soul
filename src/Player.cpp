@@ -76,6 +76,7 @@ void Player::onUpdate(float deltaTime)
 
     // Update time since last attack
     this->_lastAttackTime += deltaTime;
+    this->_lastDodgeTime += deltaTime;
 
     // Reset the movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
@@ -157,16 +158,20 @@ void Player::moveInDirection(sf::Vector2<float> moveDir)
 
 void Player::dodgeInDirection(sf::Vector2<float> dodgeDir)
 {
-    // We don't want to dodge if the velocity is near zero
-    if(VectorUtil::getVectorMagnitude(this->_velocity) > this->_deadZone)
+    if(this->_lastDodgeTime > this->_dodgeTime)
     {
-        // The first thing we want to do is set the dodge vector now
-        // We need to get the dodge vector from the last frame since dodge is processed before
-        // the moveVec is set
-        this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
+        // We don't want to dodge if the velocity is near zero
+        if(VectorUtil::getVectorMagnitude(this->_velocity) > this->_deadZone)
+        {
+            // The first thing we want to do is set the dodge vector now
+            // We need to get the dodge vector from the last frame since dodge is processed before
+            // the moveVec is set
+            this->_dodgeVec = VectorUtil::getUnitVector(this->_lastMoveVec) * this->_dodgeSpeed;
 
-        // When we dodge, we want to set the state of movement to dodging 
-        // this->_currentMoveState = MoveState::Dodging;
+            // When we dodge, we want to set the state of movement to dodging 
+            // this->_currentMoveState = MoveState::Dodging;
+            this->_lastDodgeTime = 0;
+        }
     }
 }
 
