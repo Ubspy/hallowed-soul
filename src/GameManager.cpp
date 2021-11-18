@@ -2,6 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
+#include <fstream>
 
 // bool linesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
@@ -30,6 +31,16 @@ GameManager::GameManager() :
     _enemyDamage = 0;
 
     _hitEnemy = nullptr;
+
+    std::ifstream highScoreFile("highscore.txt");
+    if (highScoreFile.is_open())
+    {
+        highScoreFile >> _highScore;
+    }
+    else
+    {
+        _highScore = 1;
+    }
 
     // Set default game state
     // TODO: If we have a main menu, change the default state to that
@@ -137,6 +148,18 @@ void GameManager::runGame()
         {
             // Clear enemy objects
             this->_wave.endWave();
+
+            // If new high score
+            if (_wave.getWave() > getHighScore())
+            {
+                // Open a file and record high score
+                std::ofstream of("highscore.txt");
+                if (of.is_open())
+                    of << _wave.getWave();
+                else
+                    std::cout << "Error: couldn't write to high score file\n";
+            }
+
             _gameWindow.close();
             break;
         }
@@ -331,6 +354,11 @@ void GameManager::debugDraw()
 
         this->_gameWindow.draw(currentLine, 2, sf::Lines);
     }
+}
+
+int GameManager::getHighScore()
+{
+    return _highScore;
 }
 
 /*

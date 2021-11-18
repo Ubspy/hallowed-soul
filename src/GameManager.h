@@ -81,6 +81,8 @@ class GameManager
 
         std::vector<sf::Vertex> _debugLines;
 
+        int _highScore;
+
         /**
          * @brief Run the main game loop 
          */
@@ -153,4 +155,11 @@ class GameManager
         sf::Text getStartText();
 
         void startScreenHandleInput();
+
+        /**
+         * @brief Get the player's high score
+         * 
+         * @return int The player's high score from a previous game
+         */
+        int getHighScore();
 };
