@@ -33,7 +33,7 @@ void UIManager::drawMap()
     // Draw the tutorial sprite.
     sf::IntRect tutRectSourceSprite(0, 0, 327, 133);
     sf::Texture tutorialTex;
-    tutorialTex.loadFromFile("assets/textures/tutorial.png");
+    tutorialTex.loadFromFile("assets/textures/instructions.png");
     tutorialTex.setRepeated(false);
     sf::Sprite tutSprite(tutorialTex, tutRectSourceSprite);
     tutSprite.setPosition(1280.0 / 2.0 - tutRectSourceSprite.width / 2, 720.0 / 2.0 - tutRectSourceSprite.height);
