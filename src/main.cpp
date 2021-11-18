@@ -4,7 +4,7 @@
 int main()
 {
     GameManager gaming;
-    gaming.runGame();
+    gaming.displayStartScreen();
 
     return 0;
 }
