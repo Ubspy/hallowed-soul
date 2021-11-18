@@ -74,6 +74,7 @@ void Enemy::onUpdate(float deltaTime)
 
     if(_attacking)
     {
+        _currentMoveState = AttackTriggered;
         _attacking = true;
         _velocity = sf::Vector2<float> (0,0);
         _atkTime += deltaTime;
