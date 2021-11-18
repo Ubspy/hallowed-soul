@@ -7,8 +7,7 @@
  * 
  */
 
-#ifndef TESTS_H
-#define TESTS_H
+#pragma once
 
 class Tests
 {
@@ -20,7 +19,10 @@ class Tests
         bool testPlayerAnimations();
         bool testEnemyHealthBars();
         bool testEnemyHitIndicators();
+
+        bool testEntityMovement();
+        bool testEntityDamage();
+        bool testEntityDeath();
+
         static int testNum;
 };
-
-#endif

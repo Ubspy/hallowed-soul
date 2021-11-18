@@ -100,7 +100,38 @@ bool Tests::testEnemyHealthBars()
         return false;
     }
 }
+
 bool Tests::testEnemyHitIndicators()
 {
     return true;
+}
+
+bool Tests::testEntityMovement()
+{
+    Player testPlayer = Player(nullptr);
+
+    sf::Vector2<float> prevPos = testPlayer.getPosition();
+
+    testPlayer.moveInDirection(sf::Vector2<float>(0, 1));
+
+    return testPlayer.getPosition() != prevPos;
+}
+
+bool Tests::testEntityDamage()
+{
+    Player testPlayer = Player(nullptr);
+
+    int prevHealth;
+
+    testPlayer.doDamage(80);
+
+    return testPlayer.getHealth() < prevHealth;
+}
+
+bool Tests::testEntityDeath()
+{
+    Player testPlayer = Player(nullptr);
+    testPlayer.kill();
+
+    return !testPlayer.isAlive();
 }
