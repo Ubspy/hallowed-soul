@@ -140,4 +140,14 @@ class Player : public Entity
          * @return The new value for the velocity after slow down 
          */
         float checkDeadMoveAxis(float velAxis, float moveAxis, float friction, float deltaTime);
+
+        /**
+         * @brief Get the seconds per frame for the player
+         * 
+         * Overrides the method in Entity because there is only one attack frame,
+         * so it needs to be given more time.
+         * 
+         * @return the seconds per frame to animate at.
+         */
+        float getSecondsPerFrame() const;
 };

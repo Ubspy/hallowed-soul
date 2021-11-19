@@ -246,3 +246,15 @@ float Player::getAttackRange() const
     // sprite the attack range should be adjusted accordingly
     return this->_attackRange + this->_width / 2.0f;
 }
+
+float Player::getSecondsPerFrame() const
+{
+    if (_currentMoveState == MoveState::Attacking)
+    {
+        return 0.15;
+    }
+    else
+    {
+        return Entity::getSecondsPerFrame();
+    }
+}

@@ -273,7 +273,7 @@ class Entity
         void updateTextureRect();
 
         /** Compute seconds per frame based on velocity */
-        float getSecondsPerFrame() const;
+        virtual float getSecondsPerFrame() const;
         // This is going to be the list of all entities in the game, we need this for ray casting
         std::vector<Entity*> *_entityVec;
 
