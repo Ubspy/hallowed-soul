@@ -25,7 +25,13 @@ void Tests::runTests()
     testAndPrint("Enemies are alive", testEnemyAlive());
     testAndPrint("Enemies die", testEnemyDead());
     testAndPrint("Enemies spawn in correct position", testEnemySpawn());
-    printf("test\n");
+    testAndPrint("Entity movement", testEntityMovement());
+    testAndPrint("Entity velocity", testEntityVelocity());
+    testAndPrint("Entity damage", testEntityDamage());
+    testAndPrint("Entity spawn", testEntitySpawn());
+    testAndPrint("Entity death", testEntityDeath());
+    testAndPrint("Raycasting hit", raycastInRange());
+    testAndPrint("Raycasting miss", raycastOutOfRange());
 }
 
 void Tests::testAndPrint(std::string name, bool result)
@@ -47,10 +53,10 @@ bool Tests::testPlayerWalkAnimations()
     // Create a player
     Player p(nullptr);
     // Constants about which direction player is in
-    const int upWalkRow {8};
-    const int leftWalkRow {9};
-    const int downWalkRow {10};
-    const int rightWalkRow {11};
+    const int upWalkRow {1};
+    const int leftWalkRow {1};
+    const int downWalkRow {1};
+    const int rightWalkRow {1};
 
     // Get current animation frame
     int firstLeft = p.getSprite().getTextureRect().left;
@@ -96,10 +102,10 @@ bool Tests::testPlayerAttackAnimations()
 {
     Player p(nullptr);
         // Constants about which direction player is in
-    const int upAttackRow {12};
-    const int leftAttackRow {13};
-    const int downAttackRow {14};
-    const int rightAttackRow {15};
+    const int upAttackRow {2};
+    const int leftAttackRow {2};
+    const int downAttackRow {2};
+    const int rightAttackRow {2};
 
     // Get current animation frame
     int firstLeft = p.getSprite().getTextureRect().left;
