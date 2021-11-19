@@ -98,7 +98,7 @@ bool Tests::testPlayerWalkAnimations()
     return true;
 }
 
-bool Tests::testPlayerAttackAnimations()
+/*bool Tests::testPlayerAttackAnimations()
 {
     Player p(nullptr);
         // Constants about which direction player is in
@@ -145,7 +145,7 @@ bool Tests::testPlayerAttackAnimations()
 
 
     return true;
-}
+}*/
 
 bool Tests::testEnemyHealthBars()
 {

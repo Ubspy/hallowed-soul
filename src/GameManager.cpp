@@ -320,19 +320,13 @@ void GameManager::handleKeyboardEvent(sf::Event &kdbEvent)
         }
         case sf::Keyboard::LShift:
         {
-            /*
-            Enemy* hitEnemy = this->rayCast(this->_player,
-                    this->_player.getLastMoveDirection() * this->_player.getAttackRange());
-
-            if(hitEnemy != nullptr)
+            _enemyDamage = (rand()%12)+(rand()%12)+12;
+            _hitEnemy = this->_player.attack(_enemyDamage);
+            if(_hitEnemy != nullptr)
             {
-                this->_player.attack(hitEnemy);
                 _indicatorTotal = 0;
-                _hitEnemy = hitEnemy;
-                //drawHitIndicator(hitEnemy);
-            } */
-
-            this->_player.attack();
+            }
+            
         }
         default:
             // Do nothing
@@ -388,7 +382,7 @@ void GameManager::drawFrame(sf::Time frameTime)
     // TODO: Add other entities
 
     // Draw the HUD over most things
-    drawHitIndicator(_hitEnemy, frameTime);
+    drawHitIndicator(_hitEnemy, frameTime, _enemyDamage);
     drawEnemyHealth();
     _UIManager.onDraw(frameTime);
 

@@ -208,7 +208,7 @@ void Enemy::doDamage(int damage)
 
 EntityType Enemy::getEntityType()
 {
-    return EntityType::ENEMY; 
+    return EntityType::ENEMY;
 }
 
 Enemy::~Enemy()

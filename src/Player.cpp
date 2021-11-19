@@ -198,18 +198,20 @@ void Player::spawn(sf::Vector2<float> spawnLocation)
     this->_position = spawnLocation;
 }
 
-void Player::attack()
+Entity* Player::attack(int damage)
 {
     _currentMoveState = AttackTriggered;
     Entity* hitEntity = this->rayCast(this->_lastMoveVec * this->getAttackRange());
 
     if(this->_lastAttackTime >= this->_attackTime && hitEntity != nullptr)
     {
-        hitEntity->doDamage((rand()%12)+(rand()%12)+12);
+        hitEntity->doDamage(damage);
 
         // Reset time since last attack
         this->_lastAttackTime = 0;
+        return hitEntity;
     }
+    return nullptr;
 }
 
 bool Player::isDodging()

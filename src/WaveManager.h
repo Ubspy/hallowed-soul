@@ -31,7 +31,7 @@ class WaveManager
         WaveManager(std::vector<Entity*> *entityVec);
 
         ~WaveManager();
-        sf::Text getHitIndicator(Enemy* e);
+        sf::Text getHitIndicator(Entity* e, int damage);
 
         /**
          * @brief establishes a player pointer that can be passed to the enemies

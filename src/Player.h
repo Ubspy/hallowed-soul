@@ -13,6 +13,8 @@ class Player : public Entity
     public:
         Player(std::vector<Entity*> *entityVec);
 
+        bool validAttack(Entity* e);
+
         /**
          * @brief Tells the player which direction it needs to be moving 
          *
@@ -38,7 +40,7 @@ class Player : public Entity
         /**
          * @brief Tells the player it needs to be attacking 
          */
-        void attack();
+        Entity* attack(int damage);
 
         /**
          * @brief checks if player is dodging

@@ -19,7 +19,7 @@ class Tests
     private:
         void testAndPrint(std::string name, bool result);
         bool testPlayerWalkAnimations();
-        bool testPlayerAttackAnimations();
+        //bool testPlayerAttackAnimations();
         bool testEnemyHealthBars();
         bool testEnemyHitIndicators();
 

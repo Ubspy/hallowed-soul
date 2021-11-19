@@ -184,7 +184,7 @@ sf::RectangleShape WaveManager::getHealthBar(Enemy* e)
     return insideRect;
 }
 
-sf::Text WaveManager::getHitIndicator(Enemy* e)
+sf::Text WaveManager::getHitIndicator(Entity* e, int damage)
 {
     
     sf::Text text;
@@ -192,7 +192,7 @@ sf::Text WaveManager::getHitIndicator(Enemy* e)
     // Current wave number text
     const sf::Vector2<float> indicatorPosition{(e->getPosition().x)-30, (e->getPosition().y)-30};
     
-    text.setString("40");
+    text.setString(std::to_string(damage));
     text.setCharacterSize(12);
     text.setFillColor(sf::Color::Red);
     text.setOutlineColor(sf::Color::Black);

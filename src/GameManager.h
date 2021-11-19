@@ -48,7 +48,7 @@ class GameManager
     private:
         std::vector<Entity*> _entityVec;
 
-        Enemy* _hitEnemy;
+        Entity* _hitEnemy;
 
         sf::Text _hitIndicator;
 
@@ -148,7 +148,7 @@ class GameManager
 
         void drawEnemyHealth();
 
-        void drawHitIndicator(Enemy* e, sf::Time frameTime);
+        void drawHitIndicator(Entity* e, sf::Time frameTime, int damage);
 
         void drawStartScreen();
 
