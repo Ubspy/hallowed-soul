@@ -159,10 +159,11 @@ In addition to these two sources, our code review was a valuable source of defec
 * Fixed on: 11-18-2021
 * Fix: Put the written tests in the top-level runTests() method.
 
-### BUG
+### New player sprites animate too fast when attacking
 
-* Reported by:
-* Reported on:
-* Assignee: 
-* Fixed on: 
-* Fix: 
+* Reported by: Jack Moren
+* Reported on: 11-18-2021
+* Assignee: Andrew Riachi
+* Fixed on: 11-18-2021
+* Fix: Make `getSecondsPerFrame()` a virtual method that can be overridden by player, allowing us to define a longer period of time for which
+the frame is shown.
