@@ -25,6 +25,13 @@ void Tests::runTests()
     testAndPrint("Enemies are alive", testEnemyAlive());
     testAndPrint("Enemies die", testEnemyDead());
     testAndPrint("Enemies spawn in correct position", testEnemySpawn());
+    testAndPrint("Entity movement", testEntityMovement());
+    testAndPrint("Entity velocity", testEntityVelocity());
+    testAndPrint("Entity damage", testEntityDamage());
+    testAndPrint("Entity spawn", testEntitySpawn());
+    testAndPrint("Entity death", testEntityDeath());
+    testAndPrint("Raycasting hit", raycastInRange());
+    testAndPrint("Raycasting miss", raycastOutOfRange());
 }
 
 void Tests::testAndPrint(std::string name, bool result)
