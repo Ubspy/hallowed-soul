@@ -3,14 +3,31 @@
 #include <cmath>
 #include <iostream>
 
-Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec)
+Player::Player(std::vector<Entity*> *entityVec) : Entity(entityVec, 
+{
+        .direction=AnimationData::Direction::Right,
+        .numRows=5,
+        .numCols=8,
+        .numWalkingFrames=4,
+        .upWalkRow=1,
+        .leftWalkRow=1,
+        .downWalkRow=1,
+        .rightWalkRow=1,
+        .numAttackingFrames=1,
+        .upAttackRow=2,
+        .leftAttackRow=2,
+        .downAttackRow=2,
+        .rightAttackRow=2,
+        .currentFrame {0, 1},
+        .timeAccumulated=0,
+})
 {
     // Initialize movement vector to <0, 0>
     this->_moveVec = sf::Vector2<float>(0, 0);
     this->_dodgeVec = sf::Vector2<float>(0, 0);
     
     this->_lastAttackTime = 0;
-    setTexture("assets/textures/player.png");
+    setTexture("assets/textures/ghost-fella.png");
 
     _isRed = false;
     _redTime = 0;
@@ -84,7 +101,7 @@ void Player::onUpdate(float deltaTime)
 
 void Player::onDraw()
 {
-    // TODO: Remove this print statement
+    #if DEBUG
     switch (_currentMoveState)
     {
         case MoveState::Moving:
@@ -109,6 +126,7 @@ void Player::onDraw()
         }
     }
     std::cout << "row: " << animationData.currentFrame.y << " col: " << animationData.currentFrame.x << "\n";
+    #endif
 }
 
 EntityType Player::getEntityType()
