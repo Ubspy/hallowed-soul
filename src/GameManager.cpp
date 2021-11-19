@@ -169,6 +169,7 @@ void GameManager::deathScreenHandleInput()
 
 void GameManager::runGame()
 {
+    srand(time(0));
     // The view will display the top quarter of the map (_gameWindow),
     // but will take up the full size of the RenderWindow. Therefore,
     // this should zoom in on the gameWindow.
