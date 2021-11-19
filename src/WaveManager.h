@@ -31,6 +31,16 @@ class WaveManager
         WaveManager(std::vector<Entity*> *entityVec);
 
         ~WaveManager();
+
+        /**
+         * @brief Called by drawHitIndicator()
+         *  Gets the hit indicator text
+         * 
+         * @param e Entity to display indicator on
+         * @param damage Damage number to be displayed
+         * 
+         * @return Hit indicator text
+         */ 
         sf::Text getHitIndicator(Entity* e, int damage);
 
         /**
@@ -110,8 +120,22 @@ class WaveManager
          */
         void waveDraw();
 
+        /**
+         * @brief Gets the border rectangle for the enemy health bar
+         * 
+         * @param e enemy to hold the health bar over
+         * 
+         * @return rectangle border around health bar
+         */
         sf::RectangleShape getHealthBarBorder(Enemy* e);
 
+        /**
+         * @brief Gets the health bar rectangle itself
+         * 
+         * @param e enemy to hold the health bar over
+         * 
+         * @return rectangle health bar 
+         */
         sf::RectangleShape getHealthBar(Enemy* e);
 
         /**

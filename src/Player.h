@@ -13,8 +13,6 @@ class Player : public Entity
     public:
         Player(std::vector<Entity*> *entityVec);
 
-        bool validAttack(Entity* e);
-
         /**
          * @brief Tells the player which direction it needs to be moving 
          *

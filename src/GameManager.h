@@ -41,6 +41,9 @@ class GameManager
          */
         GameManager();
 
+        /**
+         * @brief Displays the start screen 
+         */
         void displayStartScreen();
 
         // Enemy* rayCast(Entity &source, const sf::Vector2<float> &rayDir);
@@ -48,15 +51,19 @@ class GameManager
     private:
         std::vector<Entity*> _entityVec;
 
+        /**Enemy that is returned by the player's attack call*/
         Entity* _hitEnemy;
 
+        /**Text that displays the damage dealt to the enemy*/
         sf::Text _hitIndicator;
 
-        /** The window we are displaying in */
+        /**The window we are displaying in */
         sf::RenderWindow _gameWindow;
 
+        /**Window that displays the start screen*/
         sf::RenderWindow _startScreen;
 
+        /**Damage that is dealt to the enemy*/
         int _enemyDamage;
 
         /** The view, or "camera" that we are using to display the world. */
@@ -73,12 +80,16 @@ class GameManager
 
         UIManager _UIManager;
 
+        /**Font used to display in-game text*/
         sf::Font _font;
 
+        /**Font used to display the title*/
         sf::Font _titleFont;
 
+        /**Font used to display the Game Over text*/
         sf::Font _deathFont;
 
+        /**Number that records how long the hit indicators have displayed for*/
         float _indicatorTotal;
 
         std::vector<sf::Vertex> _debugLines;
@@ -146,16 +157,48 @@ class GameManager
          */
         void drawRed();
 
+        /**
+         * @brief Called from drawFrame(),
+         *  Draws the enemy health bars
+         */
         void drawEnemyHealth();
 
+        /**
+         * @brief Called from drawFrame(),
+         *  Draws the enemy hit indicators
+         * 
+         * @param e The enemy to draw the indicator on
+         * @param frameTime The time to keep track of how long th indicator has displayed for
+         * @param damage Damage number to be displayed
+         */
         void drawHitIndicator(Entity* e, sf::Time frameTime, int damage);
 
+        /**
+         * @brief Called from displayStartScreen(),
+         *  Draws the start screen
+         */
         void drawStartScreen();
 
+        /**
+         * @brief Called from drawStartScreen(),
+         *  Draws the start screen
+         * 
+         * @return Title text
+         */
         sf::Text getTitle();
 
+        /**
+         * @brief Called from displayStartScreen(),
+         *  Draws the start screen
+         * 
+         * @return Title text
+         */
         sf::Text getStartText();
 
+        /**
+         * @brief Called from displayStartScreen(),
+         *  Checks if the window is closed or if the space bar is pressed to start the game
+         */
         void startScreenHandleInput();
 
         /**
@@ -165,14 +208,38 @@ class GameManager
          */
         int getHighScore();
 
+        /**
+         * @brief Called from runGame(),
+         *  Displays the death screen
+         */
         void displayDeathScreen();
 
+        /**
+         * @brief Called from drawDeathScreen()
+         *  Gets the "Game Over text"
+         * 
+         * @return the "game over" text
+         */
         sf::Text getGameOverText();
 
+        /**
+         * @brief Called from displayDeathScreen(),
+         *  Draws the death screen
+         * 
+         * @param time Time to control the fade in of the text
+         */
         void drawDeathScreen(double time);
 
+        /**
+         * @brief Called from displayDeathScreen(),
+         *  Checks if the window is closed or if the space bar is pressed to close the window
+         */
         void deathScreenHandleInput();
 
+        /**
+         * @brief Called from displayStartScreen(),
+         *  Checks if the window is closed or if the space bar is pressed to close 
+         */
         sf::Text getHighScoreText();
 
         /**
