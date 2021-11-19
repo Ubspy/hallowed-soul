@@ -243,11 +243,6 @@ void Entity::setAttackingFrame()
         animationData.currentFrame.y = animationData.rightAttackRow;
 }
 
-void Entity::setAttackState()
-{
-    _currentMoveState = AttackTriggered;
-}
-
 void Entity::onCollision(Entity &hitEntity)
 {
 

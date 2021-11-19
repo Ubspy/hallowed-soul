@@ -212,11 +212,6 @@ void Player::attack()
     }
 }
 
-void Player::counter()
-{
-    
-}
-
 bool Player::isDodging()
 {
     return this->_currentMoveState == MoveState::Dodging;

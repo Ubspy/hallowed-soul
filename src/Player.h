@@ -41,11 +41,6 @@ class Player : public Entity
         void attack();
 
         /**
-         * @brief Tells the player it needs to be countering
-         */
-        void counter();
-
-        /**
          * @brief checks if player is dodging
          * 
          * @return true if dodging

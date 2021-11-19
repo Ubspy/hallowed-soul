@@ -178,12 +178,6 @@ class Entity
 
         Entity* rayCast(const sf::Vector2<float> &ray);
 
-        /**
-         * @brief Quick fix for setting the entity into an attacking state.
-         * 
-         */
-        void setAttackState();
-
         /** Vector for position in world coordinates.
          * 
          * Modify this to reposition the entity in the world.
